@@ -1,0 +1,527 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'jquery' ]
+2 info using npm@3.7.3
+3 info using node@v5.9.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData jquery
+8 silly fetchNamedPackageData jquery
+9 silly mapToRegistry name jquery
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry uri https://registry.npmjs.org/jquery
+13 verbose request uri https://registry.npmjs.org/jquery
+14 verbose request no auth needed
+15 info attempt registry request try #1 at 3:27:10 PM
+16 verbose request id 246cc15e0cedf2d5
+17 verbose etag W/"58f35baa-15f50"
+18 verbose lastModified Sun, 16 Apr 2017 11:55:22 GMT
+19 http request GET https://registry.npmjs.org/jquery
+20 http 200 https://registry.npmjs.org/jquery
+21 verbose headers { server: 'nginx/1.10.1',
+21 verbose headers   'content-type': 'application/json',
+21 verbose headers   'last-modified': 'Sun, 23 Apr 2017 10:57:14 GMT',
+21 verbose headers   etag: 'W/"58fc888a-15f95"',
+21 verbose headers   'content-encoding': 'gzip',
+21 verbose headers   'cache-control': 'max-age=300',
+21 verbose headers   'content-length': '10576',
+21 verbose headers   'accept-ranges': 'bytes',
+21 verbose headers   date: 'Fri, 28 Apr 2017 13:27:11 GMT',
+21 verbose headers   via: '1.1 varnish',
+21 verbose headers   age: '276',
+21 verbose headers   connection: 'keep-alive',
+21 verbose headers   'x-served-by': 'cache-bma7023-BMA',
+21 verbose headers   'x-cache': 'HIT',
+21 verbose headers   'x-cache-hits': '5',
+21 verbose headers   'x-timer': 'S1493386031.186049,VS0,VE0',
+21 verbose headers   vary: 'Accept-Encoding' }
+22 silly get cb [ 200,
+22 silly get   { server: 'nginx/1.10.1',
+22 silly get     'content-type': 'application/json',
+22 silly get     'last-modified': 'Sun, 23 Apr 2017 10:57:14 GMT',
+22 silly get     etag: 'W/"58fc888a-15f95"',
+22 silly get     'content-encoding': 'gzip',
+22 silly get     'cache-control': 'max-age=300',
+22 silly get     'content-length': '10576',
+22 silly get     'accept-ranges': 'bytes',
+22 silly get     date: 'Fri, 28 Apr 2017 13:27:11 GMT',
+22 silly get     via: '1.1 varnish',
+22 silly get     age: '276',
+22 silly get     connection: 'keep-alive',
+22 silly get     'x-served-by': 'cache-bma7023-BMA',
+22 silly get     'x-cache': 'HIT',
+22 silly get     'x-cache-hits': '5',
+22 silly get     'x-timer': 'S1493386031.186049,VS0,VE0',
+22 silly get     vary: 'Accept-Encoding' } ]
+23 verbose get saving jquery to C:\Users\Mollie\AppData\Roaming\npm-cache\registry.npmjs.org\jquery\.cache.json
+24 verbose correctMkdir C:\Users\Mollie\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+25 silly install normalizeTree
+26 silly loadCurrentTree Finishing
+27 silly loadIdealTree Starting
+28 silly install loadIdealTree
+29 silly cloneCurrentTree Starting
+30 silly install cloneCurrentTreeToIdealTree
+31 silly cloneCurrentTree Finishing
+32 silly loadShrinkwrap Starting
+33 silly install loadShrinkwrap
+34 silly loadShrinkwrap Finishing
+35 silly loadAllDepsIntoIdealTree Starting
+36 silly install loadAllDepsIntoIdealTree
+37 silly resolveWithNewModule jquery@3.2.1 checking installable status
+38 silly cache add args [ 'jquery', null ]
+39 verbose cache add spec jquery
+40 silly cache add parsed spec Result {
+40 silly cache add   raw: 'jquery',
+40 silly cache add   scope: null,
+40 silly cache add   name: 'jquery',
+40 silly cache add   rawSpec: '',
+40 silly cache add   spec: 'latest',
+40 silly cache add   type: 'tag' }
+41 silly addNamed jquery@latest
+42 verbose addNamed "latest" is being treated as a dist-tag for jquery
+43 info addNameTag [ 'jquery', 'latest' ]
+44 silly mapToRegistry name jquery
+45 silly mapToRegistry using default registry
+46 silly mapToRegistry registry https://registry.npmjs.org/
+47 silly mapToRegistry uri https://registry.npmjs.org/jquery
+48 verbose addNameTag registry:https://registry.npmjs.org/jquery not in flight; fetching
+49 verbose get https://registry.npmjs.org/jquery not expired, no request
+50 silly addNameTag next cb for jquery with tag latest
+51 silly addNamed jquery@3.2.1
+52 verbose addNamed "3.2.1" is a plain semver version for jquery
+53 silly cache afterAdd jquery@3.2.1
+54 verbose afterAdd C:\Users\Mollie\AppData\Roaming\npm-cache\jquery\3.2.1\package\package.json not in flight; writing
+55 verbose correctMkdir C:\Users\Mollie\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+56 verbose afterAdd C:\Users\Mollie\AppData\Roaming\npm-cache\jquery\3.2.1\package\package.json written
+57 silly loadAllDepsIntoIdealTree Finishing
+58 silly idealTree:prePrune Loqui@0.0.0
+58 silly idealTree:prePrune +-- angular@1.6.4
+58 silly idealTree:prePrune +-- async@0.9.0
+58 silly idealTree:prePrune +-- bower@1.8.0
+58 silly idealTree:prePrune +-- colors@1.0.3
+58 silly idealTree:prePrune +-- corser@2.0.1
+58 silly idealTree:prePrune +-- ecstatic@1.4.1
+58 silly idealTree:prePrune +-- eventemitter3@1.2.0
+58 silly idealTree:prePrune +-- he@0.5.0
+58 silly idealTree:prePrune +-- http-proxy@1.16.2
+58 silly idealTree:prePrune +-- http-server@0.9.0
+58 silly idealTree:prePrune +-- jquery@3.2.1
+58 silly idealTree:prePrune +-- mime@1.3.4
+58 silly idealTree:prePrune +-- minimist@1.2.0
+58 silly idealTree:prePrune +-- mkdirp@0.5.1
+58 silly idealTree:prePrune | `-- minimist@0.0.8
+58 silly idealTree:prePrune +-- opener@1.4.3
+58 silly idealTree:prePrune +-- optimist@0.6.1
+58 silly idealTree:prePrune | `-- minimist@0.0.10
+58 silly idealTree:prePrune +-- portfinder@0.4.0
+58 silly idealTree:prePrune +-- qs@2.3.3
+58 silly idealTree:prePrune +-- requires-port@1.0.0
+58 silly idealTree:prePrune +-- union@0.4.6
+58 silly idealTree:prePrune +-- url-join@1.1.0
+58 silly idealTree:prePrune `-- wordwrap@0.0.3
+59 silly loadIdealTree Finishing
+60 silly currentTree Loqui@0.0.0
+60 silly currentTree +-- angular@1.6.4
+60 silly currentTree +-- async@0.9.0
+60 silly currentTree +-- bower@1.8.0
+60 silly currentTree +-- colors@1.0.3
+60 silly currentTree +-- corser@2.0.1
+60 silly currentTree +-- ecstatic@1.4.1
+60 silly currentTree +-- eventemitter3@1.2.0
+60 silly currentTree +-- he@0.5.0
+60 silly currentTree +-- http-proxy@1.16.2
+60 silly currentTree +-- http-server@0.9.0
+60 silly currentTree +-- mime@1.3.4
+60 silly currentTree +-- minimist@1.2.0
+60 silly currentTree +-- mkdirp@0.5.1
+60 silly currentTree | `-- minimist@0.0.8
+60 silly currentTree +-- opener@1.4.3
+60 silly currentTree +-- optimist@0.6.1
+60 silly currentTree | `-- minimist@0.0.10
+60 silly currentTree +-- portfinder@0.4.0
+60 silly currentTree +-- qs@2.3.3
+60 silly currentTree +-- requires-port@1.0.0
+60 silly currentTree +-- union@0.4.6
+60 silly currentTree +-- url-join@1.1.0
+60 silly currentTree `-- wordwrap@0.0.3
+61 silly idealTree Loqui@0.0.0
+61 silly idealTree +-- angular@1.6.4
+61 silly idealTree +-- async@0.9.0
+61 silly idealTree +-- bower@1.8.0
+61 silly idealTree +-- colors@1.0.3
+61 silly idealTree +-- corser@2.0.1
+61 silly idealTree +-- ecstatic@1.4.1
+61 silly idealTree +-- eventemitter3@1.2.0
+61 silly idealTree +-- he@0.5.0
+61 silly idealTree +-- http-proxy@1.16.2
+61 silly idealTree +-- http-server@0.9.0
+61 silly idealTree +-- jquery@3.2.1
+61 silly idealTree +-- mime@1.3.4
+61 silly idealTree +-- minimist@1.2.0
+61 silly idealTree +-- mkdirp@0.5.1
+61 silly idealTree | `-- minimist@0.0.8
+61 silly idealTree +-- opener@1.4.3
+61 silly idealTree +-- optimist@0.6.1
+61 silly idealTree | `-- minimist@0.0.10
+61 silly idealTree +-- portfinder@0.4.0
+61 silly idealTree +-- qs@2.3.3
+61 silly idealTree +-- requires-port@1.0.0
+61 silly idealTree +-- union@0.4.6
+61 silly idealTree +-- url-join@1.1.0
+61 silly idealTree `-- wordwrap@0.0.3
+62 silly generateActionsToTake Starting
+63 silly install generateActionsToTake
+64 silly generateActionsToTake Finishing
+65 silly diffTrees action count 2
+66 silly diffTrees update angular@1.6.4
+67 silly diffTrees add jquery@3.2.1
+68 silly decomposeActions action count 16
+69 silly decomposeActions fetch angular@1.6.4
+70 silly decomposeActions extract angular@1.6.4
+71 silly decomposeActions test angular@1.6.4
+72 silly decomposeActions preinstall angular@1.6.4
+73 silly decomposeActions build angular@1.6.4
+74 silly decomposeActions install angular@1.6.4
+75 silly decomposeActions postinstall angular@1.6.4
+76 silly decomposeActions finalize angular@1.6.4
+77 silly decomposeActions fetch jquery@3.2.1
+78 silly decomposeActions extract jquery@3.2.1
+79 silly decomposeActions test jquery@3.2.1
+80 silly decomposeActions preinstall jquery@3.2.1
+81 silly decomposeActions build jquery@3.2.1
+82 silly decomposeActions install jquery@3.2.1
+83 silly decomposeActions postinstall jquery@3.2.1
+84 silly decomposeActions finalize jquery@3.2.1
+85 silly executeActions Starting
+86 silly install executeActions
+87 silly doSerial global-install 0
+88 silly doParallel fetch 2
+89 verbose correctMkdir C:\Users\Mollie\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+90 verbose lock using C:\Users\Mollie\AppData\Roaming\npm-cache\_locks\staging-f9ced56dc4477ff4.lock for C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging
+91 silly doParallel extract 2
+92 silly extract angular@1.6.4
+93 silly extract jquery@3.2.1
+94 verbose unbuild node_modules\.staging\jquery-386ddd32
+95 silly gentlyRm C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32 is being purged from base C:\Users\Mollie\Documents\GitHub\Loqui
+96 verbose gentlyRm don't care about contents; nuking C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32
+97 verbose tar unpack C:\Users\Mollie\AppData\Roaming\npm-cache\jquery\3.2.1\package.tgz
+98 verbose tar unpacking to C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32
+99 silly gentlyRm C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32 is being purged
+100 verbose gentlyRm don't care about contents; nuking C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32
+101 silly gunzTarPerm modes [ '777', '666' ]
+102 verbose unbuild node_modules\.staging\angular-7c266637
+103 silly gentlyRm C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637 is being purged from base C:\Users\Mollie\Documents\GitHub\Loqui
+104 verbose gentlyRm don't care about contents; nuking C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637
+105 verbose tar unpack C:\Users\Mollie\AppData\Roaming\npm-cache\angular\1.6.4\package.tgz
+106 verbose tar unpacking to C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637
+107 silly gentlyRm C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637 is being purged
+108 verbose gentlyRm don't care about contents; nuking C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637
+109 silly gunzTarPerm modes [ '777', '666' ]
+110 silly gunzTarPerm extractEntry package.json
+111 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+112 silly gunzTarPerm extractEntry package.json
+113 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+114 silly gunzTarPerm extractEntry README.md
+115 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+116 silly gunzTarPerm extractEntry angular.js
+117 silly gunzTarPerm modified mode [ 'angular.js', 420, 438 ]
+118 silly gunzTarPerm extractEntry README.md
+119 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+120 silly gunzTarPerm extractEntry AUTHORS.txt
+121 silly gunzTarPerm modified mode [ 'AUTHORS.txt', 420, 438 ]
+122 silly gunzTarPerm extractEntry LICENSE.txt
+123 silly gunzTarPerm modified mode [ 'LICENSE.txt', 420, 438 ]
+124 silly gunzTarPerm extractEntry bower.json
+125 silly gunzTarPerm modified mode [ 'bower.json', 420, 438 ]
+126 silly gunzTarPerm extractEntry dist/core.js
+127 silly gunzTarPerm modified mode [ 'dist/core.js', 420, 438 ]
+128 silly gunzTarPerm extractEntry dist/jquery.js
+129 silly gunzTarPerm modified mode [ 'dist/jquery.js', 420, 438 ]
+130 silly gunzTarPerm extractEntry dist/jquery.min.js
+131 silly gunzTarPerm modified mode [ 'dist/jquery.min.js', 420, 438 ]
+132 silly gunzTarPerm extractEntry dist/jquery.slim.js
+133 silly gunzTarPerm modified mode [ 'dist/jquery.slim.js', 420, 438 ]
+134 silly gunzTarPerm extractEntry dist/jquery.slim.min.js
+135 silly gunzTarPerm modified mode [ 'dist/jquery.slim.min.js', 420, 438 ]
+136 silly gunzTarPerm extractEntry angular.min.js
+137 silly gunzTarPerm modified mode [ 'angular.min.js', 420, 438 ]
+138 silly gunzTarPerm extractEntry index.js
+139 silly gunzTarPerm modified mode [ 'index.js', 420, 438 ]
+140 silly gunzTarPerm extractEntry LICENSE.md
+141 silly gunzTarPerm modified mode [ 'LICENSE.md', 420, 438 ]
+142 silly gunzTarPerm extractEntry angular-csp.css
+143 silly gunzTarPerm modified mode [ 'angular-csp.css', 420, 438 ]
+144 silly gunzTarPerm extractEntry angular.min.js.gzip
+145 silly gunzTarPerm modified mode [ 'angular.min.js.gzip', 420, 438 ]
+146 silly gunzTarPerm extractEntry angular.min.js.map
+147 silly gunzTarPerm modified mode [ 'angular.min.js.map', 420, 438 ]
+148 silly gunzTarPerm extractEntry dist/jquery.min.map
+149 silly gunzTarPerm modified mode [ 'dist/jquery.min.map', 420, 438 ]
+150 silly gunzTarPerm extractEntry dist/jquery.slim.min.map
+151 silly gunzTarPerm modified mode [ 'dist/jquery.slim.min.map', 420, 438 ]
+152 silly gunzTarPerm extractEntry external/sizzle/LICENSE.txt
+153 silly gunzTarPerm modified mode [ 'external/sizzle/LICENSE.txt', 420, 438 ]
+154 silly gunzTarPerm extractEntry bower.json
+155 silly gunzTarPerm modified mode [ 'bower.json', 420, 438 ]
+156 silly gunzTarPerm extractEntry external/sizzle/dist/sizzle.js
+157 silly gunzTarPerm modified mode [ 'external/sizzle/dist/sizzle.js', 420, 438 ]
+158 silly gunzTarPerm extractEntry external/sizzle/dist/sizzle.min.js
+159 silly gunzTarPerm modified mode [ 'external/sizzle/dist/sizzle.min.js', 420, 438 ]
+160 silly gunzTarPerm extractEntry external/sizzle/dist/sizzle.min.map
+161 silly gunzTarPerm modified mode [ 'external/sizzle/dist/sizzle.min.map', 420, 438 ]
+162 silly gunzTarPerm extractEntry src/wrap.js
+163 silly gunzTarPerm modified mode [ 'src/wrap.js', 420, 438 ]
+164 silly gunzTarPerm extractEntry src/core.js
+165 silly gunzTarPerm modified mode [ 'src/core.js', 420, 438 ]
+166 silly gunzTarPerm extractEntry src/selector.js
+167 silly gunzTarPerm modified mode [ 'src/selector.js', 420, 438 ]
+168 silly gunzTarPerm extractEntry src/css.js
+169 silly gunzTarPerm modified mode [ 'src/css.js', 420, 438 ]
+170 silly gunzTarPerm extractEntry src/selector-sizzle.js
+171 silly gunzTarPerm modified mode [ 'src/selector-sizzle.js', 420, 438 ]
+172 silly gunzTarPerm extractEntry src/serialize.js
+173 silly gunzTarPerm modified mode [ 'src/serialize.js', 420, 438 ]
+174 silly gunzTarPerm extractEntry src/selector-native.js
+175 silly gunzTarPerm modified mode [ 'src/selector-native.js', 420, 438 ]
+176 silly gunzTarPerm extractEntry src/deferred.js
+177 silly gunzTarPerm modified mode [ 'src/deferred.js', 420, 438 ]
+178 silly gunzTarPerm extractEntry src/deprecated.js
+179 silly gunzTarPerm modified mode [ 'src/deprecated.js', 420, 438 ]
+180 silly gunzTarPerm extractEntry src/dimensions.js
+181 silly gunzTarPerm modified mode [ 'src/dimensions.js', 420, 438 ]
+182 silly gunzTarPerm extractEntry src/queue.js
+183 silly gunzTarPerm modified mode [ 'src/queue.js', 420, 438 ]
+184 silly gunzTarPerm extractEntry src/callbacks.js
+185 silly gunzTarPerm modified mode [ 'src/callbacks.js', 420, 438 ]
+186 silly gunzTarPerm extractEntry src/offset.js
+187 silly gunzTarPerm modified mode [ 'src/offset.js', 420, 438 ]
+188 silly gunzTarPerm extractEntry src/attributes.js
+189 silly gunzTarPerm modified mode [ 'src/attributes.js', 420, 438 ]
+190 silly gunzTarPerm extractEntry src/manipulation.js
+191 silly gunzTarPerm modified mode [ 'src/manipulation.js', 420, 438 ]
+192 silly gunzTarPerm extractEntry src/traversing.js
+193 silly gunzTarPerm modified mode [ 'src/traversing.js', 420, 438 ]
+194 silly gunzTarPerm extractEntry src/event.js
+195 silly gunzTarPerm modified mode [ 'src/event.js', 420, 438 ]
+196 silly gunzTarPerm extractEntry src/ajax.js
+197 silly gunzTarPerm modified mode [ 'src/ajax.js', 420, 438 ]
+198 silly gunzTarPerm extractEntry src/jquery.js
+199 silly gunzTarPerm modified mode [ 'src/jquery.js', 420, 438 ]
+200 silly gunzTarPerm extractEntry src/data.js
+201 silly gunzTarPerm modified mode [ 'src/data.js', 420, 438 ]
+202 silly gunzTarPerm extractEntry src/effects.js
+203 silly gunzTarPerm modified mode [ 'src/effects.js', 420, 438 ]
+204 silly gunzTarPerm extractEntry src/data/Data.js
+205 silly gunzTarPerm modified mode [ 'src/data/Data.js', 420, 438 ]
+206 silly gunzTarPerm extractEntry src/data/var/acceptData.js
+207 silly gunzTarPerm modified mode [ 'src/data/var/acceptData.js', 420, 438 ]
+208 silly gunzTarPerm extractEntry src/data/var/dataPriv.js
+209 silly gunzTarPerm modified mode [ 'src/data/var/dataPriv.js', 420, 438 ]
+210 silly gunzTarPerm extractEntry src/data/var/dataUser.js
+211 silly gunzTarPerm modified mode [ 'src/data/var/dataUser.js', 420, 438 ]
+212 silly gunzTarPerm extractEntry src/exports/amd.js
+213 silly gunzTarPerm modified mode [ 'src/exports/amd.js', 420, 438 ]
+214 silly gunzTarPerm extractEntry src/exports/global.js
+215 silly gunzTarPerm modified mode [ 'src/exports/global.js', 420, 438 ]
+216 silly gunzTarPerm extractEntry src/event/ajax.js
+217 silly gunzTarPerm modified mode [ 'src/event/ajax.js', 420, 438 ]
+218 silly gunzTarPerm extractEntry src/event/alias.js
+219 silly gunzTarPerm modified mode [ 'src/event/alias.js', 420, 438 ]
+220 silly gunzTarPerm extractEntry src/event/focusin.js
+221 silly gunzTarPerm modified mode [ 'src/event/focusin.js', 420, 438 ]
+222 silly gunzTarPerm extractEntry src/event/support.js
+223 silly gunzTarPerm modified mode [ 'src/event/support.js', 420, 438 ]
+224 silly gunzTarPerm extractEntry src/event/trigger.js
+225 silly gunzTarPerm modified mode [ 'src/event/trigger.js', 420, 438 ]
+226 silly gunzTarPerm extractEntry src/ajax/jsonp.js
+227 silly gunzTarPerm modified mode [ 'src/ajax/jsonp.js', 420, 438 ]
+228 silly gunzTarPerm extractEntry src/ajax/load.js
+229 silly gunzTarPerm modified mode [ 'src/ajax/load.js', 420, 438 ]
+230 silly gunzTarPerm extractEntry src/ajax/parseXML.js
+231 silly gunzTarPerm modified mode [ 'src/ajax/parseXML.js', 420, 438 ]
+232 silly gunzTarPerm extractEntry src/ajax/script.js
+233 silly gunzTarPerm modified mode [ 'src/ajax/script.js', 420, 438 ]
+234 silly gunzTarPerm extractEntry src/ajax/xhr.js
+235 silly gunzTarPerm modified mode [ 'src/ajax/xhr.js', 420, 438 ]
+236 silly gunzTarPerm extractEntry src/ajax/var/location.js
+237 silly gunzTarPerm modified mode [ 'src/ajax/var/location.js', 420, 438 ]
+238 silly gunzTarPerm extractEntry src/ajax/var/nonce.js
+239 silly gunzTarPerm modified mode [ 'src/ajax/var/nonce.js', 420, 438 ]
+240 silly gunzTarPerm extractEntry src/ajax/var/rquery.js
+241 silly gunzTarPerm modified mode [ 'src/ajax/var/rquery.js', 420, 438 ]
+242 silly gunzTarPerm extractEntry src/queue/delay.js
+243 silly gunzTarPerm modified mode [ 'src/queue/delay.js', 420, 438 ]
+244 silly gunzTarPerm extractEntry src/effects/Tween.js
+245 silly gunzTarPerm modified mode [ 'src/effects/Tween.js', 420, 438 ]
+246 silly gunzTarPerm extractEntry src/effects/animatedSelector.js
+247 silly gunzTarPerm modified mode [ 'src/effects/animatedSelector.js', 420, 438 ]
+248 silly gunzTarPerm extractEntry src/deferred/exceptionHook.js
+249 silly gunzTarPerm modified mode [ 'src/deferred/exceptionHook.js', 420, 438 ]
+250 silly gunzTarPerm extractEntry src/manipulation/_evalUrl.js
+251 silly gunzTarPerm modified mode [ 'src/manipulation/_evalUrl.js', 420, 438 ]
+252 silly gunzTarPerm extractEntry src/manipulation/buildFragment.js
+253 silly gunzTarPerm modified mode [ 'src/manipulation/buildFragment.js', 420, 438 ]
+254 silly gunzTarPerm extractEntry src/manipulation/getAll.js
+255 silly gunzTarPerm modified mode [ 'src/manipulation/getAll.js', 420, 438 ]
+256 silly gunzTarPerm extractEntry src/manipulation/setGlobalEval.js
+257 silly gunzTarPerm modified mode [ 'src/manipulation/setGlobalEval.js', 420, 438 ]
+258 silly gunzTarPerm extractEntry src/manipulation/support.js
+259 silly gunzTarPerm modified mode [ 'src/manipulation/support.js', 420, 438 ]
+260 silly gunzTarPerm extractEntry src/manipulation/wrapMap.js
+261 silly gunzTarPerm modified mode [ 'src/manipulation/wrapMap.js', 420, 438 ]
+262 silly gunzTarPerm extractEntry src/manipulation/var/rcheckableType.js
+263 silly gunzTarPerm modified mode [ 'src/manipulation/var/rcheckableType.js', 420, 438 ]
+264 silly gunzTarPerm extractEntry src/manipulation/var/rscriptType.js
+265 silly gunzTarPerm modified mode [ 'src/manipulation/var/rscriptType.js', 420, 438 ]
+266 silly gunzTarPerm extractEntry src/manipulation/var/rtagName.js
+267 silly gunzTarPerm modified mode [ 'src/manipulation/var/rtagName.js', 420, 438 ]
+268 silly gunzTarPerm extractEntry src/css/addGetHookIf.js
+269 silly gunzTarPerm modified mode [ 'src/css/addGetHookIf.js', 420, 438 ]
+270 silly gunzTarPerm extractEntry src/css/adjustCSS.js
+271 silly gunzTarPerm modified mode [ 'src/css/adjustCSS.js', 420, 438 ]
+272 silly gunzTarPerm extractEntry src/css/curCSS.js
+273 silly gunzTarPerm modified mode [ 'src/css/curCSS.js', 420, 438 ]
+274 silly gunzTarPerm extractEntry src/css/hiddenVisibleSelectors.js
+275 silly gunzTarPerm modified mode [ 'src/css/hiddenVisibleSelectors.js', 420, 438 ]
+276 silly gunzTarPerm extractEntry src/css/showHide.js
+277 silly gunzTarPerm modified mode [ 'src/css/showHide.js', 420, 438 ]
+278 silly gunzTarPerm extractEntry src/css/support.js
+279 silly gunzTarPerm modified mode [ 'src/css/support.js', 420, 438 ]
+280 silly gunzTarPerm extractEntry src/css/var/cssExpand.js
+281 silly gunzTarPerm modified mode [ 'src/css/var/cssExpand.js', 420, 438 ]
+282 silly gunzTarPerm extractEntry src/css/var/getStyles.js
+283 silly gunzTarPerm modified mode [ 'src/css/var/getStyles.js', 420, 438 ]
+284 silly gunzTarPerm extractEntry src/css/var/isHiddenWithinTree.js
+285 silly gunzTarPerm modified mode [ 'src/css/var/isHiddenWithinTree.js', 420, 438 ]
+286 silly gunzTarPerm extractEntry src/css/var/rmargin.js
+287 silly gunzTarPerm modified mode [ 'src/css/var/rmargin.js', 420, 438 ]
+288 silly gunzTarPerm extractEntry src/css/var/rnumnonpx.js
+289 silly gunzTarPerm modified mode [ 'src/css/var/rnumnonpx.js', 420, 438 ]
+290 silly gunzTarPerm extractEntry src/css/var/swap.js
+291 silly gunzTarPerm modified mode [ 'src/css/var/swap.js', 420, 438 ]
+292 silly gunzTarPerm extractEntry src/core/DOMEval.js
+293 silly gunzTarPerm modified mode [ 'src/core/DOMEval.js', 420, 438 ]
+294 silly gunzTarPerm extractEntry src/core/init.js
+295 silly gunzTarPerm modified mode [ 'src/core/init.js', 420, 438 ]
+296 silly gunzTarPerm extractEntry src/core/nodeName.js
+297 silly gunzTarPerm modified mode [ 'src/core/nodeName.js', 420, 438 ]
+298 silly gunzTarPerm extractEntry src/core/parseHTML.js
+299 silly gunzTarPerm modified mode [ 'src/core/parseHTML.js', 420, 438 ]
+300 silly gunzTarPerm extractEntry src/core/access.js
+301 silly gunzTarPerm modified mode [ 'src/core/access.js', 420, 438 ]
+302 silly gunzTarPerm extractEntry src/core/ready.js
+303 silly gunzTarPerm modified mode [ 'src/core/ready.js', 420, 438 ]
+304 silly gunzTarPerm extractEntry src/core/readyException.js
+305 silly gunzTarPerm modified mode [ 'src/core/readyException.js', 420, 438 ]
+306 silly gunzTarPerm extractEntry src/core/stripAndCollapse.js
+307 silly gunzTarPerm modified mode [ 'src/core/stripAndCollapse.js', 420, 438 ]
+308 silly gunzTarPerm extractEntry src/core/support.js
+309 silly gunzTarPerm modified mode [ 'src/core/support.js', 420, 438 ]
+310 silly gunzTarPerm extractEntry src/core/ready-no-deferred.js
+311 silly gunzTarPerm modified mode [ 'src/core/ready-no-deferred.js', 420, 438 ]
+312 silly gunzTarPerm extractEntry src/core/var/rsingleTag.js
+313 silly gunzTarPerm modified mode [ 'src/core/var/rsingleTag.js', 420, 438 ]
+314 silly gunzTarPerm extractEntry src/traversing/findFilter.js
+315 silly gunzTarPerm modified mode [ 'src/traversing/findFilter.js', 420, 438 ]
+316 silly gunzTarPerm extractEntry src/traversing/var/dir.js
+317 silly gunzTarPerm modified mode [ 'src/traversing/var/dir.js', 420, 438 ]
+318 silly gunzTarPerm extractEntry src/traversing/var/rneedsContext.js
+319 silly gunzTarPerm modified mode [ 'src/traversing/var/rneedsContext.js', 420, 438 ]
+320 silly gunzTarPerm extractEntry src/traversing/var/siblings.js
+321 silly gunzTarPerm modified mode [ 'src/traversing/var/siblings.js', 420, 438 ]
+322 silly gunzTarPerm extractEntry src/attributes/attr.js
+323 silly gunzTarPerm modified mode [ 'src/attributes/attr.js', 420, 438 ]
+324 silly gunzTarPerm extractEntry src/attributes/classes.js
+325 silly gunzTarPerm modified mode [ 'src/attributes/classes.js', 420, 438 ]
+326 silly gunzTarPerm extractEntry src/attributes/prop.js
+327 silly gunzTarPerm modified mode [ 'src/attributes/prop.js', 420, 438 ]
+328 silly gunzTarPerm extractEntry src/attributes/support.js
+329 silly gunzTarPerm modified mode [ 'src/attributes/support.js', 420, 438 ]
+330 silly gunzTarPerm extractEntry src/attributes/val.js
+331 silly gunzTarPerm modified mode [ 'src/attributes/val.js', 420, 438 ]
+332 silly gunzTarPerm extractEntry src/var/ObjectFunctionString.js
+333 silly gunzTarPerm modified mode [ 'src/var/ObjectFunctionString.js', 420, 438 ]
+334 silly gunzTarPerm extractEntry src/var/documentElement.js
+335 silly gunzTarPerm modified mode [ 'src/var/documentElement.js', 420, 438 ]
+336 silly gunzTarPerm extractEntry src/var/fnToString.js
+337 silly gunzTarPerm modified mode [ 'src/var/fnToString.js', 420, 438 ]
+338 silly gunzTarPerm extractEntry src/var/getProto.js
+339 silly gunzTarPerm modified mode [ 'src/var/getProto.js', 420, 438 ]
+340 silly gunzTarPerm extractEntry src/var/document.js
+341 silly gunzTarPerm modified mode [ 'src/var/document.js', 420, 438 ]
+342 silly gunzTarPerm extractEntry src/var/indexOf.js
+343 silly gunzTarPerm modified mode [ 'src/var/indexOf.js', 420, 438 ]
+344 silly gunzTarPerm extractEntry src/var/pnum.js
+345 silly gunzTarPerm modified mode [ 'src/var/pnum.js', 420, 438 ]
+346 silly gunzTarPerm extractEntry src/var/push.js
+347 silly gunzTarPerm modified mode [ 'src/var/push.js', 420, 438 ]
+348 silly gunzTarPerm extractEntry src/var/rcssNum.js
+349 silly gunzTarPerm modified mode [ 'src/var/rcssNum.js', 420, 438 ]
+350 silly gunzTarPerm extractEntry src/var/rnothtmlwhite.js
+351 silly gunzTarPerm modified mode [ 'src/var/rnothtmlwhite.js', 420, 438 ]
+352 silly gunzTarPerm extractEntry src/var/concat.js
+353 silly gunzTarPerm modified mode [ 'src/var/concat.js', 420, 438 ]
+354 silly gunzTarPerm extractEntry src/var/slice.js
+355 silly gunzTarPerm modified mode [ 'src/var/slice.js', 420, 438 ]
+356 silly gunzTarPerm extractEntry src/var/class2type.js
+357 silly gunzTarPerm modified mode [ 'src/var/class2type.js', 420, 438 ]
+358 silly gunzTarPerm extractEntry src/var/support.js
+359 silly gunzTarPerm modified mode [ 'src/var/support.js', 420, 438 ]
+360 silly gunzTarPerm extractEntry src/var/arr.js
+361 silly gunzTarPerm modified mode [ 'src/var/arr.js', 420, 438 ]
+362 silly gunzTarPerm extractEntry src/var/toString.js
+363 silly gunzTarPerm modified mode [ 'src/var/toString.js', 420, 438 ]
+364 silly gunzTarPerm extractEntry src/var/hasOwn.js
+365 silly gunzTarPerm modified mode [ 'src/var/hasOwn.js', 420, 438 ]
+366 silly gunzTarPerm extractEntry src/.eslintrc.json
+367 silly gunzTarPerm modified mode [ 'src/.eslintrc.json', 420, 438 ]
+368 silly gentlyRm C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637\node_modules is being purged
+369 verbose gentlyRm don't care about contents; nuking C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637\node_modules
+370 silly gentlyRm C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32\node_modules is being purged
+371 verbose gentlyRm don't care about contents; nuking C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32\node_modules
+372 silly doParallel preinstall 2
+373 silly preinstall angular@1.6.4 C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\angular-7c266637
+374 info lifecycle angular@1.6.4~preinstall: angular@1.6.4
+375 silly preinstall jquery@3.2.1 C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32
+376 info lifecycle jquery@3.2.1~preinstall: jquery@3.2.1
+377 silly lifecycle angular@1.6.4~preinstall: no script for preinstall, continuing
+378 silly lifecycle jquery@3.2.1~preinstall: no script for preinstall, continuing
+379 silly doReverseSerial remove 0
+380 silly doSerial move 0
+381 silly doSerial finalize 2
+382 silly finalize C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\angular
+383 silly finalize C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\jquery
+384 verbose unlock done using C:\Users\Mollie\AppData\Roaming\npm-cache\_locks\staging-f9ced56dc4477ff4.lock for C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging
+385 silly rollbackFailedOptional Starting
+386 silly rollbackFailedOptional Finishing
+387 silly runTopLevelLifecycles Starting
+388 silly runTopLevelLifecycles Finishing
+389 silly install printInstalled
+390 verbose stack Error: EPERM: operation not permitted, rename 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32' -> 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\jquery'
+390 verbose stack     at destStatted (C:\Program Files\nodejs\node_modules\npm\lib\install\action\finalize.js:25:7)
+390 verbose stack     at FSReqWrap.oncomplete (fs.js:82:15)
+390 verbose stack
+390 verbose stack Error: EPERM: operation not permitted, rename 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32' -> 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\jquery'
+390 verbose stack     at Error (native)
+391 verbose cwd C:\Users\Mollie\Documents\GitHub\Loqui
+392 error Windows_NT 10.0.14393
+393 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "jquery"
+394 error node v5.9.1
+395 error npm  v3.7.3
+396 error path C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32
+397 error code EPERM
+398 error errno -4048
+399 error syscall rename
+400 error Error: EPERM: operation not permitted, rename 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32' -> 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\jquery'
+400 error     at destStatted (C:\Program Files\nodejs\node_modules\npm\lib\install\action\finalize.js:25:7)
+400 error     at FSReqWrap.oncomplete (fs.js:82:15)
+400 error
+400 error Error: EPERM: operation not permitted, rename 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32' -> 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\jquery'
+400 error     at Error (native)
+400 error  { [Error: EPERM: operation not permitted, rename 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\.staging\jquery-386ddd32' -> 'C:\Users\Mollie\Documents\GitHub\Loqui\node_modules\jquery'] parent: 'Loqui' }
+401 error Please try running this command again as root/Administrator.
+402 verbose exit [ -4048, true ]

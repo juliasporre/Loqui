@@ -1,6 +1,6 @@
 var LoquiApp = angular.module( 'Loqui', [ 'ngRoute', 'ngResource'] );
 
-beersBeatsApp.config( [ '$routeProvider',
+LoquiApp.config( [ '$routeProvider',
     function( $routeProvider ) {
         $routeProvider.
         when( '/', { // INITAL PAGE LOAD ONLY
