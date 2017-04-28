@@ -18,8 +18,5 @@
     "firebase": "2.2.x",
     "angularfire": "1.2.x",
     "angular-perfect-scrollbar": "^0.0.4"
-  },
-  "resolutions": {
-    "humanize-duration": "3.7.0"
   }
 }
