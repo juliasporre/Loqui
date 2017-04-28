@@ -1,0 +1,23 @@
+html {
+   margin: 0px;
+   min-height: 100%;
+   width: 100%;
+}
+
+body {
+   margin: 0px;
+   min-height: 100%;
+   width: 100%;
+}
+
+.jumboTitle {
+	font-size: 70px;
+  	font-family: century gothic;
+  	color: black;
+}
+
+.centerBox {
+	height: 100vh;
+  	background-color: #9ce5e8;
+
+}
