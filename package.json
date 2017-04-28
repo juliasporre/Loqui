@@ -1,0 +1,17 @@
+{
+  "version": "0.0.0",
+  "private": true,
+  "name": "Loqui",
+  "description": "A project",
+  "repository": "https://github.com/juliasporre/Loqui",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "bower": "^1.8.x"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "prestart": "npm install",
+    "start": "http-server app/ -a 0.0.0.0 -p 8000"
+  }
+}
