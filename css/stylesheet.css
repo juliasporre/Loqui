@@ -1,23 +1,27 @@
-html {
+html body{
    margin: 0px;
    min-height: 100%;
    width: 100%;
+   font-family: Impact, sans-serif;
 }
 
-body {
-   margin: 0px;
-   min-height: 100%;
-   width: 100%;
-}
 
 .jumboTitle {
+	border: 10px solid black;
+    padding: 10%;
+    margin-bottom: 10%;
 	font-size: 70px;
-  	font-family: century gothic;
   	color: black;
+  	text-align: center;
 }
 
-.centerBox {
+.blueBox {
 	height: 100vh;
   	background-color: #9ce5e8;
 
 }
+
+.text{
+	margin-left: 25%;
+}
+
