@@ -27,6 +27,10 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/membersView.html',
             controller: 'membersCtrl'
         } ).
+        when( '/chatroom', {
+            templateUrl: 'partials/chatroom.html',
+            controller: 'chatRoomCtrl'
+        } ).
         otherwise( {
             redirectTo: '/home'
         } );
