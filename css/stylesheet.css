@@ -34,4 +34,10 @@ html body{
 	text-align: right;
 }
 
+.glyphiconRowBottom{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
 
