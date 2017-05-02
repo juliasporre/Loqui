@@ -4,7 +4,7 @@ LoquiApp.config( [ '$routeProvider',
     function( $routeProvider ) {
         $routeProvider.
         when( '/', { // INITAL PAGE LOAD ONLY
-            templateUrl: 'partials/landingView.html',
+            templateUrl: 'partials/chatRoom.html',
             controller: 'landingCtrl'
         } ).
         when( '/home', {
