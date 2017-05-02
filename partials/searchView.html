@@ -16,14 +16,14 @@
     			<button type="button" class="btn btn-default">
     				<span class="glyphicon glyphicon-envelope"></span>  <!-- send private message -->
     			</button>
-  			</div> 
+  			</div>
 		</div>
 	</div>
 
 	<div class="courseList">
 
 		<div class="form-group row">
- 			<label class="col-xs-4 col-form-label" id="searchCourseText">Search course</label>
+ 			<label class="col-xs-4 col-form-label" id="searchCourseText">Search Course</label>
   			<div class="col-xs-8">
   				<div class="col-xs-8">
     				<input class="form-control" type="search" id="search-input">  <!-- search for a course -->
@@ -59,26 +59,8 @@
 
 	</div>
 
+	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
 
-	<div> <!-- MENU -->
-		<div class="glyphiconRowBottom">
-			<div class="btn-group btn-group-justified" role="group" aria-label="...">
-				<div class="btn-group" role="group">
-	    			<button type="button" class="btn btn-default">
-	    				<span class="glyphicon glyphicon-chevron-left"></span> <!-- Back to start -->
-	    				Start page
-	    			</button>
-	  			</div>
-	  			<div class="btn-group" role="group">
-	    			<button type="button" class="btn btn-default">
-	    				<span class="glyphicon glyphicon-cloud"></span>  <!-- See all members -->
-	    				Members
-	    			</button>
-	  			</div>
-			</div>
-		</div>
-	</div>
+
 
 </div>
-
-

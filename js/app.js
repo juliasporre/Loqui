@@ -4,12 +4,12 @@ LoquiApp.config( [ '$routeProvider',
     function( $routeProvider ) {
         $routeProvider.
         when( '/', { // INITAL PAGE LOAD ONLY
-            templateUrl: 'partials/chatRoom.html',
+            templateUrl: 'partials/landingView.html',
             controller: 'landingCtrl'
         } ).
         when( '/home', {
             templateUrl: 'partials/landingView.html',
-            controller: 'searchCtrl'
+            controller: 'landingCtrl'
         } ).
         when( '/search', {
             templateUrl: 'partials/searchView.html',
@@ -18,6 +18,14 @@ LoquiApp.config( [ '$routeProvider',
         when( '/profile', {
             templateUrl: 'partials/profileView.html',
             controller: 'profileCtrl'
+        } ).
+        when( '/menu', {
+            templateUrl: 'partials/menuView.html',
+            controller: 'menuCtrl'
+        } ).
+        when( '/members', {
+            templateUrl: 'partials/membersView.html',
+            controller: 'membersCtrl'
         } ).
         otherwise( {
             redirectTo: '/home'

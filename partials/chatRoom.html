@@ -11,25 +11,7 @@
 	   			</span>
 	   		</div>
 		</div>
-
-
-		<div> <!-- MENU -->
-			<div>
-				<div class="btn-group btn-group-justified" role="group" aria-label="...">
-					<div class="btn-group" role="group">
-					  	<button type="button" class="btn btn-default">
-			    			<span class="glyphicon glyphicon-chevron-left"></span> <!-- Back to start -->
-			    			Start page
-			   			</button>
-			 		</div>
-			  		<div class="btn-group" role="group">
-			    		<button type="button" class="btn btn-default">
-			    			<span class="glyphicon glyphicon-cloud"></span>  <!-- See all members -->
-			    			Members
-			    		</button>
-			  		</div>
-				</div>
-			</div>
-		</div>
 	</div>
+
+	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
 </div>
