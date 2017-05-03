@@ -43,6 +43,10 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/courseView.html',
             controller: 'courseCtrl'
         } ).
+        when( '/favorites', {
+            templateUrl: 'partials/favoriteView.html',
+            controller: 'favoriteCtrl'
+        } ).
         otherwise( {
             redirectTo: '/home'
         } );

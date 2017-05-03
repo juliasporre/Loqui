@@ -3,7 +3,7 @@
 LoquiApp.factory('model', function($resource){
 	//Nu bara Mockups, ska hämtas från databasen senare
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
-	this.favoriteCourses = [];
+	this.favoriteCourses = ['SF1626'];
 
 
 	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
@@ -69,6 +69,9 @@ LoquiApp.factory('model', function($resource){
 		}
 	}
 
+	this.getFavoriteCourses = function(){
+		return this.favoriteCourses;
+	}
 
 
 	return this;
