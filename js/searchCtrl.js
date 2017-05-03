@@ -1,7 +1,6 @@
 LoquiApp.controller('searchCtrl', function($scope, model){
 
   $scope.url = window.location.href;
-  console.log(model.getRecentCourses());
   $scope.recentCourses = model.getRecentCourses();
   this.getSchools = function(){
       model.getSchools.get({},function(data){
@@ -12,12 +11,8 @@ LoquiApp.controller('searchCtrl', function($scope, model){
   }
 
   $scope.search = function(query, type){
-    console.log(query);
-    console.log(type);
     if(query != undefined){
       model.getCourse.get({query : query}, function(data){
-        console.log(data);
-        console.log(data.name);
         $scope.courses = data;
       },function(data){
           console.log("Cannot find course");

@@ -6,9 +6,6 @@ LoquiApp.factory('model', function($resource){
 	this.favoriteCourses = [];
 
 
-
-
-
 	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
 		get: {
 			method: 'GET',
@@ -37,7 +34,11 @@ LoquiApp.factory('model', function($resource){
 	});
 
 	this.addToRecent = function(course){
+		if(this.recentCourses.length > 2){
+			this.recentCourses.splice(0, 1);
+		}
 		this.recentCourses.push(course);
+
 	}
 
 	this.getRecentCourses = function(){
