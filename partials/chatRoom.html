@@ -1,17 +1,15 @@
 <div class="blueBox">
 
-	<div class="glyphiconRowBottom">
-		<div class="d-flex align-items-end flex-column">
-			<div class="input-group" id="chatBox">
-				<textarea class="form-control" id="comment" placeholder="Message"></textarea>
-				<span class="input-group-btn" id="chatButton">
-	        		<button class="btn btn-default btn-lg" type="button"> <!-- Kan vi få dem att mer sitta ihop, knappen och skrivrutan? -->
-	        			<span class="glyphicon glyphicon-send"></span>
-	        		</button>
-	   			</span>
-	   		</div>
-		</div>
+	<div class="d-flex align-items-end flex-column">
+		<div class="input-group" id="chatBox">
+			<textarea class="form-control" id="comment" placeholder="Message"></textarea>
+			<span class="input-group-addon btn btn-default">
+				<span class="glyphicon glyphicon-send"></span>
+			</span>
+	   	</div>
 	</div>
 
+
 	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+
 </div>
