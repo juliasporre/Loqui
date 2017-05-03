@@ -1,0 +1,30 @@
+
+<h2>{{course.name}}</h2>
+<hr>
+
+<ul class="list-group">
+  <li class="list-group-item">{{course.code}}</li>
+  <li class="list-group-item">{{course.info}}</li>
+  <li class="list-group-item"><a href="{{url}}">Link to Website</a></li>
+</ul>
+
+
+  <div ng-show="!isFavoriteCourse">
+    <button type="button" class="btn btn-default" ng-click="addFavorite()">
+      <span class="glyphicon glyphicon-heart"></span>
+      Add to favorites
+    </button>
+  </div>
+
+  <div ng-show="isFavoriteCourse">
+    <button type="button" class="btn btn-default" ng-click="removeFavorite()">
+      <span class="glyphicon glyphicon-heart-empty"></span>
+      Remove from Favorites
+    </button>
+  </div>
+
+<br>
+  <a type="button" class="btn btn-default" href="chatRoom/{{course.code}}">
+    <span class="glyphicon glyphicon-comment"></span>
+    Go to chatroom
+  </a>

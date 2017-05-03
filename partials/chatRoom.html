@@ -1,7 +1,35 @@
+<script> //This should be in the ctrl when i figure out how to do it. 
+		/* Set the width of the side navigation to 250px */
+	function openNav() {
+	    document.getElementById("mySidenav").style.width = "250px";
+	}
+
+	/* Set the width of the side navigation to 0 */
+	function closeNav() {
+	    document.getElementById("mySidenav").style.width = "0";
+	}
+</script>
+
+
+
 <div class="blueBox">
 
 	<div class="chatHeader">
-		<p>SF1632</p>	<!-- put in the current coursecode -->
+		<div class="col-xs-2">
+			<!-- Use any element to open the sidenav, for now a button, but could maybe be done by dragging -->
+			<button class="btn btn-default" onclick="openNav()">
+				<span class="glyphicon glyphicon-th-list"></span>
+			</button>
+		</div>
+		<div class="col-xs-8">
+			<p>SF1632</p>	<!-- put in the current coursecode -->
+		</div>
+
+		
+	</div>
+
+	<div id="currentChannel">
+		#General <!-- put in the current channel -->
 	</div>
 
 	<div class="messageBox"> <!-- One message box for a sent message -->
@@ -15,14 +43,17 @@
 				11.22
 			</div>
 		</div>
-		<div class="aMessage">
+		<div>
 			God morgon! Vad fin du är idag! 
 		</div>
 	</div>
 
 
+
+
+
 <!-- The chatbox where you can write a message. Is aligned to bottom of screen -->
-	<div class="d-flex align-items-end flex-column">
+	<div>
 		<div class="input-group" id="chatBox">
 			<textarea class="form-control" id="comment" placeholder="Message"></textarea>
 			<span class="input-group-addon btn btn-default">
@@ -35,3 +66,13 @@
 	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
 
 </div>
+
+<div id="mySidenav" class="sidenav"> <!-- The side menu for the different chats in this course. -->
+	<p> All channels </p>
+  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  	<a href="#">General</a>
+  	<a href="#">Labpartners</a>
+  	<a href="#">Studybuddys</a>
+</div>
+
+

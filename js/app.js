@@ -4,8 +4,8 @@ LoquiApp.config( [ '$routeProvider',
     function( $routeProvider ) {
         $routeProvider.
         when( '/', { // INITAL PAGE LOAD ONLY
-            templateUrl: 'partials/landingView.html',
-            controller: 'landingCtrl'
+            templateUrl: 'partials/searchView.html',
+            controller: 'searchCtrl'
         } ).
         when( '/home', {
             templateUrl: 'partials/landingView.html',
@@ -27,9 +27,25 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/membersView.html',
             controller: 'membersCtrl'
         } ).
+        when( '/privateMessages', {
+            templateUrl: 'partials/privateMessagesView.html',
+            controller: 'privateMessagesCtrl'
+        } ).
         when( '/chatroom', {
             templateUrl: 'partials/chatRoom.html',
             controller: 'chatRoomCtrl'
+        } ).
+        when( '/lunch', {
+            templateUrl: 'partials/lunchView.html',
+            controller: 'lunchCtrl'
+        } ).
+        when( '/course/:courseCode', {
+            templateUrl: 'partials/courseView.html',
+            controller: 'courseCtrl'
+        } ).
+        when( '/favorites', {
+            templateUrl: 'partials/favoriteView.html',
+            controller: 'favoriteCtrl'
         } ).
         otherwise( {
             redirectTo: '/home'
