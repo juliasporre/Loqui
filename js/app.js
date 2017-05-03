@@ -39,6 +39,10 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/lunchView.html',
             controller: 'lunchCtrl'
         } ).
+        when( '/course/:courseCode', {
+            templateUrl: 'partials/courseView.html',
+            controller: 'courseCtrl'
+        } ).
         otherwise( {
             redirectTo: '/home'
         } );

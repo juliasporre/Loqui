@@ -21,6 +21,7 @@
 	</div>
 
 	<div class="row courseList">
+
 		<div class="col-xs-8">
 			<div class="dropdown-menu">
 				<select ng-model="type" name="dishType" ng-change="search(query, type)">
@@ -45,7 +46,7 @@
 	<center>
 		<div class="card-columns">
 			<div ng-repeat="course in courses" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">
-					<a href="#!/course/{{course.code}}" >
+					<a href="{{url}}course/{{course.code}}">
 							<img img class="card-img-top img-fluid" ng-src="img/student_hat.png"/></a>
 					<div class="card-block">
 						<h6 class="card-title">{{course.name}}</h6>
