@@ -31,7 +31,7 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/privateMessagesView.html',
             controller: 'privateMessagesCtrl'
         } ).
-        when( '/chatroom', {
+        when( '/chatRoom/:room', {
             templateUrl: 'partials/chatRoom.html',
             controller: 'chatRoomCtrl'
         } ).

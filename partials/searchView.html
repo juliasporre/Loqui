@@ -58,7 +58,7 @@
 							</div>
 							<br>
 							<div class="col-6">
-								<a href="{{url}}chatRoom/{{course.code}}" class="btn btn-sm btn-primary">Chat Room</a>
+								<a href="{{url}}chatRoom/{{course.code}}-General" class="btn btn-sm btn-primary">Chat Room</a>
 							</div>
  					</div>
 				</div>
@@ -72,7 +72,7 @@
 			<div class="btn-group-vertical" role="group" aria-label="..."> <!--A list of the most recent searched courses, should be flexible! -->
 				<div class="btn-group btn-group-lg" role="group">
 					<div ng-repeat="course in recentCourses">
-						<a type="button" class="btn btn-default btn-lg" href="{{url}}chatRoom/{{course}}">
+						<a type="button" class="btn btn-default btn-lg" href="{{url}}chatRoom/{{course}}-General">
 	    				{{course}}
 	    			</a>
 					</div>
