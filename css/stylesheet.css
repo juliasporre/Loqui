@@ -53,4 +53,40 @@ html body{
 	height:100%;
 }
 
+.chatHeader{
+	background-color: #D3D3D3;
+	height: 40px;
+	text-align: center;
+	font-size: 25px;
+	font-style: bold;
+	text-shadow: 3px 3px 9px rgba(161, 179, 165, 1);
+	border-bottom: 2px solid black;
+}
 
+.messageBox{
+	background-color: white;
+	border-radius: 5px;
+	border: 1px solid grey;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+
+}
+
+.nameBox{
+	font-style: bold;
+	font-size: small;
+	text-align: left;
+	
+}
+
+.timeStamp{
+	text-align: right;
+	font-style: italic; 
+	font-size: small;
+
+}
+
+.aMessage{
+
+}
