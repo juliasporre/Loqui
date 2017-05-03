@@ -20,41 +20,51 @@
 		</div>
 	</div>
 
-	<div class="courseList">
+	<div class="row courseList">
+		<div class="col-xs-8">
+			<div class="dropdown-menu">
+				<select ng-model="type" name="dishType" ng-change="search(query, type)">
+					<div ng-repeat="school in schools">
+						<option value="{{school.name}}">{{school.code}}</option>
+					</div>
+				</select>
+			</div>
+			<label class="col-xs-4 col-form-label" id="searchCourseText">Search Course</label>
 
-		<div class="form-group row">
- 			<label class="col-xs-4 col-form-label" id="searchCourseText">Search Course</label>
-  			<div class="col-xs-8">
-  				<div class="col-xs-8">
-    				<input class="form-control" type="search" id="search-input">  <!-- search for a course -->
-    			</div>
-    			<div class="col-xs-4">
-    				<button type="submit" class="btn btn-primary">  <!-- button to search for a course -->
-    					<span class="glyphicon glyphicon-search"></span>
-    				</button>
-    			</div>
-  			</div>
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="query" placeholder="Write Code"/> <!-- search for a course -->
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-primary" ng-click="search(query, type)">  <!-- button to search for a course -->
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+	    			</span>
+					</div>
+			</div>
+	</div>
+	<hr>
+	<center>
+		<div class="card-columns">
+			<div ng-repeat="course in courses" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">
+					<a href="#!/course/{{course.code}}" >
+							<img img class="card-img-top img-fluid" ng-src="img/student_hat.png"/></a>
+					<div class="card-block">
+						<h6 class="card-title">{{course.name}}</h6>
+					</div>
+			</div>
 		</div>
+	<center>
+
 
 		<center>
 			<h1>Your recent courses</h1>
 			<div class="btn-group-vertical" role="group" aria-label="..."> <!--A list of the most recent searched courses, should be flexible! -->
 				<div class="btn-group btn-group-lg" role="group">
-	    			<button type="button" class="btn btn-default btn-lg">
-	    				DD1325
-	    			</button>
-	    		</div>
-	    		<div class="btn-group btn-group-lg" role="group">
-	    			<button type="button" class="btn btn-default btn-lg">
-	    				MD1454
-	    			</button>
-	    		</div>
-	    		<div class="btn-group btn-group-lg" role="group">
-	    			<button type="button" class="btn btn-default btn-lg">
-	    				DD4455
-	    			</button>
-	  			</div>
-			</div>
+					<div ng-repeat="course in recentCourses" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">
+						<a type="button" class="btn btn-default btn-lg" href="#!/course/{{course}}">
+	    				{{course}}
+	    			</a>
+					</div>
+				</div>
 		<center>
 
 	</div>
