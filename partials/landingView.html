@@ -8,7 +8,7 @@
                 <form>
                     <p class="text">
                     	<label class="uname" > Your username </label>
-                        <input id="username" name="username" required="required" type="text" placeholder="myusername"/>
+                        <input id="username" name="username" ng-model="username" required="required" type="text" placeholder="myusername"/>
                     </p>
                     <p class="text">
                     	<label class="youpasswd"> Your password </label>
@@ -19,8 +19,8 @@
 						<label for="loginkeeping">Keep me logged in</label>
 					</p>
                     <div class="text">
-                    	<p class="btn btn-default" id="signIn">Sign in </p>
-						<p class="btn btn-default" id="newAccount">Create an account</p>
+                    	<p class="btn btn-default" ng-click="signIn()" id="signIn">Sign in </p>
+						<p class="btn btn-default" ng-click="newAccount()" id="newAccount">Create an account</p>
 					</div>
                 </form>
             </div>
