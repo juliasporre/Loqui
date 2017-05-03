@@ -27,9 +27,17 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/membersView.html',
             controller: 'membersCtrl'
         } ).
+        when( '/privateMessages', {
+            templateUrl: 'partials/privateMessagesView.html',
+            controller: 'privateMessagesCtrl'
+        } ).
         when( '/chatroom', {
             templateUrl: 'partials/chatRoom.html',
             controller: 'chatRoomCtrl'
+        } ).
+        when( '/lunch', {
+            templateUrl: 'partials/lunchView.html',
+            controller: 'lunchCtrl'
         } ).
         otherwise( {
             redirectTo: '/home'
