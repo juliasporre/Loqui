@@ -1,0 +1,11 @@
+<center>
+  <h1>My Favorites</h1>
+  <div class="btn-group-vertical" role="group" aria-label="..."> <!--A list of the most recent searched courses, should be flexible! -->
+    <div class="btn-group btn-group-lg" role="group">
+      <div ng-repeat="fav in favorites" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">
+        <a type="button" class="btn btn-default btn-lg" href="{{url}}chatRoom/{{fav}}">
+          {{fav}}
+        </a>
+      </div>
+    </div>
+<center>
