@@ -1,4 +1,6 @@
 LoquiApp.controller('searchCtrl', function($scope, model){
+
+  $scope.url = window.location.href;
   console.log(model.getRecentCourses());
   $scope.recentCourses = model.getRecentCourses();
   this.getSchools = function(){
