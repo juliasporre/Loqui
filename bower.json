@@ -18,6 +18,7 @@
     "momentjs": "2.9.0",
     "firebase": "2.2.x",
     "angularfire": "1.2.x",
-    "angular-perfect-scrollbar": "^0.0.4"
+    "angular-perfect-scrollbar": "^0.0.4",
+    "slideout": "1.0.1"
   }
 }
