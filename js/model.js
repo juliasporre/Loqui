@@ -34,6 +34,10 @@ LoquiApp.factory('model', function($resource){
 	});
 
 	this.addToRecent = function(course){
+		var index = this.favoriteCourses.indexOf(course);
+		if (index > -1) {
+    	this.favoriteCourses.splice(index, 1);
+		}
 		if(this.recentCourses.length > 2){
 			this.recentCourses.splice(0, 1);
 		}
