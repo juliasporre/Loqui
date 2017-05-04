@@ -37,9 +37,12 @@
 </div>
 
 <div id="mySidenav" class="sidenav"> <!-- The side menu for the different chats in this course. -->
+
 	<p> All channels </p>
   	<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
-  	<a href="{{url}}chatRoom/{{code}}-General">General</a>
-  	<a href="{{url}}chatRoom/{{code}}-Labpartners">Labpartners</a>
-  	<a href="{{url}}chatRoom/{{code}}-Studybuddys">Studybuddys</a>
+  	<ul class="nav nav-pills nav-stacked">
+	  	<li class="active"><a href="{{url}}chatRoom/{{code}}-General">General</a> </li>
+	  	<li><a href="{{url}}chatRoom/{{code}}-Labpartners">Labpartners</a> </li>
+	  	<li><a href="{{url}}chatRoom/{{code}}-Studybuddys">Studybuddys</a> </li>
+  	</ul>
 </div>

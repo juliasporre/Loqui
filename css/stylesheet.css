@@ -100,6 +100,10 @@ html body{
 	font-style: italic;
 }
 
+#messageHeader{
+	margin-bottom: 10px;
+}
+
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -131,7 +135,7 @@ html body{
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 15px;
-    color: #002699;
+    color: black;
     display: block;
     transition: 0.3s
 }
