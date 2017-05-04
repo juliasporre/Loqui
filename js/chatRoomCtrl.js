@@ -34,7 +34,7 @@ app.ready = false;
 $scope.sendMessage = function(){
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
-	var send = JSON.stringify({nick: name, msg: msg, qos: 0, retained: true});
+	var send = JSON.stringify({nick: name + '(' + nick + ')', msg: msg, qos: 0, retained: true});
 	app.publish(send);
 
 }
@@ -56,7 +56,10 @@ app.onMessageArrived = function(message) {
       //console.log(new Date());
       //var time = JSON.stringify(new Date()).split("GTM")[0];
       var time = new Date();
-			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="col-xs-8"><div class="nameBox">' + o.nick + '</div></div><div class="col-xs-4"><div class="timeStamp">' + time + '</div></div><div>' + o.msg + '</div></div>';
+      var messNick = o.nick.split('(')[1].split(')')[0];
+      o.nick = o.nick.split('(')[0];
+      console.log(messNick);
+			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="col-xs-8"><div class="nameBox"><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></div></div><div class="col-xs-4"><div class="timeStamp">' + time + '</div></div><div>' + o.msg + '</div></div>';
 
 			app.canvas.appendChild(text);
 

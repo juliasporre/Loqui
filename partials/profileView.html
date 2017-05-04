@@ -1,1 +1,12 @@
-profileView
+<h1>{{init}}</h1>
+<button type="button" class="btn btn-default" ng-click="goBack()">
+  <span class="glyphicon glyphicon-left"></span>  <!-- See all members -->
+  Go back
+</button>
+
+<div ng-show="thisIsMe">
+  <button type="button" class="btn btn-default" ng-click="removeFavorite()">
+    <span class="glyphicon glyphicon-heart-envelope"></span>
+    Send a Private Message
+  </button>
+</div>
