@@ -4,6 +4,9 @@ LoquiApp.factory('model', function($resource){
 	//Nu bara Mockups, ska hämtas från databasen senare
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
 	this.favoriteCourses = ['SF1626'];
+	this.firstName = "Kalle";
+	this.lastName = "Anka";
+	this.nickName = "kalle.anka";
 
 
 	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
@@ -71,6 +74,16 @@ LoquiApp.factory('model', function($resource){
 
 	this.getFavoriteCourses = function(){
 		return this.favoriteCourses;
+	}
+
+	this.getUserFullName = function(){
+		//Retursn users name
+		return this.firstName + " " + this.lastName;
+	}
+
+	this.getUserName = function(){
+		//Retursn users name
+		return this.nickName;
 	}
 
 
