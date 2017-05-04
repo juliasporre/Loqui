@@ -25,15 +25,15 @@ var totalMess = 0;
 
 var host = 'vernemq.evothings.com';
 var port = 8084;
-var user = 'anon';
+var user = 'anony'; // Ska/kan vi använda dessa?
 var password = 'ymous';
-var nick = "";
+
+var nick = "Admin"; //Ska hämtas från model
 
 app.connected = false;
 app.ready = false;
 
 $scope.sendMessage = function(){
-  nick = "Admin";
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
 	var send = JSON.stringify({nick: nick, msg: msg});
@@ -43,7 +43,7 @@ $scope.sendMessage = function(){
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
 	var text = document.createElement("p");
-	if(o.nick!=undefined){
+	if(o.nick!=undefined){ //Ska läggas till i privata meddelanden
 		var split = o.msg.split(" ")[0];
 		var atUser;
 		if (split[0]=="@"){
@@ -54,6 +54,8 @@ app.onMessageArrived = function(message) {
 			}
 		}
 		else{
+      //console.log(new Date());
+      //var time = JSON.stringify(new Date()).split("GTM")[0];
       var time = new Date();
 			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="col-xs-8"><div class="nameBox">' + o.nick + '</div></div><div class="col-xs-4"><div class="timeStamp">' + time + '</div></div><div>' + o.msg + '</div></div>';
 
