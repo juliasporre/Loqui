@@ -34,8 +34,9 @@ app.ready = false;
 $scope.sendMessage = function(){
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
-	var send = JSON.stringify({nick: name, msg: msg});
+	var send = JSON.stringify({nick: name, msg: msg, qos: 0, retained: true});
 	app.publish(send);
+
 }
 
 app.onMessageArrived = function(message) {
