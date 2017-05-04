@@ -1,53 +1,24 @@
-<script> //This should be in the ctrl when i figure out how to do it. 
-		/* Set the width of the side navigation to 250px */
-	function openNav() {
-	    document.getElementById("mySidenav").style.width = "250px";
-	}
-
-	/* Set the width of the side navigation to 0 */
-	function closeNav() {
-	    document.getElementById("mySidenav").style.width = "0";
-	}
-</script>
-
-
-
 <div class="blueBox">
 
 	<div class="chatHeader">
 		<div class="col-xs-2">
 			<!-- Use any element to open the sidenav, for now a button, but could maybe be done by dragging -->
-			<button class="btn btn-default" onclick="openNav()">
+			<button class="btn btn-default" ng-click="openNav()">
 				<span class="glyphicon glyphicon-th-list"></span>
 			</button>
 		</div>
 		<div class="col-xs-8">
-			<p>SF1632</p>	<!-- put in the current coursecode -->
-		</div>
-
-		
-	</div>
-
-	<div id="currentChannel">
-		#General <!-- put in the current channel -->
-	</div>
-
-	<div class="messageBox"> <!-- One message box for a sent message -->
-		<div class="col-xs-8">
-			<div class="nameBox">
-				Mollie
-			</div>
-		</div>
-		<div class="col-xs-4">
-			<div class="timeStamp">
-				11.22
-			</div>
-		</div>
-		<div>
-			God morgon! Vad fin du är idag! 
+			<p>{{courseID}}</p>	<!-- put in the current coursecode -->
 		</div>
 	</div>
 
+	<center>
+		<div class="col-xs-10" id="currentChannel">
+			Chat room #{{room}}. {{status}} <!-- put in the current channel -->
+		</div>
+		<div id="messageSpace">
+		</div>
+	<center>
 
 
 
@@ -56,7 +27,7 @@
 	<div>
 		<div class="input-group" id="chatBox">
 			<textarea class="form-control" id="comment" placeholder="Message"></textarea>
-			<span class="input-group-addon btn btn-default">
+			<span class="input-group-addon btn btn-default" ng-click="sendMessage()"id="sendButton">
 				<span class="glyphicon glyphicon-send"></span>
 			</span>
 	   	</div>
@@ -69,10 +40,8 @@
 
 <div id="mySidenav" class="sidenav"> <!-- The side menu for the different chats in this course. -->
 	<p> All channels </p>
-  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  	<a href="#">General</a>
-  	<a href="#">Labpartners</a>
-  	<a href="#">Studybuddys</a>
+  	<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
+  	<a href="{{url}}chatRoom/{{code}}-General">General</a>
+  	<a href="{{url}}chatRoom/{{code}}-Labpartners">Labpartners</a>
+  	<a href="{{url}}chatRoom/{{code}}-Studybuddys">Studybuddys</a>
 </div>
-
-

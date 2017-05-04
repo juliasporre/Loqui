@@ -1,6 +1,9 @@
 LoquiApp.controller('searchCtrl', function($scope, model){
 
-  $scope.url = window.location.href;
+  var urlOrg = window.location.href;
+  var splitedUrl = urlOrg.split('search');
+  $scope.url = splitedUrl[0];
+
   $scope.recentCourses = model.getRecentCourses();
   this.getSchools = function(){
       model.getSchools.get({},function(data){

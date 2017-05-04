@@ -1,4 +1,10 @@
 LoquiApp.controller('courseCtrl', function($scope, model, $routeParams){
+
+  var urlOrg = window.location.href;
+  var splitedUrl = urlOrg.split('course/');
+  $scope.url = splitedUrl[0]
+
+
   var code = $routeParams.courseCode;
   model.addToRecent(code);
   $scope.isFavoriteCourse = model.isFavoriteCourse(code);
