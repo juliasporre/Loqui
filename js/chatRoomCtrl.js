@@ -1,5 +1,7 @@
 LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
+
+
   var path = $routeParams.room;
   var splitParams = path.split("-");
   var code = splitParams[0];
@@ -18,6 +20,8 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
 //Object that holds application data and functions.
 var app = {};
+var totalMess = 0;
+
 
 var host = 'vernemq.evothings.com';
 var port = 8084;
@@ -54,6 +58,12 @@ app.onMessageArrived = function(message) {
 			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="col-xs-8"><div class="nameBox">' + o.nick + '</div></div><div class="col-xs-4"><div class="timeStamp">' + time + '</div></div><div>' + o.msg + '</div></div>';
 
 			app.canvas.appendChild(text);
+
+      //Trying to autoscroll
+      //console.log(app.canvas)
+      //totalMess += 1;
+      //console.log(totalMess*40);
+      //app.canvas.animate({scrollTop: totalMess*40});
 		}
 	}
 }
@@ -83,7 +93,7 @@ app.setupCanvas = function() {
 
 app.setupConnection = function() {
 console.log("connection");
-  	app.status("Connecting to " + host + ":" + port + " as " + uuid);
+  	$scope.status = "Connecting to " + host + ":" + port + " as " + uuid;
 	app.client = new Paho.MQTT.Client(host, port, uuid);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
@@ -113,7 +123,7 @@ app.unsubscribe = function() {
 
 app.onConnect = function(context) {
 	app.subscribe();
-	app.status("Connected!");
+	$scope.status = "You are connected!";
 	app.connected = true;
 }
 
@@ -122,16 +132,16 @@ app.onConnectFailure = function(e){
 }
 
 app.onConnectionLost = function(responseObject) {
-	app.status("Connection lost!");
+	$scope.status ="Connection lost! Please reload the page..";
 	console.log("Connection lost: "+responseObject.errorMessage);
 	app.connected = false;
 }
 
-app.status = function(s) {
+/*app.status = function(s) {
 	console.log(s);
 	var info = document.getElementById("info");
 	info.innerHTML = s;
-}
+}*/
 
 
 
