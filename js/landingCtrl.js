@@ -1,20 +1,4 @@
 LoquiApp.controller('landingCtrl', function($scope, model){
-	
-	// Initialize Firebase
-	// Should only be done once for the whole app
-	if(firebase.apps.length===0){
-		console.log("init database");
-		var config = {
-		    apiKey: "AIzaSyDTtTEVNIbjTeGthtsq2nTk1aYTfotFBD4",
-		    authDomain: "phoenix-eacb9.firebaseapp.com",
-		    databaseURL: "https://phoenix-eacb9.firebaseio.com",
-		    projectId: "phoenix-eacb9",
-		    storageBucket: "phoenix-eacb9.appspot.com",
-		    messagingSenderId: "451842193436"
-		  };
-		firebase.initializeApp(config);
-		model.setDatabase();
-	}
 
 	var database = model.getDatabase();
 
@@ -50,7 +34,7 @@ LoquiApp.controller('landingCtrl', function($scope, model){
 			    var ref = database.ref('users/'+userName);
 			    ref.once("value").then(function(snapshot){
 			            if(snapshot.exists() && snapshot.val().password==passWord){
-			            	model.fetchData(username);
+			            	model.fetchData(userName);
 			                console.log("Model is updatad with your data");
 			            }
 			            else{
