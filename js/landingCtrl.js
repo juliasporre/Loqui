@@ -17,7 +17,7 @@ LoquiApp.controller('landingCtrl', function($scope, model){
 	}
 
 	var database = model.getDatabase();
-	
+
 	// checks if username is taken and if it is not than it creates a user in the database
 	// if username is taken it writes so to the console
 	// It should probably write to the user via a dedicated <p> tag
@@ -32,12 +32,7 @@ LoquiApp.controller('landingCtrl', function($scope, model){
 		            	console.log("Username is taken");
 		            }
 		            else{
-		                database.ref('users/'+userName).set({
-		       				username: userName,
-		        			password: passWord
-		   
-		    			});
-		    			alert('account sucessfully created');
+		            	model.newAccount(userName, passWord);
 		    			model.fetchData(userName);
 		            }
 		        });
@@ -54,7 +49,6 @@ LoquiApp.controller('landingCtrl', function($scope, model){
 		    if(passWord!="" && userName!=""){
 			    var ref = database.ref('users/'+userName);
 			    ref.once("value").then(function(snapshot){
-
 			            if(snapshot.exists() && snapshot.val().password==passWord){
 			            	model.fetchData(username);
 			                console.log("Model is updatad with your data");

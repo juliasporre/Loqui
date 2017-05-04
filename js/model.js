@@ -3,9 +3,11 @@
 LoquiApp.factory('model', function($resource){
 	//Nu bara Mockups, ska hämtas från databasen senare
 	this.database;
-	this.username;
+	this.username="admin";
+	//this.recentCourses = [];
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
 	this.favoriteCourses = ['SF1626'];
+	//this.favoriteCourses = [];
 	this.firstName = "Kalle";
 	this.lastName = "Anka";
 	this.nickName = "kalle.anka";
@@ -24,6 +26,28 @@ LoquiApp.factory('model', function($resource){
 		  };
 		firebase.initializeApp(config);
 		this.database = firebase.database();
+		if(this.username=="admin"){
+			this.database.ref('users/admin').set({
+			    username: "admin",
+			    password: "1234",
+			    firstName: "",
+			    lastName: "",
+			    nickName: ""
+			});
+			this.database.ref('users/'+this.username+'/favorite/SF1626').set({
+				courseName : 'SF1626'
+			});
+			this.database.ref('users/'+this.username+'/recent/DD1325').set({
+				courseName : 'DD1325'
+			});
+			this.database.ref('users/'+this.username+'/recent/MD1454').set({
+				courseName : 'MD1454'
+			});
+			this.database.ref('users/'+this.username+'/recent/DD4455').set({
+				courseName : 'DD4455'
+			});
+			//alert('admin account sucessfully created');
+		}
 	}
 
 
@@ -71,7 +95,23 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.addToFavorite = function(course){
-		this.favoriteCourses.push(course);
+		var alreadyExists = false;
+		for(var i=0;i<this.favoriteCourses.length;i++){
+			if(course==this.favoriteCourses[i]){
+				alreadyExists=true;
+				break;
+			}
+		}
+		if(alreadyExists==false){
+			this.favoriteCourses.push(course);
+			
+			var ref = this.database.ref('users/'+this.username+'/favorites/'+course);
+	    	ref.once("value").then(function(snapshot){
+	            ref.set({
+	            	courseName: course
+	            });
+        	});
+		}
 	}
 
 	this.isFavoriteCourse = function(course){
@@ -86,8 +126,15 @@ LoquiApp.factory('model', function($resource){
 	this.removeFromFavorite = function(course){
 		var index = this.favoriteCourses.indexOf(course);
 		if (index > -1) {
-    	this.favoriteCourses.splice(index, 1);
+    		this.favoriteCourses.splice(index, 1);
 		}
+
+		var ref = this.database.ref('users/'+this.username+'/favorites');
+    	ref.once("value").then(function(snapshot){
+            if(snapshot.exists()){
+            	snapshot.child(course).removeValue();
+            }
+    	});		
 	}
 
 	this.getFavoriteCourses = function(){
@@ -115,7 +162,8 @@ LoquiApp.factory('model', function($resource){
 			            	this.lastName = snapshot.val().lastName;
 			            	this.nickName = snapshot.val().nickname;
 
-			            	//Needs to be formated to array
+			            	//Needs to be formated to array from string
+			            	setFavoritesandRecentCourses(userName);
 			            	this.recentCourses = snapshot.val().recentCourses;
 			            	this.favoriteCourses = snapshot.val().favoriteCourses;
 
@@ -125,6 +173,21 @@ LoquiApp.factory('model', function($resource){
 			                console.log("Somehow user does not exist, Error i guess :(");
 			            }
 			        });
+
+		setFavoritesandRecentCourses = function(userName){
+			var ref = this.database.ref('users/'+userName+'/favorites');
+			ref.once("value").then(function(snapshot){
+				snapshot.forEach(function(childsnapshot){
+					this.favoriteCourses.push(childsnapshot.key);
+				});
+			});
+			ref = this.database.ref('users/'+userName+'/recent');
+			ref.once("value").then(function(snapshot){
+				snapshot.forEach(function(childsnapshot){
+					this.recentCourses.push(childsnapshot.key);
+				});
+			});
+		}
 	}
 
 	this.setDatabase = function(){
@@ -132,6 +195,34 @@ LoquiApp.factory('model', function($resource){
 	}
 	this.getDatabase = function(){
 		return this.database;
+	}
+	this.newAccount = function(userName, passWord){
+		this.database.ref('users/'+userName).set({
+		    username: userName,
+		    password: passWord,
+		    firstName: "",
+		    lastName: "",
+		    nickName: "",
+		    //recentCourses: "",
+		    //favoriteCourses: ""  
+		});
+
+
+		// startvalues for testing
+		this.database.ref('users/'+userName+'/favorite/SF1626').set({
+			courseName : 'SF1626'
+		});
+		this.database.ref('users/'+userName+'/recent/DD1325').set({
+			courseName : 'DD1325'
+		});
+		this.database.ref('users/'+userName+'/recent/MD1454').set({
+			courseName : 'MD1454'
+		});
+		this.database.ref('users/'+userName+'/recent/DD4455').set({
+			courseName : 'DD4455'
+		});
+		this
+		alert('account sucessfully created');
 	}
 
 	return this;
