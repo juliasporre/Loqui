@@ -137,15 +137,6 @@ app.onConnectionLost = function(responseObject) {
 	app.connected = false;
 }
 
-/*app.status = function(s) {
-	console.log(s);
-	var info = document.getElementById("info");
-	info.innerHTML = s;
-}*/
-
-
-
-
 
   		/* Set the width of the side navigation to 250px */
   $scope.openNav = function() {
