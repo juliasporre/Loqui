@@ -15,7 +15,7 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/searchView.html',
             controller: 'searchCtrl'
         } ).
-        when( '/profile', {
+        when( '/profile/:userID', {
             templateUrl: 'partials/profileView.html',
             controller: 'profileCtrl'
         } ).
