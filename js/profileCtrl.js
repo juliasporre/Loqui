@@ -1,4 +1,9 @@
 LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
+
+  var urlOrg = window.location.href;
+  var splitedUrl = urlOrg.split('profile');
+  $scope.url = splitedUrl[0];
+
   var nick = $routeParams.userID;
   var thisIsMe = false;
 
