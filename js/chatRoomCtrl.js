@@ -1,15 +1,12 @@
 LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
-
-  console.log($routeParams.room);
   var path = $routeParams.room;
   var splitParams = path.split("-");
-  console.log(splitParams);
   var code = splitParams[0];
   var room = splitParams[1];
 
   var urlOrg = window.location.href;
-  var splitedUrl = urlOrg.split('-'+room);
+  var splitedUrl = urlOrg.split('/chatRoom/'+path);
   $scope.url = splitedUrl[0]
   var uuid = 'f5a22468-0992-47b3-b7c8-7b75ce7349cf';
 

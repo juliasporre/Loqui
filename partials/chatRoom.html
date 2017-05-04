@@ -11,18 +11,14 @@
 			<p>{{courseID}}</p>	<!-- put in the current coursecode -->
 		</div>
 		<div id="info">
-
 		</div>
-
-
 	</div>
 
 	<div id="currentChannel">
 		#{{room}} <!-- put in the current channel -->
 	</div>
-<div id="messageSpace">
-
-</div>
+	<div id="messageSpace">
+	</div>
 
 
 
@@ -46,7 +42,7 @@
 <div id="mySidenav" class="sidenav"> <!-- The side menu for the different chats in this course. -->
 	<p> All channels </p>
   	<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
-  	<a href="{{url}}{{code}}-General">General</a>
-  	<a href="{{url}}{{code}}-Labpartners">Labpartners</a>
-  	<a href="{{url}}{{code}}-Studybuddys">Studybuddys</a>
+  	<a href="{{url}}chatRoom/{{code}}-General">General</a>
+  	<a href="{{url}}chatRoom/{{code}}-Labpartners">Labpartners</a>
+  	<a href="{{url}}chatRoom/{{code}}-Studybuddys">Studybuddys</a>
 </div>

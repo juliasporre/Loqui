@@ -49,6 +49,13 @@ html body{
 
 }
 
+#messageSpace{
+  max-height: 400px;
+  overflow-y:auto;
+  width: 100%;
+
+}
+
 #chatButton{
 	border: none;
 	height:100%;
@@ -83,7 +90,7 @@ html body{
 
 .timeStamp{
 	text-align: right;
-	font-style: italic; 
+	font-style: italic;
 	font-size: small;
 
 }
