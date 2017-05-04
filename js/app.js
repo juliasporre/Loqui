@@ -4,8 +4,8 @@ LoquiApp.config( [ '$routeProvider',
     function( $routeProvider ) {
         $routeProvider.
         when( '/', { // INITAL PAGE LOAD ONLY
-            templateUrl: 'partials/courseView.html',
-            controller: 'courseCtrl'
+            templateUrl: 'partials/searchView.html',
+            controller: 'searchCtrl'
         } ).
         when( '/home', {
             templateUrl: 'partials/landingView.html',
@@ -15,7 +15,7 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/searchView.html',
             controller: 'searchCtrl'
         } ).
-        when( '/profile', {
+        when( '/profile/:userID', {
             templateUrl: 'partials/profileView.html',
             controller: 'profileCtrl'
         } ).
