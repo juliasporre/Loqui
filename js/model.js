@@ -25,8 +25,11 @@ LoquiApp.factory('model', function($resource){
 		    messagingSenderId: "451842193436"
 		  };
 		firebase.initializeApp(config);
+
+		// THIS IS TEMPORARY
 		this.database = firebase.database();
 		if(this.username=="admin"){
+			// startvalues for testing; SHOULD BE DELETED LATER
 			this.database.ref('users/admin').set({
 			    username: "admin",
 			    password: "1234",
@@ -34,7 +37,8 @@ LoquiApp.factory('model', function($resource){
 			    lastName: "",
 			    nickName: ""
 			});
-			this.database.ref('users/'+this.username+'/favorite/SF1626').set({
+			// startvalues for testing; SHOULD BE DELETED LATER
+			this.database.ref('users/'+this.username+'/favorites/SF1626').set({
 				courseName : 'SF1626'
 			});
 			this.database.ref('users/'+this.username+'/recent/DD1325').set({
@@ -46,7 +50,7 @@ LoquiApp.factory('model', function($resource){
 			this.database.ref('users/'+this.username+'/recent/DD4455').set({
 				courseName : 'DD4455'
 			});
-			//alert('admin account sucessfully created');
+			alert('admin account sucessfully created');
 		}
 	}
 
@@ -87,7 +91,6 @@ LoquiApp.factory('model', function($resource){
 			this.recentCourses.splice(0, 1);
 		}
 		this.recentCourses.push(course);
-
 	}
 
 	this.getRecentCourses = function(){
@@ -95,6 +98,9 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.addToFavorite = function(course){
+		
+		course="DD2352";	// Hard coded; should be removed when this function can be called properly
+		window.hyper.log("addToFavorite");
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
 			if(course==this.favoriteCourses[i]){
@@ -124,6 +130,8 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.removeFromFavorite = function(course){
+		couse="DD2352";		// Hard coded; should be removed when this function can be called properly
+		console.log("removeFromFavorite");
 		var index = this.favoriteCourses.indexOf(course);
 		if (index > -1) {
     		this.favoriteCourses.splice(index, 1);
@@ -132,7 +140,12 @@ LoquiApp.factory('model', function($resource){
 		var ref = this.database.ref('users/'+this.username+'/favorites');
     	ref.once("value").then(function(snapshot){
             if(snapshot.exists()){
+            	console.log("remove from database");
             	snapshot.child(course).removeValue();
+            	console.log("remove worked i think");
+            }
+            else{
+            	console.log("course does not exist in the database, what is going on? :O");
             }
     	});		
 	}
@@ -175,18 +188,28 @@ LoquiApp.factory('model', function($resource){
 			        });
 
 		setFavoritesandRecentCourses = function(userName){
+
+			var consoleLogFavorite="";
+			var consoleLogRecent="";
+
 			var ref = this.database.ref('users/'+userName+'/favorites');
 			ref.once("value").then(function(snapshot){
 				snapshot.forEach(function(childsnapshot){
+					consoleLogFavorite+=", "+childsnapshot.key;
 					this.favoriteCourses.push(childsnapshot.key);
 				});
 			});
+
 			ref = this.database.ref('users/'+userName+'/recent');
 			ref.once("value").then(function(snapshot){
 				snapshot.forEach(function(childsnapshot){
+					consoleLogRecent+=", "+ childsnapshot.key;
 					this.recentCourses.push(childsnapshot.key);
 				});
 			});
+
+			console.log("Favorites; "+consoleLogFavorite);
+			console.log("Recent; "+consoleLogRecent);
 		}
 	}
 
@@ -208,8 +231,8 @@ LoquiApp.factory('model', function($resource){
 		});
 
 
-		// startvalues for testing
-		this.database.ref('users/'+userName+'/favorite/SF1626').set({
+		// startvalues for testing; SHOULD BE DELETED LATER
+		this.database.ref('users/'+userName+'/favorites/SF1626').set({
 			courseName : 'SF1626'
 		});
 		this.database.ref('users/'+userName+'/recent/DD1325').set({
