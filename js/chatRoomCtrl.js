@@ -55,11 +55,31 @@ app.onMessageArrived = function(message) {
 		else{
       //console.log(new Date());
       //var time = JSON.stringify(new Date()).split("GTM")[0];
+
+      //Everything handling the time
       var time = new Date();
+      var timeHour = time.getHours();
+      var timeMin = time.getMinutes();
+      var timeSec = time.getSeconds();
+      if (timeMin<10){
+      	timeMin = "0"+timeMin.toString()
+      }
+      else{
+      	timeMin = timeMin.toString()
+      }
+      if(timeSec<10){
+      	timeSec = "0"+timeSec.toString()
+      }
+      else{
+      	timeSec = timeSec.toString()
+      }
+      var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
+
+      //Write out the arrived message
       var messNick = o.nick.split('(')[1].split(')')[0];
       o.nick = o.nick.split('(')[0];
       console.log(messNick);
-			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="col-xs-8"><div class="nameBox"><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></div></div><div class="col-xs-4"><div class="timeStamp">' + time + '</div></div><div>' + o.msg + '</div></div>';
+			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li class="active"><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
 			app.canvas.appendChild(text);
 
