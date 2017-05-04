@@ -1,13 +1,59 @@
-<h1>{{init}}</h1>
-<button type="button" class="btn btn-default" ng-click="goBack()">
-  <span class="glyphicon glyphicon-left"></span>  <!-- See all members -->
-  Go back
-</button>
+<div class="blueBox">
+	<div class="row" id="titleProfileView"> <!--The header -->
+		<div class="col-xs-2">
+		<button type="button" class="btn btn-default" ng-click="goBack()">
+	  		<span class="glyphicon glyphicon-chevron-left"></span>
+	  		Go back
+		</button>
+		</div>
+		<div class="col-xs-8">
+			<p id="titleProfileView"><center>{{init}}</center></p>
+		</div>
+		<div class="col-xs-2"></div>
+	</div>
 
-<div ng-show="thisIsMe">
-  <button type="button" class="btn btn-default" ng-click="removeFavorite()">
-    <span class="glyphicon glyphicon-heart-envelope"></span>
-    Send a Private Message
-  </button>
+	<!--Depending on if it is your own profile or not, you will see different things here. -->
+	
+	<div ng-show="thisIsMe" id="meBox">
+
+		<ul class="list-group">
+		  	<li class="list-group-item">Username: {{nick}}</li>
+
+		  	<li class="list-group-item">
+		  		<div class="row">
+			  		<div class="col-xs-2">Age: </div>
+			  		<div class="col-xs-4">
+			  			<input class="form-control" type="number" min="0" max="120" placeholder="0"/>
+			  		</div>
+			  		<div class="col-xs-6"></div>
+		  		</div>
+		  	</li> <!--Placeholder should be the current one, and if you never chosen one it can be 0 -->
+
+		  	<li class="list-group-item">
+		  		<div class="row">
+				  	<div class="col-xs-4">Studying:</div>
+				  	<div class="col-xs-8"> 
+				  		<input class="form-control" type="text">
+				  	</div>
+				</div>
+		  	</li>
+
+		  	<li class="list-group-item">
+		  		Describe yourself:
+		  		<input class="form-control" type="comment"> <!-- Im gonna make it cover more than one row -->
+		  	</li>
+		</ul>
+	</div>	
+	
+
+	<div ng-show="!thisIsMe">
+	  <button type="button" class="btn btn-default" ng-click="removeFavorite()">
+	    <span class="glyphicon glyphicon-heart-envelope"></span>
+	    Send a Private Message
+	  </button>
+	</div>
+
+
+	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+
 </div>
-<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>

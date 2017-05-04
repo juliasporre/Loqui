@@ -5,16 +5,19 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   $scope.url = splitedUrl[0];
 
   var nick = $routeParams.userID;
-  var thisIsMe = false;
+  $scope.nick = nick;
+  var thisIsMe = true;
+  $scope.thisIsMe = thisIsMe;
 
   if(nick == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
     thisIsMe = true;
+    $scope.thisIsMe = thisIsMe;
   }
 
   if(thisIsMe){
     $scope.init = "My Profile"
   } else {
-    scope.init = "Welcome to " + nick + "s Profile!"
+    $scope.init = "Welcome to " + nick + "s Profile!"
   }
 
 
