@@ -10,7 +10,6 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('chatRoom/'+path);
   $scope.url = splitedUrl[0]
-  var uuid = 'f5a22468-0992-47b3-b7c8-7b75ce7349cf';
 
   $scope.courseID = code;
   $scope.room = room;
@@ -25,10 +24,9 @@ var totalMess = 0;
 
 var host = 'vernemq.evothings.com';
 var port = 8084;
-var user = 'anony'; // Ska/kan vi använda dessa?
-var password = 'ymous';
 
-var nick = "Admin"; //Ska hämtas från model
+var name = model.getUserFullName();
+var nick = model.getUserName();
 
 app.connected = false;
 app.ready = false;
@@ -36,7 +34,7 @@ app.ready = false;
 $scope.sendMessage = function(){
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
-	var send = JSON.stringify({nick: nick, msg: msg});
+	var send = JSON.stringify({nick: name, msg: msg});
 	app.publish(send);
 }
 
@@ -73,7 +71,7 @@ app.onMessageArrived = function(message) {
 app.initialize = function() {
   console.log("check app ready");
 	if (!app.ready) {
-		app.pubTopic = '/' + path + '/' + uuid + '/evt'; // We publish to our own device topic
+		app.pubTopic = '/' + path + '/' + nick + '/evt'; // We publish to our own device topic
 		app.subTopic = '/' + path + '/' + '+/evt'; // We subscribe to all devices using "+" wildcard
 		app.setupCanvas();
 		app.setupConnection();
@@ -95,8 +93,8 @@ app.setupCanvas = function() {
 
 app.setupConnection = function() {
 console.log("connection");
-  	$scope.status = "Connecting to " + host + ":" + port + " as " + uuid;
-	app.client = new Paho.MQTT.Client(host, port, uuid);
+  	$scope.status = "Connecting to " + host + ":" + port + " as " + nick;
+	app.client = new Paho.MQTT.Client(host, port, nick);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
 	var options = {
