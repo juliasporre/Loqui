@@ -6,7 +6,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
   var nick = $routeParams.userID;
   $scope.nick = nick;
-  var thisIsMe = true;
+  var thisIsMe = false;
   $scope.thisIsMe = thisIsMe;
 
   if(nick == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
@@ -17,7 +17,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   if(thisIsMe){
     $scope.init = "My Profile"
   } else {
-    $scope.init = "Welcome to " + nick + "s Profile!"
+    $scope.init = nick + "s Profile!"
   }
 
 

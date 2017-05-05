@@ -14,10 +14,10 @@
 
 	<!--Depending on if it is your own profile or not, you will see different things here. -->
 	
+	<!--Your own profile - all of the input/textareas should have a value that is the last written text. At start this is empty or 0 for the age. You are supposed to be able to continue writing in your text without it disappering.  --> 
 	<div ng-show="thisIsMe" id="meBox">
-
 		<ul class="list-group">
-		  	<li class="list-group-item">Username: {{nick}}</li>
+		  	<li class="list-group-item">Username: {{nick}}</li> <!--You can't change your username -->
 
 		  	<li class="list-group-item">
 		  		<div class="row">
@@ -27,25 +27,33 @@
 			  		</div>
 			  		<div class="col-xs-6"></div>
 		  		</div>
-		  	</li> <!--Placeholder should be the current one, and if you never chosen one it can be 0 -->
+		  	</li> 
 
 		  	<li class="list-group-item">
 		  		<div class="row">
 				  	<div class="col-xs-4">Studying:</div>
 				  	<div class="col-xs-8"> 
-				  		<input class="form-control" type="text">
+				  		<input class="form-control" type="text"/>
 				  	</div>
 				</div>
 		  	</li>
 
 		  	<li class="list-group-item">
 		  		Describe yourself:
-		  		<input class="form-control" type="comment"> <!-- Im gonna make it cover more than one row -->
+		  		<textarea class="form-control" rows="5" id="comment"/>
+		  	</li>
+
+		  	<li class="list-group-item">
+		  		<button type="button" class="btn btn-default">
+		  			<span class="glyphicon glyphicon-save"></span>
+		  			Save changes
+		  		</button>
 		  	</li>
 		</ul>
 	</div>	
 	
 
+	<!--Someone elses profile -->
 	<div ng-show="!thisIsMe">
 	  <button type="button" class="btn btn-default" ng-click="removeFavorite()">
 	    <span class="glyphicon glyphicon-heart-envelope"></span>
