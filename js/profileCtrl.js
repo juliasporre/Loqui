@@ -6,6 +6,10 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
   var nick = $routeParams.userID;
   $scope.nick = nick;
+  $scope.age = 12
+  $scope.studying = "CL"
+  $scope.description = "I am a nice person and I like to code." //GET THESE FROM THE DATABASE
+
   var thisIsMe = false;
   $scope.thisIsMe = thisIsMe;
 

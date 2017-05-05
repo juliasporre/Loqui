@@ -55,10 +55,26 @@
 
 	<!--Someone elses profile -->
 	<div ng-show="!thisIsMe">
-	  <button type="button" class="btn btn-default" ng-click="removeFavorite()">
-	    <span class="glyphicon glyphicon-heart-envelope"></span>
-	    Send a Private Message
-	  </button>
+
+		<div id="meBox">
+			<ul class="list-group">
+				<li class="list-group-item">
+					Age: {{age}}
+				</li>
+				<li class="list-group-item">
+					Studying: {{studying}}
+				</li>
+				<li class="list-group-item">
+					{{description}}
+				</li>
+				<li class="list-group-item">
+					<button type="button" class="btn btn-default" ng-click="removeFavorite()">
+				    	<span class="glyphicon glyphicon-envelope"></span>
+				    	Send a Private Message
+				  	</button>
+				</li>
+			</ul>
+		</div>
 	</div>
 
 

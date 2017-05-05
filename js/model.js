@@ -11,6 +11,10 @@ LoquiApp.factory('model', function($resource){
 	this.firstName = "Kalle";
 	this.lastName = "Anka";
 	this.nickName = "kalle.anka";
+	this.age = 12;
+	this.studying = "CL"
+  	this.description = "I am a nice person and I like to code."
+
 
 	// Initialize Firebase
 	// Should only be done once for the whole app
