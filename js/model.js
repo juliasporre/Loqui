@@ -3,7 +3,7 @@
 LoquiApp.factory('model', function($resource){
 	//Nu bara Mockups, ska hämtas från databasen senare
 	this.database;
-	this.username="admin";
+	this.username= "admin";
 	//this.recentCourses = [];
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
 	this.favoriteCourses = ['SF1626'];
@@ -13,11 +13,10 @@ LoquiApp.factory('model', function($resource){
 	//this.nickName = "kalle.anka";
 	this.age = 12;
 	this.studying = "CL"
-  this.description = "I am a nice person and I like to code."
+  	this.description = "I am a nice person and I like to code."
 
 
 	// Initialize Firebase
-	// Should only be done once for the whole app
 	if(firebase.apps.length===0){
 		console.log("init database in model.js");
 		var config = {
@@ -29,35 +28,8 @@ LoquiApp.factory('model', function($resource){
 		    messagingSenderId: "451842193436"
 		  };
 		firebase.initializeApp(config);
-
-		// THIS IS TEMPORARY
 		this.database = firebase.database();
 	}
-	if(this.username=="admin"){
-		// startvalues for testing; SHOULD BE DELETED LATER
-		this.database.ref('users/admin').set({
-		    username: "admin",
-		    password: "1234",
-		    firstName: "",
-		    lastName: "",
-		    //nickName: ""
-		});
-		// startvalues for testing; SHOULD BE DELETED LATER
-		this.database.ref('users/'+this.username+'/favorites/SF1626').set({
-			courseName : 'SF1626'
-		});
-		this.database.ref('users/'+this.username+'/recent/DD1325').set({
-			courseName : 'DD1325'
-		});
-		this.database.ref('users/'+this.username+'/recent/MD1454').set({
-			courseName : 'MD1454'
-		});
-		this.database.ref('users/'+this.username+'/recent/DD4455').set({
-			courseName : 'DD4455'
-		});
-		console.log('admin account sucessfully created');
-	}
-
 
 	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
 		get: {
@@ -134,24 +106,14 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.removeFromFavorite = function(course){
-		couse="DD2352";		// Hard coded; should be removed when this function can be called properly
+		//couse="DD2352";		// Hard coded; should be removed when this function can be called properly
 		console.log("removeFromFavorite");
 		var index = this.favoriteCourses.indexOf(course);
 		if (index > -1) {
     		this.favoriteCourses.splice(index, 1);
 		}
-
-		var ref = this.database.ref('users/'+this.username+'/favorites');
-    	ref.once("value").then(function(snapshot){
-            if(snapshot.exists()){
-            	console.log("remove from database");
-            	snapshot.child(course).removeValue();
-            	console.log("remove worked i think");
-            }
-            else{
-            	console.log("course does not exist in the database, what is going on? :O");
-            }
-    	});
+		// This should remove the course from the database
+		this.database.ref('users/'+this.username+'/favorites/'+course).remove();
 	}
 
 	this.getFavoriteCourses = function(){
@@ -212,32 +174,6 @@ LoquiApp.factory('model', function($resource){
 			}
 			this.recentCourses=list;
 		});
-
-
-		setFavoritesandRecentCourses = function(userName, db){
-
-			var consoleLogFavorite="";
-			var consoleLogRecent="";
-
-			var ref = db.ref('users/'+userName+'/favorites');
-			ref.once("value").then(function(snapshot){
-				snapshot.forEach(function(childsnapshot){
-					consoleLogFavorite+=", "+childsnapshot.key;
-					this.favoriteCourses.push(childsnapshot.key);
-				});
-			});
-
-			ref = db.ref('users/'+userName+'/recent');
-			ref.once("value").then(function(snapshot){
-				snapshot.forEach(function(childsnapshot){
-					consoleLogRecent+=", "+ childsnapshot.key;
-					this.recentCourses.push(childsnapshot.key);
-				});
-			});
-
-			console.log("Favorites; "+consoleLogFavorite);
-			console.log("Recent; "+consoleLogRecent);
-		}
 	}
 
 	this.setDatabase = function(){
@@ -252,9 +188,9 @@ LoquiApp.factory('model', function($resource){
 		    password: passWord,
 		    firstName: "",
 		    lastName: "",
-		    //nickName: "",
-		    //recentCourses: "",
-		    //favoriteCourses: ""
+		    age:"",
+		    description:"",
+		    studying:""
 		});
 
 
@@ -301,16 +237,25 @@ LoquiApp.factory('model', function($resource){
 	this.setAge = function(age){
 		//Ska ändra i databasen också
 		this.age = age;
+		this.database.ref('user/'+this.username).set({
+			age : this.age
+		});
 	}
 
 	this.setStudying = function(studying){
 		//Ska ändra i databasen också
 		this.studying = studying;
+		this.database.ref('user/'+this.username).set({
+			studying : this.studying
+		});
 	}
 
 	this.setDescription = function(){
 		//Ska ändra i databasen också
 		this.description = description;
+		this.database.ref('user/'+this.username).set({
+			description : this.description
+		});
 	}
 
 	return this;
