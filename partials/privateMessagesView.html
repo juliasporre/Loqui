@@ -1,2 +1,33 @@
-private mess
-<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+<div class="blueBox">
+
+	<div class="chatHeader">
+		<div class="col-xs-4">
+			<button type="button" class="btn btn-default" ng-click="goBack()">
+		  		<span class="glyphicon glyphicon-chevron-left"></span>
+		  		Go back
+			</button>
+		</div>
+		<div class="col-xs-8">
+			<p style="text-align: left">{{friend}}</p>
+		</div>
+	</div>
+
+	<div class="col-xs-10" id="currentChannel">
+		{{status}}
+	</div>
+	<div id="messageSpace">
+	</div>
+
+
+	<!-- The chatbox where you can write a message. Is aligned to bottom of screen -->
+	<div>
+		<div class="input-group" id="chatBox">
+			<textarea class="form-control" id="comment" placeholder="Message"></textarea>
+			<span class="input-group-addon btn btn-default" ng-click="sendMessage()" id="sendButton">
+				<span class="glyphicon glyphicon-send"></span>
+			</span>
+	   	</div>
+	</div>
+
+	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+</div>
