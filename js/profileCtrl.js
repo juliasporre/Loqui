@@ -22,7 +22,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   if(thisIsMe){
     $scope.init = "My Profile"
   } else {
-    $scope.init = userName + "s Profile!"
+    $scope.init = userName
   }
 
 
