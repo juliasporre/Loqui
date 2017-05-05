@@ -1,3 +1,48 @@
-lunchView
+<div class="blueBox">
 
-<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+	<div id="titleProfileView"> <!--The header -->
+		<center><p id="titleProfileView">Find a lunchpartner</p></center>
+	</div>
+
+	<div id="infoBoxLunch">
+	Choose if you want to eat a foodbox with your new lunchpartner, or together decide on a restaurant. Press the choiced button and you will be randomized someone you can partner up with. 
+	</div>
+
+	<div id="lunchFinder">
+        <div class="form-group">
+            <div class="searchable-container">
+                <div class="items col-xs-6">
+                    <div class="info-block block-info clearfix">
+                    
+                        <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                            <label class="btn btn-default">
+                                <div class="bizcontent">
+                                    <!--<input type="checkbox" name="var_id[]" autocomplete="off" value="">-->
+                                    
+                                    <h5>Lunchbag</h5>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="items col-xs-6">
+                    <div class="info-block block-info clearfix">
+                        
+                        <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                            <label class="btn btn-default">
+                                <div class="bizcontent">
+                                    <!--<input type="checkbox" name="var_id[]" autocomplete="off" value="">-->
+                                    
+                                    <h5>Restaurant</h5>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	</div>
+
+	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+</div>
