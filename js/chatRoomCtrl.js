@@ -26,15 +26,15 @@ var host = 'vernemq.evothings.com';
 var port = 8084;
 
 var name = model.getUserFullName();
-var nick = model.getUserName();
+var userName = model.getUserName();
 
-app.connected = false;
+app.connected = false;userName
 app.ready = false;
 
 $scope.sendMessage = function(){
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
-	var send = JSON.stringify({nick: name + '(' + nick + ')', msg: msg, qos: 0, retained: true});
+	var send = JSON.stringify({nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
 	app.publish(send);
 
 }
@@ -47,7 +47,7 @@ app.onMessageArrived = function(message) {
 		var atUser;
 		if (split[0]=="@"){
 			atUser=split;
-			if(atUser==('@'+nick) || o.nick == nick){
+			if(atUser==('@' + userName) || o.nick == userName){
 				text.innerHTML= o.nick + ": " + o.msg;
 				app.canvas.appendChild(text);
 			}
@@ -95,7 +95,7 @@ app.onMessageArrived = function(message) {
 app.initialize = function() {
   console.log("check app ready");
 	if (!app.ready) {
-		app.pubTopic = '/' + path + '/' + nick + '/evt'; // We publish to our own device topic
+		app.pubTopic = '/' + path + '/' + userName + '/evt'; // We publish to our own device topic
 		app.subTopic = '/' + path + '/' + '+/evt'; // We subscribe to all devices using "+" wildcard
 		app.setupCanvas();
 		app.setupConnection();
@@ -117,8 +117,8 @@ app.setupCanvas = function() {
 
 app.setupConnection = function() {
 console.log("connection");
-  	$scope.status = "Connecting to " + host + ":" + port + " as " + nick;
-	app.client = new Paho.MQTT.Client(host, port, nick);
+  	$scope.status = "Connecting to " + host + ":" + port + " as " + userName;
+	app.client = new Paho.MQTT.Client(host, port, userName);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
 	var options = {
