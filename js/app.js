@@ -7,10 +7,6 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/landingView.html',
             controller: 'landingCtrl'
         } ).
-        when( '/home', {
-            templateUrl: 'partials/landingView.html',
-            controller: 'landingCtrl'
-        } ).
         when( '/search', {
             templateUrl: 'partials/searchView.html',
             controller: 'searchCtrl'
@@ -48,7 +44,7 @@ LoquiApp.config( [ '$routeProvider',
             controller: 'favoriteCtrl'
         } ).
         otherwise( {
-            redirectTo: '/home'
+            redirectTo: '/search'
         } );
     }
 ] );
