@@ -1,4 +1,4 @@
-LoquiApp.controller('landingCtrl', function($scope, model){
+LoquiApp.controller('landingCtrl', function($scope, model, $location){
 
 	var database = model.getDatabase();
 
@@ -17,7 +17,8 @@ LoquiApp.controller('landingCtrl', function($scope, model){
 		            }
 		            else{
 		            	model.newAccount(userName, passWord);
-		    			model.fetchData(userName);
+		    					model.fetchData(userName);
+									$location.path('/search');
 		            }
 		        });
 	}
@@ -36,6 +37,7 @@ LoquiApp.controller('landingCtrl', function($scope, model){
 			            if(snapshot.exists() && snapshot.val().password==passWord){
 			            	model.fetchData(userName);
 			                console.log("Model is updatad with your data");
+											$location.path('/search');
 			            }
 			            else{
 			                console.log("Wrong username or password");
