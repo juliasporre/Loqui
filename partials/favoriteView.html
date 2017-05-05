@@ -1,20 +1,43 @@
 <div class="blueBox">
   <div id="titleProfileView">
-    <center><p>My Favorites</p></center>
+    <center>
+      <div class="row">
+        <div class="col-xs-2">
+          <span class="glyphicon glyphicon-heart"></span>
+        </div>
+        <div class="col-xs-8">
+          <p>My Favorites</p>
+        </div>
+        <div class="col-xs-2">
+          <span class="glyphicon glyphicon-heart"></span>
+        </div>
+      </div>
+    </center>
   </div>
 
 
-  <center>
+  
     <div class="btn-group-vertical" id="favorites" role="group" aria-label="..."> <!--A list of the most recent searched courses, should be flexible! -->
       <div class="btn-group btn-group-lg" role="group">
         <div ng-repeat="fav in favorites">
-          <a type="button" class="btn btn-default btn-lg" href="{{url}}chatRoom/{{fav}}-General">
-            {{fav}}
-          </a>
+          <div class="row">
+          <div class="col-xs-4"></div>
+          <div class="col-xs-4">
+            <a type="button" class="btn btn-default btn-lg" href="{{url}}chatRoom/{{fav}}-General">
+              {{fav}}
+            </a>
+          </div>
+          <div class="col-xs-4">
+            <button class="btn btn-default btn-lg"> <!--To press to unfavorize the course -->
+              <span class="glyphicon glyphicon-heart"></span>
+            </button>
+          </div>
+          <div class="col-xs-4"></div>
+        </div>
         </div>
       </div>
     </div>
-  </center>
+  
 
 
   <ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
