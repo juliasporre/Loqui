@@ -11,6 +11,7 @@ LoquiApp.factory('model', function($resource){
 	this.firstName = "Kalle";
 	this.lastName = "Anka";
 	//this.nickName = "kalle.anka";
+	this.name = this.firstName + " " + this.lastName;
 	this.age = 12;
 	this.studying = "CL"
   	this.description = "I am a nice person and I like to code."
@@ -232,6 +233,13 @@ LoquiApp.factory('model', function($resource){
 
 	this.getDescription = function(){
 		return this.description;
+	}
+
+	this.setFullName = function(name){
+		this.name = name;
+		this.database.ref('user/'+this.name).set({
+			name : this.name
+		});
 	}
 
 	this.setAge = function(age){

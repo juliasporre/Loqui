@@ -13,6 +13,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     thisIsMe = true;
     $scope.thisIsMe = thisIsMe;
     console.log(typeof(model.getAge()));
+    $scope.name = model.getUserFullName();
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();
     $scope.description = model.getDescription(); //GET THESE FROM THE DATABASE
@@ -27,7 +28,10 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
 
   $scope.saveChanges = function(){
-
+    if($scope.name != document.getElementById("name").value){
+      model.setFullName(document.getElementById("name").value);
+      $scope.name = model.getUserFullName();
+    }
     if($scope.age != document.getElementById("age").value){
       model.setAge(document.getElementById("age").value);
       $scope.age = model.getAge();
