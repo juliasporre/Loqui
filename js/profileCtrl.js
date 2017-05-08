@@ -12,7 +12,6 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   if(userName == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
     thisIsMe = true;
     $scope.thisIsMe = thisIsMe;
-    console.log(typeof(model.getAge()));
     $scope.name = model.getUserFullName();
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();

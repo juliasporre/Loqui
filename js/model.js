@@ -5,8 +5,6 @@ LoquiApp.factory('model', function($resource){
 	this.username;
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
 	this.favoriteCourses = ['SF1626'];
-	this.firstName;
-	this.lastName;
 	this.name;
 	this.age;
 	this.studying;
@@ -126,7 +124,7 @@ LoquiApp.factory('model', function($resource){
 
 	this.getUserFullName = function(){
 		//Returns users name
-		return this.firstName + " " + this.lastName;
+		return this.name;
 	}
 
 	this.getUserName = function(){
@@ -141,9 +139,7 @@ LoquiApp.factory('model', function($resource){
 		ref.once("value").then(function(snapshot){
 	        if(snapshot.exists()){
 	        	this.username = snapshot.val().username;
-	        	this.firstName = snapshot.val().firstName;
-	        	this.lastName = snapshot.val().lastName;
-				this.name = snapshot.val().firstName+" "+snapshot.val().lastName;
+				this.name = snapshot.val().name;
 				this.age = snapshot.val().age;
 				this.studying = snapshot.val().studying;
 			  	this.description = snapshot.val().description;
@@ -185,8 +181,7 @@ LoquiApp.factory('model', function($resource){
 		this.database.ref('users/'+userName).set({
 		    username: userName,
 		    password: passWord,
-		    firstName: "",
-		    lastName: "",
+		    name: "",
 		    age:"",
 		    description:"",
 		    studying:""
@@ -215,7 +210,7 @@ LoquiApp.factory('model', function($resource){
 
 	this.getUserFullName = function(){
 		//Returns users name
-		return this.firstName + " " + this.lastName;
+		return this.name;
 	}
 
 	this.getUserName = function(){
