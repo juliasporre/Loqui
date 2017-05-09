@@ -3,13 +3,13 @@
 LoquiApp.factory('model', function($resource){
 	
 	this.database;
-	this.username;
+	this.username="default";
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
 	this.favoriteCourses = ['SF1626'];
-	this.name;
-	this.age;
-	this.studying;
-  	this.description;
+	this.name="default";
+	this.age="default";
+	this.studying="default";
+  	this.description="default";
   	//this.studying = "CL";
   	//this.description = "I am a nice person and I like to code.";
 
