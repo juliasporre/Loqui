@@ -14,7 +14,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.courseID = code;
   $scope.room = room;
   $scope.allRooms = ["General", "Labpartners"];
-
+  
 // A Painter application that uses MQTT to distribute draw events
 // to all other devices running this app.
 

@@ -44,7 +44,8 @@
   		<div ng-repeat="channel in allRooms">
 	  		<div ng-if="channel==room">
 	  			<li class="active">
-	  			<a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> </li>
+	  				<a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> 
+	  			</li>
 	 		</div>
 	  		<div ng-if="channel!=room">
 	  			<li><a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> </li>
