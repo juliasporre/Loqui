@@ -28,7 +28,7 @@ var port = 8084;
 var name = model.getUserFullName();
 var userName = model.getUserName();
 
-app.connected = false;userName
+app.connected = false;//userName
 app.ready = false;
 
 $scope.sendMessage = function(){
