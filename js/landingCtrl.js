@@ -1,6 +1,7 @@
 LoquiApp.controller('landingCtrl', function($scope, model, $location){
 
 	var database = model.getDatabase();
+	
 
 	// checks if username is taken and if it is not than it creates a user in the database
 	// if username is taken it writes so to the console
@@ -38,6 +39,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			            	model.fetchData(userName);
 			                console.log("Model is updatad with your data");
 											$location.path('/search');
+											
 			            }
 			            else{
 			                console.log("Wrong username or password");
@@ -49,4 +51,18 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			}
 		}
 
+});
+
+document.onreadystatechange = function () {
+  var state = document.readyState
+  if (state == 'interactive') {
+       document.getElementById('contents').style.visibility="hidden";
+  } else if (state == 'complete') {
+      setTimeout(function(){
+         document.getElementById('interactive');
+         document.getElementById('load').style.visibility="hidden";
+         document.getElementById('contents').style.visibility="visible";
+      },1000);
+  }
+}
 });
