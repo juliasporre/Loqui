@@ -41,8 +41,14 @@
 	<p> All channels </p>
   	<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
   	<ul class="nav nav-pills nav-stacked">
-	  	<li class="active"><a href="{{url}}chatRoom/{{code}}-General">General</a> </li>
-	  	<li><a href="{{url}}chatRoom/{{code}}-Labpartners">Labpartners</a> </li>
-	  	<li><a href="{{url}}chatRoom/{{code}}-Studybuddys">Studybuddys</a> </li>
+  		<div ng-repeat="channel in allRooms">
+	  		<div ng-if="channel==room">
+	  			<li class="active">
+	  			<a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> </li>
+	 		</div>
+	  		<div ng-if="channel!=room">
+	  			<li><a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> </li>
+	  		</div>
+	  	</div>
   	</ul>
 </div>

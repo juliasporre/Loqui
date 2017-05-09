@@ -1,6 +1,7 @@
 //model.js
 
 LoquiApp.factory('model', function($resource){
+	
 	this.database;
 	this.username;
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
