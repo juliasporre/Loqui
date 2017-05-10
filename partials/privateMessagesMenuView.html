@@ -1,6 +1,6 @@
 <h1>Private Messages</h1>
 
-<table class="table table-sm small table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Name</th>
@@ -9,10 +9,9 @@
     </tr>
   </thead>
   <tbody>
-      <tr ng-repeat="person in persons">
+      <tr ng-repeat="person in persons" ng-click="goChat(person.username)">
             <td>{{person.name}}</td>
             <td>{{person.username}}</td>
-            <td><a class="button" href="{{urlMess}}/{{person.username}}">Chat</a></td>
       </tr>
   </tbody>
 </table>

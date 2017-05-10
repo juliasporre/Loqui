@@ -1,4 +1,4 @@
-LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model){
+LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location){
 
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('privateMessages');
@@ -15,5 +15,10 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model){
   $scope.goBack = function() {
     window.history.back();
   };
+
+  $scope.goChat = function(user) {
+    console.log(user);
+    $location.path('/privateMessages/'+user);
+  }
 
 });
