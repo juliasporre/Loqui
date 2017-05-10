@@ -8,7 +8,7 @@ LoquiApp.factory('model', function($resource){
 	this.username= "default";
 	this.password = "default";
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
-	this.favoriteCourses = ['SF1626'];
+	this.favoriteCourses=['SF1626'];
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
@@ -68,13 +68,9 @@ LoquiApp.factory('model', function($resource){
 		}
 		this.recentCourses.push(course);
 
-		var ref = this.database.ref('users/'+this.username+'/recent/'+course);
-    	ref.once("value").then(function(snapshot){
-            ref.set({
-            	courseName: course
-            });
-    	});
-
+		this.database.ref('users/'+this.username+'/recent/'+course).set({
+			courseName: course
+		});
 	}
 
 	this.getRecentCourses = function(){
@@ -93,12 +89,9 @@ LoquiApp.factory('model', function($resource){
 		}
 		if(alreadyExists==false){
 			this.favoriteCourses.push(course);
-			var ref = this.database.ref('users/'+this.username+'/favorites/'+course);
-	    	ref.once("value").then(function(snapshot){
-	            ref.set({
-	            	courseName: course
-	            });
-        	});
+			this.database.ref('users/'+this.username+'/favorites/'+course).set({
+				courseName:course
+			});
 		}
 	}
 
@@ -144,7 +137,7 @@ LoquiApp.factory('model', function($resource){
 			  		list.push(childsnapshot.key);
 			  	});
 			  	this.favoriteCourses=list;
-			  	//console.log(list);
+			  	console.log("favoriteCourses= "+ this.favoriteCourses);
 
 			  	list = [];
 			  	//console.log("fetch recent");
@@ -161,26 +154,35 @@ LoquiApp.factory('model', function($resource){
 	    });
 	}
 
-	/*
-	this.getMessanges = function(course){
-		var ref = this.database.ref('messanges/'+course);
+	// returns a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	this.getMessanges = function(course, channel){
+		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		var list=[];
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push(childsnapshot.);
+					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
 				});
 			}
 			else{
 				console.log("this course has no messanges");
 			}
+			//console.log(list);
+			return list;
 		});
 	}
 
-	this.setMessange = function(course, channel, sender, messange, timestamp){
+	// Adds a messange to the database under messanges/course/channel
+	this.addMessange = function(course, channel, sender, messange, timestamp){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
+		ref.push().set({
+			sender:sender,
+			messange:messange,
+			time:timestamp
+		});
 	}
-	*/
+	
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
@@ -244,38 +246,22 @@ LoquiApp.factory('model', function($resource){
 	this.setFullName = function(name){
 		this.name = name;
 		this.database.ref('users/'+this.username+'/name').set(name);
-		//this.setData();
 	}
 
 	this.setAge = function(age){
 		this.age = age;
 		this.database.ref('users/'+this.username+'/age').set(age);
-		//this.setData();
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
 		this.database.ref('users/'+this.username+'/studying').set(studying);
-		//this.setData();
 	}
 
 	this.setDescription = function(description){
 		this.description = description;
 		this.database.ref('users/'+this.username+'/description').set(description);
-		//this.setData();
 	}
-
-	/*
-	this.setData = function(){
-		this.database.ref('users/'+this.username).set({
-			name: _this.name,
-			username: _this.username,
-			password: _this.password,
-			age: _this.age,
-			studying: _this.studying,
-			description: _this.description
-		});
-	}*/
 
 	return this;
 });
