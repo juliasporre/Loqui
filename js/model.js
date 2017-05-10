@@ -141,16 +141,16 @@ LoquiApp.factory('model', function($resource){
 			  	//console.log("fetch favorites");
 			  	snapshot.child("favorites").forEach(function(childsnapshot){
 			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.courseName);
+			  		list.push(childsnapshot.key);
 			  	});
 			  	this.favoriteCourses=list;
+			  	//console.log(list);
 
 			  	list = [];
-
 			  	//console.log("fetch recent");
 			  	snapshot.child("recent").forEach(function(childsnapshot){
 			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.courseName);
+			  		list.push(childsnapshot.key);
 			  	});
 			  	this.recentCourses=list;
 	        	console.log("Data fetched from database");
