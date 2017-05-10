@@ -38,19 +38,19 @@
 	<center>
 		<div class="card-columns">
 			<div ng-repeat="course in courses" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">
-					<a href="{{url}}course/{{course.code}}">
+					<a href="{{url}}chatRoom/{{course.code}}-General">
 							<img img class="card-img-top img-fluid" ng-src="img/student_hat.png"/></a>
 					<div class="card-block">
 						<h6 class="card-title">{{course.name}}</h6>
 					</div>
 					<div class="text-center">
-						<div class="row">
-							<div class="col-xs-6">
+						
+							<center>
 								<div ng-show="!isFavoriteCourse(course.code)">
 							    	<button type="button" class="btn btn-sm btn-primary" ng-click="addFavorite(course.code)">
 							      		<span class="glyphicon glyphicon-heart"></span>
 							      		Add to favorites
-							    	</button>
+							    	</button> 
 							  	</div>
 
 							  	<div ng-show="isFavoriteCourse(course.code)">
@@ -59,12 +59,12 @@
 							      		Remove from Favorites
 							    	</button>
 							  	</div>
-							</div>
+							</center>
 							<br>
-							<div class="col-xs-6">
-								<button type="button" href="{{url}}chatRoom/{{course.code}}-General" class="btn btn-sm btn-primary">Chat Room</a>
-							</div>
- 					</div>
+							<center>
+								<button type="button" href="{{url}}chatRoom/{{course.code}}-General" class="btn btn-sm btn-primary">Chat Room</button>
+							</center>
+ 					
 				</div>
 			</div>
 		</div>

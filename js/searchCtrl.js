@@ -35,6 +35,7 @@ LoquiApp.controller('searchCtrl', function($scope, model){
   $scope.addFavorite = function(code){
     model.addToFavorite(code);
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
+    model.addToRecent(code);
 
   }
 
