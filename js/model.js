@@ -1,17 +1,18 @@
 //model.js
 
 LoquiApp.factory('model', function($resource){
-	
+
+	var _this = this;
+
 	this.database;
-	this.username="default";
+	this.username= "default";
+	this.password = "default";
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
 	this.favoriteCourses = ['SF1626'];
-	this.name="default";
-	this.age="default";
-	this.studying="default";
-  	this.description="default";
-  	//this.studying = "CL";
-  	//this.description = "I am a nice person and I like to code.";
+	this.name= "default";
+	this.age= "default";
+	this.studying= "default";
+  this.description= "default";
 
 
 	// Initialize Firebase
@@ -123,27 +124,21 @@ LoquiApp.factory('model', function($resource){
 		return this.favoriteCourses;
 	}
 
-	this.getUserFullName = function(){
-		//Returns users name
-		return this.name;
-	}
-
-	this.getUserName = function(){
-		//Returns users name
-		return this.username;
-	}
-
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
+
+	
+
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
 		ref.once("value").then(function(snapshot){
 	        if(snapshot.exists()){
-	        	this.username = snapshot.val().username;
-				this.name = snapshot.val().name;
-				this.age = snapshot.val().age;
-				this.studying = snapshot.val().studying;
-			  	this.description = snapshot.val().description;
+	        	_this.username = snapshot.val().username;
+						_this.password = snapshot.val().password;
+						_this.name = snapshot.val().name;
+						_this.age = snapshot.val().age;
+						_this.studying = snapshot.val().studying;
+			  		_this.description = snapshot.val().description;
 
 			  	var list = [];
 			  	//console.log("fetch favorites");
@@ -229,29 +224,32 @@ LoquiApp.factory('model', function($resource){
 
 	this.setFullName = function(name){
 		this.name = name;
-		this.database.ref('user/'+this.name).set({
-			name : this.name
-		});
+		this.setData();
 	}
 
 	this.setAge = function(age){
 		this.age = age;
-		this.database.ref('user/'+this.username).set({
-			age : this.age
-		});
+		this.setData();
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
-		this.database.ref('user/'+this.username).set({
-			studying : this.studying
-		});
+		this.setData();
 	}
 
-	this.setDescription = function(){
+	this.setDescription = function(description){
 		this.description = description;
-		this.database.ref('user/'+this.username).set({
-			description : this.description
+		this.setData();
+	}
+
+	this.setData = function(){
+		this.database.ref('users/'+this.username).set({
+			name: _this.name,
+			username: _this.username,
+			password: _this.password,
+			age: _this.age,
+			studying: _this.studying,
+			description: _this.description
 		});
 	}
 

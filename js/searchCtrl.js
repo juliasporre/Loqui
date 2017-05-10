@@ -6,6 +6,7 @@ LoquiApp.controller('searchCtrl', function($scope, model){
   $scope.userName = model.getUserName();
 
   $scope.recentCourses = model.getRecentCourses();
+
   this.getSchools = function(){
       model.getSchools.get({},function(data){
       $scope.schools = data;
@@ -14,11 +15,14 @@ LoquiApp.controller('searchCtrl', function($scope, model){
     });
   }
 
-  $scope.search = function(query, type){
+  $scope.search = function(query){
+    $scope.status = "Searching for " + query + "...";
     if(query != undefined){
       model.getCourse.get({query : query}, function(data){
+        $scope.status = "Showing results for " + query;
         $scope.courses = data;
       },function(data){
+          $scope.status = "Could not find the course...";
           console.log("Cannot find course");
       });
     }

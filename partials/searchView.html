@@ -21,28 +21,18 @@
 	</div>
 
 	<div class="row courseList">
-
-		<div class="col-xs-8">
-			<div class="dropdown-menu">
-				<select ng-model="type" name="dishType" ng-change="search(query, type)">
-					<div ng-repeat="school in schools">
-						<option value="{{school.name}}">{{school.code}}</option>
-					</div>
-				</select>
-			</div>
-			<label class="col-xs-4 col-form-label" id="searchCourseText">Search Course</label>
-
-					<div class="input-group">
-						<input type="text" class="form-control" ng-model="query" placeholder="Write Code"/> <!-- search for a course -->
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-primary" ng-click="search(query, type)">  <!-- button to search for a course -->
-								<span class="glyphicon glyphicon-search"></span>
-							</button>
-	    			</span>
-					</div>
-			</div>
+		<label class="col-xs-4 col-form-label" id="searchCourseText">Search Course</label>
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="query" placeholder="Write Code"/> <!-- search for a course -->
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-primary" ng-click="search(query, type)">  <!-- button to search for a course -->
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+    	</span>
+		</div>
 	</div>
 	<hr>
+	{{status}}
 	<center>
 		<div class="card-columns">
 			<div ng-repeat="course in courses" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">
