@@ -90,6 +90,12 @@ app.onMessageArrived = function(message) {
       //app.canvas.animate({scrollTop: totalMess*40});
 		}
 	}
+  app.toBottom();
+}
+
+app.toBottom = function(){
+  var elem = document.getElementById('messageSpace');
+  elem.scrollTop = elem.scrollHeight;
 }
 
 app.initialize = function() {
@@ -100,6 +106,7 @@ app.initialize = function() {
 		app.setupCanvas();
 		app.setupConnection();
 		app.ready = true;
+    app.toBottom();
   }
 }
 
