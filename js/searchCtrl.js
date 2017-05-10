@@ -28,6 +28,21 @@ LoquiApp.controller('searchCtrl', function($scope, model){
     }
   }
 
+  $scope.isFavoriteCourse = function(code){
+    return model.isFavoriteCourse(code);
+  }
+
+  $scope.addFavorite = function(code){
+    model.addToFavorite(code);
+    $scope.isFavoriteCourse = model.isFavoriteCourse(code);
+
+  }
+
+  $scope.removeFavorite = function(code){
+    model.removeFromFavorite(code);
+    $scope.isFavoriteCourse = model.isFavoriteCourse(code);
+  }
+
 
   this.getSchools();
 });
