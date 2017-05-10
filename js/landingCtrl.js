@@ -28,7 +28,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 	// if yes then writes to console
 	// it should probably change things in model
 	$scope.signIn = function(){
-			console.log("signIn");
+			$scope.loading = true
 		    var userName = document.getElementById("username").value;
 		    var passWord = document.getElementById("password").value;
 
@@ -51,18 +51,4 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			}
 		}
 
-});
-
-document.onreadystatechange = function () {
-  var state = document.readyState
-  if (state == 'interactive') {
-       document.getElementById('contents').style.visibility="hidden";
-  } else if (state == 'complete') {
-      setTimeout(function(){
-         document.getElementById('interactive');
-         document.getElementById('load').style.visibility="hidden";
-         document.getElementById('contents').style.visibility="visible";
-      },1000);
-  }
-}
 });

@@ -1,7 +1,7 @@
 
 <div class="blueBox">
     <header>
-    <center><img src="logo.png" ></center>
+    <img src="logo.png" class="logo" >
     
        
     </header>
@@ -21,9 +21,17 @@
 						<label for="loginkeeping">Keep me logged in</label>
 					</p>
                     <div class="text">
-                    	<p class="btn btn-default" ng-click="signIn()" id="signIn">Sign in </p>
-						<p class="btn btn-default" ng-click="newAccount()" id="newAccount">Create an account</p>
-					</div>
+                    	<button class="btn btn-default" ng-click="signIn()" id="signIn">Sign in </button> 
+                        
+						<botton class="btn btn-default" ng-click="newAccount()" id="newAccount">Create an account</botton>
+					</div>  
+                    <div class="spinner" ng-show="loading">
+                        <div class="bounce1"></div>
+                         <div class="bounce2"></div>
+                         <div class="bounce3"></div>
+                    </div>
                 </form>
-            </div>
+            </div>      
 </div>
+
+
