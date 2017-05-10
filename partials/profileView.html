@@ -53,7 +53,7 @@
 		  	</li>
 
 		  	<li class="list-group-item">
-		  	<button id="color" class="btn btn-default" style="background-color:{{userColor}}" ng-click="randomColor()"> Press here for a new random color </button>
+		  	<button id="color" class="btn btn-default" style="background-color:{{userColor}}; color:black" ng-click="randomColor()"> Press here for a new random color </button>
 		  	</li> 
 
 		  	<li class="list-group-item">
@@ -67,9 +67,9 @@
 
 
 	<!--Someone elses profile -->
-	<div ng-show="!thisIsMe">
+	<div ng-show="!thisIsMe" >
 
-		<div id="meBox">
+		<div id="meBox" style="background-color: {{userColor}}">
 			<ul class="list-group">
 
 				<li class="list-group-item">

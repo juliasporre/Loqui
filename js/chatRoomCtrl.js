@@ -39,11 +39,6 @@ $scope.sendMessage = function(){
 
 }
 
-$scope.changeColor = function(){
-  alert("colorchange")
-  text = '<div data-role="popup" id="myPopup"><p>This is a simple popup.</p></div>'
-  app.canvas.appendChild(text);
-}
 
 
 app.onMessageArrived = function(message) {
@@ -86,7 +81,7 @@ app.onMessageArrived = function(message) {
       var messNick = o.nick.split('(')[1].split(')')[0];
       o.nick = o.nick.split('(')[0];
       console.log(messNick);
-      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style=background-color:'+o.color+'><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
+      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'""><a style="color:black" href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
 
 			
