@@ -126,6 +126,9 @@ LoquiApp.factory('model', function($resource){
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
+
+	
+
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
 		ref.once("value").then(function(snapshot){

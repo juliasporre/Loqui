@@ -5,27 +5,40 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('profile');
   $scope.url = splitedUrl[0];
-
   var userName = $routeParams.userID;
   $scope.userName = userName;
+  var database = model.getDatabase();
 
   //Check if it is your own profile
+
+
+
   var thisIsMe = false;
   if(userName == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
     thisIsMe = true;
-    $scope.thisIsMe = thisIsMe;
+
     $scope.name = model.getUserFullName();
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();
     $scope.description = model.getDescription(); //GET THESE FROM THE DATABASE
-  }
-  $scope.thisIsMe = thisIsMe;
-
-  if(thisIsMe){
-    $scope.init = "My Profile";
   } else {
-    $scope.init = userName;
-  }
+      var ref = database.ref('users/'+userName);
+      ref.once("value").then(function(snapshot){
+        if(snapshot.exists()){
+          $scope.name = snapshot.val().name;
+          $scope.age = snapshot.val().age;
+          $scope.studying = snapshot.val().studying;
+          $scope.description = snapshot.val().description;
+        }
+      });
+    }
+    $scope.thisIsMe = thisIsMe;
+
+    if(thisIsMe){
+      $scope.init = "My Profile";
+    } else {
+      $scope.init = userName + "s Profile";
+    }
 
 
   $scope.saveChanges = function(){
@@ -52,5 +65,5 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
   $scope.goBack = function() {
     window.history.back();
-  };
+  }
 });
