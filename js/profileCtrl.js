@@ -1,5 +1,7 @@
 LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
+  console.log("setting profile data...");
+
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('profile');
   $scope.url = splitedUrl[0];
@@ -20,9 +22,9 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   $scope.thisIsMe = thisIsMe;
 
   if(thisIsMe){
-    $scope.init = "My Profile"
+    $scope.init = "My Profile";
   } else {
-    $scope.init = userName
+    $scope.init = userName;
   }
 
 
@@ -43,6 +45,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
       model.setDescription(document.getElementById("comment").value);
       $scope.description = model.getDescription();
     }
+    alert("Your changes in profile were made!");
 
   }
 
