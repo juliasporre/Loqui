@@ -13,6 +13,10 @@ LoquiApp.factory('model', function($resource){
 	this.age= "default";
 	this.studying= "default";
   	this.description= "default";
+  	this.color = "#0099ff";
+
+  	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
+  	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
 
 	// Initialize Firebase
@@ -136,6 +140,7 @@ LoquiApp.factory('model', function($resource){
 				_this.age = snapshot.val().age;
 				_this.studying = snapshot.val().studying;
 		  		_this.description = snapshot.val().description;
+		  		_this.color = snapshot.val().color;
 
 			  	var list = [];
 			  	//console.log("fetch favorites");
@@ -196,10 +201,11 @@ LoquiApp.factory('model', function($resource){
 		this.database.ref('users/'+userName).set({
 		    username: userName,
 		    password: passWord,
-		    name: "",
+		    name: userName,
 		    age:"",
 		    description:"",
-		    studying:""
+		    studying:"",
+		    color:"#0099ff"
 		});
  
 		// startvalues for testing; SHOULD BE DELETED LATER
@@ -241,6 +247,10 @@ LoquiApp.factory('model', function($resource){
 		return this.description;
 	}
 
+	this.getColor = function(){
+		return this.color;
+	}
+
 	this.setFullName = function(name){
 		this.name = name;
 		this.database.ref('users/'+this.username+'/name').set(name);
@@ -263,6 +273,11 @@ LoquiApp.factory('model', function($resource){
 		this.description = description;
 		this.database.ref('users/'+this.username+'/description').set(description);
 		//this.setData();
+	}
+
+	this.setColor = function(color){
+		this.color = color;
+		this.database.ref('users/'+this.username+'/color').set(color);
 	}
 
 	/*
