@@ -42,14 +42,9 @@
   	<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
   	<ul class="nav nav-pills nav-stacked">
   		<div ng-repeat="channel in allRooms">
-	  		<div ng-if="channel==room">
-	  			<li class="active">
-	  				<a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> 
+	  			<li ng-class="{'active': channel == room}"> <!--Dunno why this not work? The one where channel == room should have the class active and therefore be marked blue -->
+	  				<a ng-href="{{url}}chatRoom/{{courseID}}-{{channel}}">{{channel}}</a>
 	  			</li>
-	 		</div>
-	  		<div ng-if="channel!=room">
-	  			<li><a href="{{url}}chatRoom/{{code}}-{{channel}}">{{channel}}</a> </li>
-	  		</div>
 	  	</div>
   	</ul>
 </div>
