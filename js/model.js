@@ -12,7 +12,7 @@ LoquiApp.factory('model', function($resource){
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
-  this.description= "default";
+  	this.description= "default";
 
 
 	// Initialize Firebase
@@ -126,19 +126,16 @@ LoquiApp.factory('model', function($resource){
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
-
-	
-
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
 		ref.once("value").then(function(snapshot){
 	        if(snapshot.exists()){
 	        	_this.username = snapshot.val().username;
-						_this.password = snapshot.val().password;
-						_this.name = snapshot.val().name;
-						_this.age = snapshot.val().age;
-						_this.studying = snapshot.val().studying;
-			  		_this.description = snapshot.val().description;
+				_this.password = snapshot.val().password;
+				_this.name = snapshot.val().name;
+				_this.age = snapshot.val().age;
+				_this.studying = snapshot.val().studying;
+		  		_this.description = snapshot.val().description;
 
 			  	var list = [];
 			  	//console.log("fetch favorites");
@@ -164,9 +161,29 @@ LoquiApp.factory('model', function($resource){
 	    });
 	}
 
+	this.getMessanges = function(course){
+		var ref = this.database.ref('messanges/'+course);
+		var list=[];
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					list.push(childsnapshot.);
+				});
+			}
+			else{
+				console.log("this course has no messanges");
+			}
+		});
+	}
+
+	this.setMessange = function(course, channel, sender, messange, timestamp){
+		var ref = this.database.ref('messanges/'+course+'/'+channel);
+	}
+
 	this.setDatabase = function(){
 		this.database = firebase.database();
 	}
+	
 	this.getDatabase = function(){
 		return this.database;
 	}
@@ -224,24 +241,29 @@ LoquiApp.factory('model', function($resource){
 
 	this.setFullName = function(name){
 		this.name = name;
-		this.setData();
+		this.database.ref('users/'+this.username+'/name').set(name);
+		//this.setData();
 	}
 
 	this.setAge = function(age){
 		this.age = age;
-		this.setData();
+		this.database.ref('users/'+this.username+'/age').set(age);
+		//this.setData();
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
-		this.setData();
+		this.database.ref('users/'+this.username+'/studying').set(studying);
+		//this.setData();
 	}
 
 	this.setDescription = function(description){
 		this.description = description;
-		this.setData();
+		this.database.ref('users/'+this.username+'/description').set(description);
+		//this.setData();
 	}
 
+	/*
 	this.setData = function(){
 		this.database.ref('users/'+this.username).set({
 			name: _this.name,
@@ -251,7 +273,7 @@ LoquiApp.factory('model', function($resource){
 			studying: _this.studying,
 			description: _this.description
 		});
-	}
+	}*/
 
 	return this;
 });
