@@ -6,7 +6,6 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   var splitParams = path.split("-");
   var code = splitParams[0];
   var room = splitParams[1];
-
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('chatRoom/'+path);
   $scope.url = splitedUrl[0]
@@ -14,7 +13,6 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.courseID = code;
   $scope.room = room;
   $scope.allRooms = ["General", "Labpartners"];
-  
 // A Painter application that uses MQTT to distribute draw events
 // to all other devices running this app.
 
@@ -39,6 +37,7 @@ $scope.sendMessage = function(){
 	app.publish(send);
 
 }
+
 
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
