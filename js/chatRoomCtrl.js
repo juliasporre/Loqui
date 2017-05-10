@@ -26,6 +26,7 @@ var port = 8084;
 
 var name = model.getUserFullName();
 var userName = model.getUserName();
+var userColor = model.getColor();
 
 app.connected = false;//userName
 app.ready = false;
@@ -33,13 +34,15 @@ app.ready = false;
 $scope.sendMessage = function(){
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
-	var send = JSON.stringify({nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
+	var send = JSON.stringify({color: userColor, nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
 	app.publish(send);
 
 }
 
 $scope.changeColor = function(){
   alert("colorchange")
+  text = '<div data-role="popup" id="myPopup"><p>This is a simple popup.</p></div>'
+  app.canvas.appendChild(text);
 }
 
 
@@ -83,14 +86,9 @@ app.onMessageArrived = function(message) {
       var messNick = o.nick.split('(')[1].split(')')[0];
       o.nick = o.nick.split('(')[0];
       console.log(messNick);
-      if(messNick==userName){
-        text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li class="active"><a ng-click="changeColor()">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
+      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style=background-color:'+o.color+'><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
-      }
-      else{
-        text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li class="active"><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
-      }
 			
 			app.canvas.appendChild(text);
 
