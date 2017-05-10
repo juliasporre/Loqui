@@ -14,7 +14,7 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
   $scope.goBack = function() {
     window.history.back();
-  };
+  }
 
   $scope.goChat = function(user) {
     console.log(user);
