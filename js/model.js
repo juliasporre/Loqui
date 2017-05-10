@@ -161,6 +161,7 @@ LoquiApp.factory('model', function($resource){
 	    });
 	}
 
+	/*
 	this.getMessanges = function(course){
 		var ref = this.database.ref('messanges/'+course);
 		var list=[];
@@ -179,11 +180,12 @@ LoquiApp.factory('model', function($resource){
 	this.setMessange = function(course, channel, sender, messange, timestamp){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 	}
+	*/
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
 	}
-	
+
 	this.getDatabase = function(){
 		return this.database;
 	}
@@ -199,7 +201,7 @@ LoquiApp.factory('model', function($resource){
 		    description:"",
 		    studying:""
 		});
-
+ 
 		// startvalues for testing; SHOULD BE DELETED LATER
 		this.database.ref('users/'+userName+'/favorites/SF1626').set({
 			courseName : 'SF1626'
