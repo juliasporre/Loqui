@@ -1,0 +1,18 @@
+<h1>Private Messages</h1>
+
+<table class="table table-sm small table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr ng-repeat="person in persons">
+            <td>{{person.name}}</td>
+            <td>{{person.username}}</td>
+            <td><a class="button" href="{{urlMess}}/{{person.username}}">Chat</a></td>
+      </tr>
+  </tbody>
+</table>

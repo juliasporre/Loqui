@@ -23,9 +23,13 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/membersView.html',
             controller: 'membersCtrl'
         } ).
-        when( '/privateMessages', {
+        when( '/privateMessages/:userID', {
             templateUrl: 'partials/privateMessagesView.html',
             controller: 'privateMessagesCtrl'
+        } ).
+        when( '/privateMessages', {
+            templateUrl: 'partials/privateMessagesMenuView.html',
+            controller: 'privateMessagesMenuCtrl'
         } ).
         when( '/chatRoom/:room', {
             templateUrl: 'partials/chatRoom.html',
