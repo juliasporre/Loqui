@@ -32,6 +32,11 @@ $scope.sendMessage = function(){
 
 }
 
+app.beep = function(){
+  var aSound = document.createElement('audio');
+  aSound.setAttribute('src', 'beep.wav');
+  aSound.play();
+}
 
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
@@ -74,6 +79,9 @@ app.onMessageArrived = function(message) {
 			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'"><a style="color:black" href="index.html#/profile/' + messNick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
 			app.canvas.appendChild(text);
+      if(messNick!=userName){
+        app.beep();
+      }
 		}
 	}
   app.toBottom();
