@@ -34,6 +34,8 @@ LoquiApp.factory('model', function($resource){
 		this.database = firebase.database();
 	}
 
+	
+
 	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
 		get: {
 			method: 'GET',
@@ -76,6 +78,41 @@ LoquiApp.factory('model', function($resource){
 			courseName: course
 		});
 	}
+
+	this.searchForPartner = function(isThisALunchBagSearch){
+		this.conditionLunchPartner = false;
+		if(isThisALunchBagSearch){
+			var databaseindex = "lunchbag"
+		}
+		else{
+			var databaseindex = "restaurant"
+		}
+		//here im unsure if im doing it right with the database
+		var listOfUsers = this.database.ref(databaseindex); //get a list of all users in the corresponding databaseindex 
+		if(listOfUsers!=null){
+			var chosenOne = listOfUsers[0];
+			var classObject = this.database.ref(databaseindex+"/"+chosenOne); //get the object of the chosen one 
+			this.database.ref(databaseindex+"/"+chosenOne).set(userObject); //take away the chosen one from the database and instead input the object of the user we are currently in
+			return classObject;
+		}
+		else{
+			this.userObject = {userName: this.username, color:this.color};
+			this.database.ref(databaseindex+"/"+userObject.userName).set(userObject); //put in the obejct of the current user in the database at the place of its username 	
+			//listen for if the object changes (every 10 seconds) which i put in the database, if it does we have a match
+			if(this.conditionLunchPartner==false){
+				setTimeout(this.listenForChange, 10000);
+			}
+			return this.conditionLunchPartner;
+		}
+	}
+
+	this.listenForChange = function(){
+		var classObject = this.database.ref(databaseindex+"/"+this.userObject.userName); //check whats in the database now
+		if(classObject!=this.userObject){
+			this.conditionLunchPartner = classObject;
+		} 
+	}
+
 
 	this.getRecentCourses = function(){
 		return this.recentCourses;
