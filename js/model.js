@@ -2,7 +2,7 @@
 
 LoquiApp.factory('model', function($resource){
 
-	var self = this;
+	var _this = this;
 
 	this.database;
 	this.username= "default";
@@ -13,7 +13,7 @@ LoquiApp.factory('model', function($resource){
 	this.age= "default";
 	this.studying= "default";
   	this.description= "default";
-  	this.promise="";
+  	this.fetchDataPromise="";
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -126,38 +126,31 @@ LoquiApp.factory('model', function($resource){
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
 		var attrlist=[];
-		if(this.promise==""){
+		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
 		        if(snapshot.exists()){
 		        	var val = snapshot.val();
-		        	attrlist[0] = val.username;
-		        	self.username = val.username;
-					attrlist[1] = val.password;
-					self.password = val.password;
-					attrlist[2] = val.name;
-					self.name = val.name;
-					attrlist[3] = val.age;
-					self.age = val.age;
-					attrlist[4] = val.studying;
-					self.studying = val.studying;
-			  		attrlist[5] = val.description;
-			  		self.description = val.description;
+		        	_this.username = val.username;
+					_this.password = val.password;
+					_this.name = val.name;
+					_this.age = val.age;
+					_this.studying = val.studying;
+			  		_this.description = val.description;
+			  		_this.color = val.color;
 			  		console.log("initials done; "+attrlist);
 
 				  	list = [];
 				  	snapshot.child("favorites").forEach(function(childsnapshot){
 				  		list.push(childsnapshot.key);
 				  	});
-				  	attrlist[6]=list;
-				  	self.favoriteCourses=list;
+				  	_this.favoriteCourses=list;
 				  	console.log("Fetch favorites; "+attrlist[6]);
 
 				  	list = [];
 				  	snapshot.child("recent").forEach(function(childsnapshot){
 				  		list.push(childsnapshot.key);
 				  	});
-				  	attrlist[7]=list;
-				  	self.recentCourses=list;
+				  	_this.recentCourses=list;
 
 					console.log("Data should be fetched from database now");
 					console.log("Model is updatad with your data");
@@ -217,7 +210,8 @@ LoquiApp.factory('model', function($resource){
 		    name: "",
 		    age:"",
 		    description:"",
-		    studying:""
+		    studying:"",
+		    color:""
 		});
  
 		// startvalues for testing; SHOULD BE DELETED LATER
@@ -277,6 +271,10 @@ LoquiApp.factory('model', function($resource){
 	this.setDescription = function(description){
 		this.description = description;
 		this.database.ref('users/'+this.username+'/description').set(description);
+	}
+	this.setColor = function(color){
+		this.color = color;
+		this.database.ref('users/'+this.username+'/color').set(color);
 	}
 
 	return this;
