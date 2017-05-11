@@ -9,9 +9,6 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
   names.sort();
   var path = names[0] + '-' + names[1];
 
-// A Painter application that uses MQTT to distribute draw events
-// to all other devices running this app.
-
 //Object that holds application data and functions.
 var app = {};
 var totalMess = 0;
@@ -50,8 +47,6 @@ app.onMessageArrived = function(message) {
 			}
 		}
 		else{
-      //console.log(new Date());
-      //var time = JSON.stringify(new Date()).split("GTM")[0];
 
       //Everything handling the time
       var time = new Date();
@@ -76,15 +71,9 @@ app.onMessageArrived = function(message) {
       var messNick = o.nick.split('(')[1].split(')')[0];
       o.nick = o.nick.split('(')[0];
       console.log(messNick);
-			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'"><a style="color:black" href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
+			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'"><a style="color:black" href="index.html#/profile/' + messNick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
 			app.canvas.appendChild(text);
-
-      //Trying to autoscroll
-      //console.log(app.canvas)
-      //totalMess += 1;
-      //console.log(totalMess*40);
-      //app.canvas.animate({scrollTop: totalMess*40});
 		}
 	}
   app.toBottom();
