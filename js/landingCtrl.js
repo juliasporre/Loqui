@@ -40,6 +40,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
                     $location.path('/search');
 			            }
 			            else{
+			            	alert("Wrong username or password!")
 			                console.log("Wrong username or password");
 			            }
 			        });
