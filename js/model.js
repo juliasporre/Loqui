@@ -14,6 +14,10 @@ LoquiApp.factory('model', function($resource){
 	this.studying= "default";
   	this.description= "default";
   	this.fetchDataPromise="";
+  	this.color = "#0099ff";
+  	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
+  	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
+
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -125,7 +129,6 @@ LoquiApp.factory('model', function($resource){
 	// sign-in button twice which gives the call time to store the data properly.....
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
-		var attrlist=[];
 		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
 		        if(snapshot.exists()){
@@ -139,7 +142,7 @@ LoquiApp.factory('model', function($resource){
 			  		_this.color = val.color;
 			  		console.log("initials done; "+attrlist);
 
-				  	list = [];
+				  	var list = [];
 				  	snapshot.child("favorites").forEach(function(childsnapshot){
 				  		list.push(childsnapshot.key);
 				  	});
@@ -152,7 +155,6 @@ LoquiApp.factory('model', function($resource){
 				  	});
 				  	_this.recentCourses=list;
 
-					console.log("Data should be fetched from database now");
 					console.log("Model is updatad with your data");
 		        	return;
 		        }
@@ -161,6 +163,7 @@ LoquiApp.factory('model', function($resource){
 		        }
 		    });
 		}
+
 	}
 
 	// returns a list of messanges in a channel in this form
@@ -207,11 +210,11 @@ LoquiApp.factory('model', function($resource){
 		this.database.ref('users/'+userName).set({
 		    username: userName,
 		    password: passWord,
-		    name: "",
+		    name: userName,
 		    age:"",
 		    description:"",
 		    studying:"",
-		    color:""
+		    color:"#0099ff"
 		});
  
 		// startvalues for testing; SHOULD BE DELETED LATER
@@ -253,6 +256,10 @@ LoquiApp.factory('model', function($resource){
 		return this.description;
 	}
 
+	this.getColor = function(){
+		return this.color;
+	}
+
 	this.setFullName = function(name){
 		this.name = name;
 		this.database.ref('users/'+this.username+'/name').set(name);
@@ -272,6 +279,7 @@ LoquiApp.factory('model', function($resource){
 		this.description = description;
 		this.database.ref('users/'+this.username+'/description').set(description);
 	}
+
 	this.setColor = function(color){
 		this.color = color;
 		this.database.ref('users/'+this.username+'/color').set(color);

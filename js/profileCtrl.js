@@ -11,8 +11,6 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
   //Check if it is your own profile
 
-
-
   var thisIsMe = false;
   if(userName == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
     thisIsMe = true;
@@ -21,6 +19,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();
     $scope.description = model.getDescription(); //GET THESE FROM THE DATABASE
+    $scope.userColor = model.getColor();
   } else {
       var ref = database.ref('users/'+userName);
       ref.once("value").then(function(snapshot){
@@ -29,6 +28,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
           $scope.age = snapshot.val().age;
           $scope.studying = snapshot.val().studying;
           $scope.description = snapshot.val().description;
+          $scope.userColor = model.getColor();
         }
       });
     }
@@ -58,12 +58,38 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
       model.setDescription(document.getElementById("comment").value);
       $scope.description = model.getDescription();
     }
+    
     alert("Your changes in profile were made!");
 
+  }
+
+  $scope.randomColor = function(){
+    var list = model.colorsToRandomFrom;
+    var done= false;
+    while (done!=true){
+      var rand = list[Math.floor(Math.random() * list.length)];
+      if($scope.userColor != rand){
+        model.setColor(rand);
+        $scope.userColor = model.getColor();
+        done= true;
+      }
+    }
   }
 
 
   $scope.goBack = function() {
     window.history.back();
   }
+
+
+  $scope.setFocus=function(id){
+    $("#"+id).focus();
+    $('.blueBox').animate({
+      scrollTop: ($("#"+id).offset().top-50)
+    });
+
+  }
+
+
+
 });
