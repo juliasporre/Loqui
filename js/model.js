@@ -83,15 +83,16 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to favorites, also updates database
 	this.addToFavorite = function(course){
-		window.hyper.log("addToFavorite "+course);
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
 			if(course==this.favoriteCourses[i]){
+				window.hyper.log("addToFavorite; course already a favorite ");
 				alreadyExists=true;
 				break;
 			}
 		}
 		if(alreadyExists==false){
+			window.hyper.log("addToFavorite "+course);
 			this.favoriteCourses.push(course);
 			this.database.ref('users/'+this.username+'/favorites/'+course).set({
 				courseName:course
@@ -124,10 +125,8 @@ LoquiApp.factory('model', function($resource){
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
-	// The once-call is asynchronus which was the source of the bug. It works
-	// right now as intended due to the bug where you have to press the
-	// sign-in button twice which gives the call time to store the data properly.....
-	this.fetchData = function(userName){
+	// the callback input is a function for changing paths to /search
+	this.fetchData = function(userName, callback){
 		var ref = this.database.ref('users/'+userName);
 		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
@@ -154,6 +153,7 @@ LoquiApp.factory('model', function($resource){
 				  	_this.recentCourses=list;
 
 					console.log("Model is updatad with your data");
+					callback();
 		        	return;
 		        }
 		        else{
@@ -166,7 +166,9 @@ LoquiApp.factory('model', function($resource){
 
 	// returns a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
-	this.getMessanges = function(course, channel){
+	// callback is a function that does what is suposed to be done 
+	// after the call to getMessanges() which has the list as input
+	this.getMessanges = function(course, channel, callback){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		var list=[];
 		ref.once("value").then(function(snapshot){
@@ -174,12 +176,12 @@ LoquiApp.factory('model', function($resource){
 				snapshot.forEach(function(childsnapshot){
 					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
 				});
+
+				callback(list);
 			}
 			else{
 				console.log("this course has no messanges");
 			}
-			//console.log(list);
-			return list;
 		});
 	}
 

@@ -36,8 +36,10 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			    var ref = database.ref('users/'+userName);
 			    ref.once("value").then(function(snapshot){
 			            if(snapshot.exists() && snapshot.val().password==passWord){
-			            	model.fetchData(userName);
-                    $location.path('/search');
+			            	model.fetchData(userName, function(){
+			            		console.log("switching paths");
+			            		$location.path('/search');
+			            	});
 			            }
 			            else{
 			            	alert("Wrong username or password!")
