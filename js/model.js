@@ -2,7 +2,7 @@
 
 LoquiApp.factory('model', function($resource){
 
-	var _this = this;
+	var self = this;
 
 	this.database;
 	this.username= "default";
@@ -13,7 +13,7 @@ LoquiApp.factory('model', function($resource){
 	this.age= "default";
 	this.studying= "default";
   	this.description= "default";
-
+  	this.promise="";
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -114,44 +114,60 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.getFavoriteCourses = function(){
+		console.log("this.favoriteCourses: "+this.favoriteCourses);
 		return this.favoriteCourses;
 	}
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
+	// The once-call is asynchronus which was the source of the bug. It works
+	// right now as intended due to the bug where you have to press the
+	// sign-in button twice which gives the call time to store the data properly.....
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
-		ref.once("value").then(function(snapshot){
-	        if(snapshot.exists()){
-	        	_this.username = snapshot.val().username;
-				_this.password = snapshot.val().password;
-				_this.name = snapshot.val().name;
-				_this.age = snapshot.val().age;
-				_this.studying = snapshot.val().studying;
-		  		_this.description = snapshot.val().description;
+		var attrlist=[];
+		if(this.promise==""){
+			promise = ref.once("value", function(snapshot){
+		        if(snapshot.exists()){
+		        	var val = snapshot.val();
+		        	attrlist[0] = val.username;
+		        	self.username = val.username;
+					attrlist[1] = val.password;
+					self.password = val.password;
+					attrlist[2] = val.name;
+					self.name = val.name;
+					attrlist[3] = val.age;
+					self.age = val.age;
+					attrlist[4] = val.studying;
+					self.studying = val.studying;
+			  		attrlist[5] = val.description;
+			  		self.description = val.description;
+			  		console.log("initials done; "+attrlist);
 
-			  	var list = [];
-			  	//console.log("fetch favorites");
-			  	snapshot.child("favorites").forEach(function(childsnapshot){
-			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.key);
-			  	});
-			  	this.favoriteCourses=list;
-			  	console.log("favoriteCourses= "+ this.favoriteCourses);
+				  	list = [];
+				  	snapshot.child("favorites").forEach(function(childsnapshot){
+				  		list.push(childsnapshot.key);
+				  	});
+				  	attrlist[6]=list;
+				  	self.favoriteCourses=list;
+				  	console.log("Fetch favorites; "+attrlist[6]);
 
-			  	list = [];
-			  	//console.log("fetch recent");
-			  	snapshot.child("recent").forEach(function(childsnapshot){
-			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.key);
-			  	});
-			  	this.recentCourses=list;
-	        	console.log("Data fetched from database");
-	        }
-	        else{
-	            console.log("Somehow user does not exist, Error i guess :(");
-	        }
-	    });
+				  	list = [];
+				  	snapshot.child("recent").forEach(function(childsnapshot){
+				  		list.push(childsnapshot.key);
+				  	});
+				  	attrlist[7]=list;
+				  	self.recentCourses=list;
+
+					console.log("Data should be fetched from database now");
+					console.log("Model is updatad with your data");
+		        	return;
+		        }
+		        else{
+		            console.log("Somehow user does not exist, Error i guess :(");
+		        }
+		    });
+		}
 	}
 
 	// returns a list of messanges in a channel in this form

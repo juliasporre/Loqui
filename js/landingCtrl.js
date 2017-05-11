@@ -36,8 +36,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			    ref.once("value").then(function(snapshot){
 			            if(snapshot.exists() && snapshot.val().password==passWord){
 			            	model.fetchData(userName);
-			                console.log("Model is updatad with your data");
-											$location.path('/search');
+							$location.path('/search');
 			            }
 			            else{
 			                console.log("Wrong username or password");
