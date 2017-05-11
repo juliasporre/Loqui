@@ -34,19 +34,20 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 		    if(passWord!="" && userName!=""){
 			    var ref = database.ref('users/'+userName);
 			    ref.once("value").then(function(snapshot){
-			        if(snapshot.exists() && snapshot.val().password==passWord){
-			            model.fetchData(userName);
-                    	$scope.$apply(function() {
-        					$location.path("/search");
-        					console.log($location.path());
-      					});
-                    	//$location.path('/search'); //this is what is broken, the app does not update all the time
-			        }
-			        else{
-			           	alert("Wrong username or password!")
-			            console.log("Wrong username or password");
-			        }
-			    });
+			            if(snapshot.exists() && snapshot.val().password==passWord){
+			            	model.fetchData(userName, function(){
+			            		$scope.$apply(function(){
+			            			$location.path("/search");
+        							console.log($location.path());
+			            		});
+			            	});
+			            }
+			            else{
+			            	alert("Wrong username or password!")
+			                console.log("Wrong username or password");
+			            }
+			        });
+
 			}
 			else{
 				console.log("You must enter both username and password");
