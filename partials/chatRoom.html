@@ -41,10 +41,14 @@
 	<p> All channels </p>
   	<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
   	<ul class="nav nav-pills nav-stacked">
-
 	  	<li ng-repeat="channel in allRooms" ng-class="{'active': channel==room}">
 	  		<a ng-href="{{url}}chatRoom/{{courseID}}-{{channel}}">{{channel}}</a>
 	  	</li>
-	  	
+	  	<li>
+	  		<button id="newchannelbutton" class="btn btn-default btn-sm btn-block" ng-click="newChannel()">
+	  			Create new channel
+	  			<span class="glyphicon glyphicon-plus-sign"></span>
+	  		</button>
+	  	</li>
   	</ul>
 </div>

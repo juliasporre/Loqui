@@ -221,3 +221,10 @@ input,textarea {
   font-size: 16px;
 }
 
+#newchannelbutton{
+     background-color: #D3D3D3; 
+     text-align: left;
+     margin-top: 10px;
+     margin-left: 2px;
+}
+
