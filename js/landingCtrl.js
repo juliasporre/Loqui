@@ -1,6 +1,7 @@
 LoquiApp.controller('landingCtrl', function($scope, model, $location){
 
 	var database = model.getDatabase();
+	
 
 	// checks if username is taken and if it is not than it creates a user in the database
 	// if username is taken it writes so to the console
@@ -27,7 +28,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 	// if yes then writes to console
 	// it should probably change things in model
 	$scope.signIn = function(){
-			console.log("signIn");
+			$scope.loading = true
 		    var userName = document.getElementById("username").value;
 		    var passWord = document.getElementById("password").value;
 
@@ -36,7 +37,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			    ref.once("value").then(function(snapshot){
 			            if(snapshot.exists() && snapshot.val().password==passWord){
 			            	model.fetchData(userName);
-							$location.path('/search');
+                    $location.path('/search');
 			            }
 			            else{
 			                console.log("Wrong username or password");
