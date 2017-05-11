@@ -1,5 +1,15 @@
 <div class="blueBox">
-  <h1>Private Messages</h1>
+  <div class="chatHeader">
+    <div class="col-xs-4">
+      <button type="button" class="btn btn-default" ng-click="goBack()">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          Go back
+      </button>
+    </div>
+    <div class="col-xs-8">
+      Private messages
+    </div>
+  </div>
 
   <table class="table table-hover">
     <thead>
@@ -10,9 +20,10 @@
       </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="person in persons" ng-click="goChat(person.username)">
+        <tr ng-repeat="person in persons" ng-click="goChat(person.username)" style="background-color: {{person.color}}">
               <td>{{person.name}}</td>
               <td>{{person.username}}</td>
+              <td></td>
         </tr>
     </tbody>
   </table>

@@ -5,10 +5,12 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
   $scope.url = splitedUrl[0];
   $scope.urlMess = urlOrg;
   $scope.persons = [{username: "kalleanka",
-                    name: "Kalle Anka"
+                    name: "Kalle Anka",
+                    color: "#0099ff"
                   },
                   {username: "blabla",
-                      name: "Bla Bla"
+                      name: "Bla Bla",
+                      color: "#00ffcc"
                   }];
 
 

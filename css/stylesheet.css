@@ -107,12 +107,17 @@ html body{
 	text-align: left;
 
 }
+tr{
+    border: none;
+    border-spacing:0;
+    border-bottom:5px solid black;
+    font-color: black;
+}
 
 .timeStamp{
 	text-align: right;
 	font-style: italic;
 	font-size: small;
-
 }
 
 
