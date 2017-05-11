@@ -8,13 +8,13 @@ LoquiApp.factory('model', function($resource){
 	this.username= "default";
 	this.password = "default";
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
-	this.favoriteCourses = ['SF1626'];
+	this.favoriteCourses=['SF1626'];
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
   	this.description= "default";
+  	this.fetchDataPromise="";
   	this.color = "#0099ff";
-
   	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
   	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
@@ -72,13 +72,9 @@ LoquiApp.factory('model', function($resource){
 		}
 		this.recentCourses.push(course);
 
-		var ref = this.database.ref('users/'+this.username+'/recent/'+course);
-    	ref.once("value").then(function(snapshot){
-            ref.set({
-            	courseName: course
-            });
-    	});
-
+		this.database.ref('users/'+this.username+'/recent/'+course).set({
+			courseName: course
+		});
 	}
 
 	this.getRecentCourses = function(){
@@ -97,12 +93,9 @@ LoquiApp.factory('model', function($resource){
 		}
 		if(alreadyExists==false){
 			this.favoriteCourses.push(course);
-			var ref = this.database.ref('users/'+this.username+'/favorites/'+course);
-	    	ref.once("value").then(function(snapshot){
-	            ref.set({
-	            	courseName: course
-	            });
-        	});
+			this.database.ref('users/'+this.username+'/favorites/'+course).set({
+				courseName:course
+			});
 		}
 	}
 
@@ -125,67 +118,83 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.getFavoriteCourses = function(){
+		console.log("this.favoriteCourses: "+this.favoriteCourses);
 		return this.favoriteCourses;
 	}
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
+	// The once-call is asynchronus which was the source of the bug. It works
+	// right now as intended due to the bug where you have to press the
+	// sign-in button twice which gives the call time to store the data properly.....
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
-		ref.once("value").then(function(snapshot){
-	        if(snapshot.exists()){
-	        	_this.username = snapshot.val().username;
-				_this.password = snapshot.val().password;
-				_this.name = snapshot.val().name;
-				_this.age = snapshot.val().age;
-				_this.studying = snapshot.val().studying;
-		  		_this.description = snapshot.val().description;
-		  		_this.color = snapshot.val().color;
+		if(this.fetchDataPromise==""){
+			promise = ref.once("value", function(snapshot){
+		        if(snapshot.exists()){
+		        	var val = snapshot.val();
+		        	_this.username = val.username;
+					_this.password = val.password;
+					_this.name = val.name;
+					_this.age = val.age;
+					_this.studying = val.studying;
+			  		_this.description = val.description;
+			  		_this.color = val.color;
+			  		console.log("initials done; "+attrlist);
 
-			  	var list = [];
-			  	//console.log("fetch favorites");
-			  	snapshot.child("favorites").forEach(function(childsnapshot){
-			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.key);
-			  	});
-			  	this.favoriteCourses=list;
-			  	//console.log(list);
+				  	var list = [];
+				  	snapshot.child("favorites").forEach(function(childsnapshot){
+				  		list.push(childsnapshot.key);
+				  	});
+				  	_this.favoriteCourses=list;
+				  	console.log("Fetch favorites; "+attrlist[6]);
 
-			  	list = [];
-			  	//console.log("fetch recent");
-			  	snapshot.child("recent").forEach(function(childsnapshot){
-			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.key);
-			  	});
-			  	this.recentCourses=list;
-	        	console.log("Data fetched from database");
-	        }
-	        else{
-	            console.log("Somehow user does not exist, Error i guess :(");
-	        }
-	    });
+				  	list = [];
+				  	snapshot.child("recent").forEach(function(childsnapshot){
+				  		list.push(childsnapshot.key);
+				  	});
+				  	_this.recentCourses=list;
+
+					console.log("Model is updatad with your data");
+		        	return;
+		        }
+		        else{
+		            console.log("Somehow user does not exist, Error i guess :(");
+		        }
+		    });
+		}
+
 	}
 
-	/*
-	this.getMessanges = function(course){
-		var ref = this.database.ref('messanges/'+course);
+	// returns a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	this.getMessanges = function(course, channel){
+		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		var list=[];
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push(childsnapshot.);
+					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
 				});
 			}
 			else{
 				console.log("this course has no messanges");
 			}
+			//console.log(list);
+			return list;
 		});
 	}
 
-	this.setMessange = function(course, channel, sender, messange, timestamp){
+	// Adds a messange to the database under messanges/course/channel
+	this.addMessange = function(course, channel, sender, messange, timestamp){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
+		ref.push().set({
+			sender:sender,
+			messange:messange,
+			time:timestamp
+		});
 	}
-	*/
+	
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
@@ -254,43 +263,27 @@ LoquiApp.factory('model', function($resource){
 	this.setFullName = function(name){
 		this.name = name;
 		this.database.ref('users/'+this.username+'/name').set(name);
-		//this.setData();
 	}
 
 	this.setAge = function(age){
 		this.age = age;
 		this.database.ref('users/'+this.username+'/age').set(age);
-		//this.setData();
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
 		this.database.ref('users/'+this.username+'/studying').set(studying);
-		//this.setData();
 	}
 
 	this.setDescription = function(description){
 		this.description = description;
 		this.database.ref('users/'+this.username+'/description').set(description);
-		//this.setData();
 	}
 
 	this.setColor = function(color){
 		this.color = color;
 		this.database.ref('users/'+this.username+'/color').set(color);
 	}
-
-	/*
-	this.setData = function(){
-		this.database.ref('users/'+this.username).set({
-			name: _this.name,
-			username: _this.username,
-			password: _this.password,
-			age: _this.age,
-			studying: _this.studying,
-			description: _this.description
-		});
-	}*/
 
 	return this;
 });
