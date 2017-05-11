@@ -1,21 +1,19 @@
 LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
-
-
   var path = $routeParams.room;
   var splitParams = path.split("-");
   var code = splitParams[0];
   var room = splitParams[1];
-
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('chatRoom/'+path);
   $scope.url = splitedUrl[0]
 
   $scope.courseID = code;
   $scope.room = room;
-
-// A Painter application that uses MQTT to distribute draw events
-// to all other devices running this app.
+  $scope.allRooms = ["General", "Labpartners"];
+   //General should be the only one from the start, and the 
+   //array should be saved in the database and go through the model. 
+   //the array should be updated in the model from newChannel()
 
 //Object that holds application data and functions.
 var app = {};
@@ -27,6 +25,7 @@ var port = 8084;
 
 var name = model.getUserFullName();
 var userName = model.getUserName();
+var userColor = model.getColor();
 
 app.connected = false;//userName
 app.ready = false;
@@ -34,9 +33,44 @@ app.ready = false;
 $scope.sendMessage = function(){
   var msg = document.getElementById("comment").value;
   document.getElementById("comment").value="";
-	var send = JSON.stringify({nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
+	var send = JSON.stringify({color: userColor, nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
 	app.publish(send);
 
+}
+
+$scope.newChannel = function(){
+  var name=prompt("Please enter the name of the new channel");
+  name = app.capitalize(name);
+  name = $.trim(name);
+    if (name!=null && name!=""){
+      if ($scope.allRooms.length<5){
+        for(i=0; i<$scope.allRooms.length; i++){
+          if($scope.allRooms[i]==name){
+            alert("That channel already exists!")
+            return
+          }
+        }
+        $scope.allRooms.push(name); //push to model and database here too
+      }
+      else{
+        alert("You already have 5 channels, you can't have any more");
+      }
+   }
+   else if(name==""){
+    alert("Since you didn't write any name, no channel was created");
+   }
+}
+
+$scope.removeChannel = function(channel){
+  var index = $scope.allRooms.indexOf(channel);
+  if (index > -1) {
+    $scope.allRooms.splice(index, 1);
+  }
+  //should be an equal function in model to call for to change in database     
+}
+
+app.capitalize = function(string) {
+    return string.replace(/^./, string[0].toUpperCase());
 }
 
 app.onMessageArrived = function(message) {
@@ -53,9 +87,6 @@ app.onMessageArrived = function(message) {
 			}
 		}
 		else{
-      //console.log(new Date());
-      //var time = JSON.stringify(new Date()).split("GTM")[0];
-
       //Everything handling the time
       var time = new Date();
       var timeHour = time.getHours();
@@ -79,17 +110,17 @@ app.onMessageArrived = function(message) {
       var messNick = o.nick.split('(')[1].split(')')[0];
       o.nick = o.nick.split('(')[0];
       console.log(messNick);
-			text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li class="active"><a href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
+      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'""><a style="color:black" href=index.html#/profile/' + messNick + '>' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
 
 			app.canvas.appendChild(text);
-
-      //Trying to autoscroll
-      //console.log(app.canvas)
-      //totalMess += 1;
-      //console.log(totalMess*40);
-      //app.canvas.animate({scrollTop: totalMess*40});
 		}
 	}
+  app.toBottom();
+}
+
+app.toBottom = function(){
+  var elem = document.getElementById('messageSpace');
+  elem.scrollTop = elem.scrollHeight;
 }
 
 app.initialize = function() {
@@ -100,6 +131,7 @@ app.initialize = function() {
 		app.setupCanvas();
 		app.setupConnection();
 		app.ready = true;
+    app.toBottom();
   }
 }
 

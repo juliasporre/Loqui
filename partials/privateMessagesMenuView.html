@@ -1,0 +1,23 @@
+<div class="blueBox">
+  <h1>Private Messages</h1>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="person in persons" ng-click="goChat(person.username)">
+              <td>{{person.name}}</td>
+              <td>{{person.username}}</td>
+        </tr>
+    </tbody>
+  </table>
+
+  <ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+
+</div>
+

@@ -1,16 +1,22 @@
 //model.js
 
 LoquiApp.factory('model', function($resource){
+
+	var _this = this;
+
 	this.database;
-	this.username;
+	this.username= "default";
+	this.password = "default";
 	this.recentCourses = ['DD1325','MD1454','DD4455'];
-	this.favoriteCourses = ['SF1626'];
-	this.name;
-	this.age;
-	this.studying;
-  	this.description;
-  	//this.studying = "CL";
-  	//this.description = "I am a nice person and I like to code.";
+	this.favoriteCourses=['SF1626'];
+	this.name= "default";
+	this.age= "default";
+	this.studying= "default";
+  	this.description= "default";
+  	this.fetchDataPromise="";
+  	this.color = "#0099ff";
+  	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
+  	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
 
 	// Initialize Firebase
@@ -66,13 +72,9 @@ LoquiApp.factory('model', function($resource){
 		}
 		this.recentCourses.push(course);
 
-		var ref = this.database.ref('users/'+this.username+'/recent/'+course);
-    	ref.once("value").then(function(snapshot){
-            ref.set({
-            	courseName: course
-            });
-    	});
-
+		this.database.ref('users/'+this.username+'/recent/'+course).set({
+			courseName: course
+		});
 	}
 
 	this.getRecentCourses = function(){
@@ -91,12 +93,9 @@ LoquiApp.factory('model', function($resource){
 		}
 		if(alreadyExists==false){
 			this.favoriteCourses.push(course);
-			var ref = this.database.ref('users/'+this.username+'/favorites/'+course);
-	    	ref.once("value").then(function(snapshot){
-	            ref.set({
-	            	courseName: course
-	            });
-        	});
+			this.database.ref('users/'+this.username+'/favorites/'+course).set({
+				courseName:course
+			});
 		}
 	}
 
@@ -119,58 +118,86 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.getFavoriteCourses = function(){
+		console.log("this.favoriteCourses: "+this.favoriteCourses);
 		return this.favoriteCourses;
-	}
-
-	this.getUserFullName = function(){
-		//Returns users name
-		return this.name;
-	}
-
-	this.getUserName = function(){
-		//Returns users name
-		return this.username;
 	}
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
+	// The once-call is asynchronus which was the source of the bug. It works
+	// right now as intended due to the bug where you have to press the
+	// sign-in button twice which gives the call time to store the data properly.....
 	this.fetchData = function(userName){
 		var ref = this.database.ref('users/'+userName);
-		ref.once("value").then(function(snapshot){
-	        if(snapshot.exists()){
-	        	this.username = snapshot.val().username;
-				this.name = snapshot.val().name;
-				this.age = snapshot.val().age;
-				this.studying = snapshot.val().studying;
-			  	this.description = snapshot.val().description;
+		if(this.fetchDataPromise==""){
+			promise = ref.once("value", function(snapshot){
+		        if(snapshot.exists()){
+		        	var val = snapshot.val();
+		        	_this.username = val.username;
+					_this.password = val.password;
+					_this.name = val.name;
+					_this.age = val.age;
+					_this.studying = val.studying;
+			  		_this.description = val.description;
+			  		_this.color = val.color;
 
-			  	var list = [];
-			  	//console.log("fetch favorites");
-			  	snapshot.child("favorites").forEach(function(childsnapshot){
-			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.courseName);
-			  	});
-			  	this.favoriteCourses=list;
+				  	var list = [];
+				  	snapshot.child("favorites").forEach(function(childsnapshot){
+				  		list.push(childsnapshot.key);
+				  	});
+				  	_this.favoriteCourses=list;
 
-			  	list = [];
+				  	list = [];
+				  	snapshot.child("recent").forEach(function(childsnapshot){
+				  		list.push(childsnapshot.key);
+				  	});
+				  	_this.recentCourses=list;
 
-			  	//console.log("fetch recent");
-			  	snapshot.child("recent").forEach(function(childsnapshot){
-			  		//console.log(childsnapshot.key);
-			  		list.push(childsnapshot.courseName);
-			  	});
-			  	this.recentCourses=list;
-	        	console.log("Data fetched from database");
-	        }
-	        else{
-	            console.log("Somehow user does not exist, Error i guess :(");
-	        }
-	    });
+					console.log("Model is updatad with your data");
+		        	return;
+		        }
+		        else{
+		            console.log("Somehow user does not exist, Error i guess :(");
+		        }
+		    });
+		}
+
 	}
+
+	// returns a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	this.getMessanges = function(course, channel){
+		var ref = this.database.ref('messanges/'+course+'/'+channel);
+		var list=[];
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
+				});
+			}
+			else{
+				console.log("this course has no messanges");
+			}
+			//console.log(list);
+			return list;
+		});
+	}
+
+	// Adds a messange to the database under messanges/course/channel
+	this.addMessange = function(course, channel, sender, messange, timestamp){
+		var ref = this.database.ref('messanges/'+course+'/'+channel);
+		ref.push().set({
+			sender:sender,
+			messange:messange,
+			time:timestamp
+		});
+	}
+	
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
 	}
+
 	this.getDatabase = function(){
 		return this.database;
 	}
@@ -181,12 +208,13 @@ LoquiApp.factory('model', function($resource){
 		this.database.ref('users/'+userName).set({
 		    username: userName,
 		    password: passWord,
-		    name: "",
+		    name: userName,
 		    age:"",
 		    description:"",
-		    studying:""
+		    studying:"",
+		    color:"#0099ff"
 		});
-
+ 
 		// startvalues for testing; SHOULD BE DELETED LATER
 		this.database.ref('users/'+userName+'/favorites/SF1626').set({
 			courseName : 'SF1626'
@@ -226,32 +254,33 @@ LoquiApp.factory('model', function($resource){
 		return this.description;
 	}
 
+	this.getColor = function(){
+		return this.color;
+	}
+
 	this.setFullName = function(name){
 		this.name = name;
-		this.database.ref('user/'+this.name).set({
-			name : this.name
-		});
+		this.database.ref('users/'+this.username+'/name').set(name);
 	}
 
 	this.setAge = function(age){
 		this.age = age;
-		this.database.ref('user/'+this.username).set({
-			age : this.age
-		});
+		this.database.ref('users/'+this.username+'/age').set(age);
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
-		this.database.ref('user/'+this.username).set({
-			studying : this.studying
-		});
+		this.database.ref('users/'+this.username+'/studying').set(studying);
 	}
 
-	this.setDescription = function(){
+	this.setDescription = function(description){
 		this.description = description;
-		this.database.ref('user/'+this.username).set({
-			description : this.description
-		});
+		this.database.ref('users/'+this.username+'/description').set(description);
+	}
+
+	this.setColor = function(color){
+		this.color = color;
+		this.database.ref('users/'+this.username+'/color').set(color);
 	}
 
 	return this;
