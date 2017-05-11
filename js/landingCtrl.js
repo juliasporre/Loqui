@@ -31,7 +31,6 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			$scope.loading = true
 		    var userName = document.getElementById("username").value;
 		    var passWord = document.getElementById("password").value;
-
 		    if(passWord!="" && userName!=""){
 			    var ref = database.ref('users/'+userName);
 			    ref.once("value").then(function(snapshot){
@@ -48,6 +47,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			                console.log("Wrong username or password");
 			            }
 			        });
+
 			}
 			else{
 				console.log("You must enter both username and password");
