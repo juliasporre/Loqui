@@ -140,14 +140,12 @@ LoquiApp.factory('model', function($resource){
 					_this.studying = val.studying;
 			  		_this.description = val.description;
 			  		_this.color = val.color;
-			  		console.log("initials done; "+attrlist);
 
 				  	var list = [];
 				  	snapshot.child("favorites").forEach(function(childsnapshot){
 				  		list.push(childsnapshot.key);
 				  	});
 				  	_this.favoriteCourses=list;
-				  	console.log("Fetch favorites; "+attrlist[6]);
 
 				  	list = [];
 				  	snapshot.child("recent").forEach(function(childsnapshot){
