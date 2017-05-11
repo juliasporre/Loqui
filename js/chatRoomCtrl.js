@@ -40,13 +40,20 @@ $scope.sendMessage = function(){
 
 $scope.newChannel = function(){
   var name=prompt("Please enter the name of the new channel");
+  name = app.capitalize(name);
+  name = $.trim(name);
     if (name!=null && name!=""){
-      if ($scope.allRooms.length<10){
-        alert("A new channel with the name " + name + " was created");
-        $scope.allRooms.push(name);
+      if ($scope.allRooms.length<5){
+        for(i=0; i<$scope.allRooms.length; i++){
+          if($scope.allRooms[i]==name){
+            alert("That channel already exists!")
+            return
+          }
+        }
+        $scope.allRooms.push(name); //push to model and database here too
       }
       else{
-        alert("You already have 10 channels, you can't have any more");
+        alert("You already have 5 channels, you can't have any more");
       }
    }
    else if(name==""){
@@ -54,7 +61,17 @@ $scope.newChannel = function(){
    }
 }
 
+$scope.removeChannel = function(channel){
+  var index = $scope.allRooms.indexOf(channel);
+  if (index > -1) {
+    $scope.allRooms.splice(index, 1);
+  }
+  //should be an equal function in model to call for to change in database     
+}
 
+app.capitalize = function(string) {
+    return string.replace(/^./, string[0].toUpperCase());
+}
 
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
