@@ -1,4 +1,4 @@
-
+<div class="blueBox">
 
 	<div class="glyphiconRow">
 		<div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -95,22 +95,24 @@
 				</div>
 			</div>
 		<center>-->
+		<center>
 		<table class="table table-hover">
 		  <thead>
 		    <tr>
-					<th></th>
-		      <th>Your recent courses</th>
-		      <th></th>
+		      <th class="text-center">Your recent courses</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		      <tr ng-repeat="course in recentCourses" ng-click="goToCourse(course)">
-								<td></td>
-		            <td>{{course}}</td>
-								<td></td>
+		            <td class="text-center">{{course}}</td>
 		      </tr>
 		  </tbody>
 		</table>
+		<center>
 
 
 	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+
+
+
+</div>
