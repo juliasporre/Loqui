@@ -74,6 +74,23 @@ html body{
 	border-bottom: 2px solid black;
 }
 
+#chatButtonFriend{
+    text-align: center;
+    font-size: 25px;
+    height: 40px;
+    border-bottom: 2px solid black;
+}
+
+#chatButtonFriendText{
+    text-align: center;
+    font-size: 25px;
+    font-style: bold;
+    color: black;
+    text-shadow: 3px 3px 9px rgba(161, 179, 165, 1);
+    text-decoration: none;
+
+}
+
 .messageBox{
 	background-color: white;
 	border-radius: 5px;
