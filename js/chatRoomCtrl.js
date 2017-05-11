@@ -61,12 +61,34 @@ $scope.newChannel = function(){
    }
 }
 
-$scope.removeChannel = function(channel){
+/*$scope.removeChannel = function(channel){
   var index = $scope.allRooms.indexOf(channel);
   if (index > -1) {
     $scope.allRooms.splice(index, 1);
   }
   //should be an equal function in model to call for to change in database     
+}Maybe we dont even want to remove them... 
+*/
+
+//if we want to be able to change name of a channel instead of deleting it? But it does not work when im calling for it..
+$scope.changeChannelName = function(channel){
+  var index = $scope.allRooms.indexOf(channel);
+  alert(index)
+  if (index > -1) {
+    var newName=prompt("Enter the new name of the channel");
+    if (name!=null && name!=""){
+      for(i=0; i<$scope.allRooms.length; i++){
+        if($scope.allRooms[i]==name){
+          alert("That channel already exists!")
+          return
+        }
+      }
+      $scope.allRooms[index] = newName;//push to model and database here too
+    }
+    else if(name==""){
+    alert("Since you didn't write any name, nothing happened");
+    }
+  }
 }
 
 app.capitalize = function(string) {
