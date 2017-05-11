@@ -34,8 +34,8 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     else{
       $scope.status = "Found a partner to eat at a restaurant with! Write something!"
     }
-    $scope.foundPartner = true; //how to update the view when a partner is found?
-    $scope.partner = partnerClass.username; //the one found partners username here
+    $scope.foundPartner = true; //how to update the view when a partner is found
+    $scope.partner = partnerClass.userName; //the one found partners username here
     $scope.partnerColor = partnerClass.color;
   }
 });
