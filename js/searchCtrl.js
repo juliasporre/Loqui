@@ -49,7 +49,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
 
   $scope.goToCourse = function(course) {
 
-      $location.path('/chatRoom/'+course);
+      $location.path('/chatRoom/'+course+"-General");
   }
 
 
