@@ -11,8 +11,6 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
   //Check if it is your own profile
 
-
-
   var thisIsMe = false;
   if(userName == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
     thisIsMe = true;
@@ -82,4 +80,16 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   $scope.goBack = function() {
     window.history.back();
   }
+
+
+  $scope.setFocus=function(id){
+    $("#"+id).focus();
+    $('.blueBox').animate({
+      scrollTop: ($("#"+id).offset().top-50)
+    });
+
+  }
+
+
+
 });
