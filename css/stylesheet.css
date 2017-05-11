@@ -228,3 +228,7 @@ input,textarea {
      margin-left: 2px;
 }
 
+#removechannelbutton{
+    background-color: #D3D3D3;
+    float: right; 
+}
