@@ -18,8 +18,8 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   }
 
   $scope.search = function(query){
-    $scope.status = "Searching for " + query + "...";
     if(query != undefined){
+      $scope.status = "Searching for " + query + "...";
       model.getCourse.get({query : query}, function(data){
         $scope.hasSearch = true;
         $scope.status = "";
@@ -28,6 +28,9 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
           $scope.status = "Could not find the course...";
           console.log("Cannot find course");
       });
+    }
+    else{
+      alert("You need to write something to search for")
     }
   }
 
