@@ -164,7 +164,7 @@ LoquiApp.factory('model', function($resource){
 
 	}
 
-	// returns a list of messanges in a channel in this form
+	// creates a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
 	// callback is a function that does what is suposed to be done 
 	// after the call to getMessanges() which has the list as input
@@ -174,7 +174,30 @@ LoquiApp.factory('model', function($resource){
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
+					var val = childsnapshot.val();
+					list.push([val.sender, val.messange, val.time]);
+				});
+
+				callback(list);
+			}
+			else{
+				console.log("this course has no messanges");
+			}
+		});
+	}
+
+	// creates a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	// callback is a function that does what is suposed to be done 
+	// after the call to getPrivateMessanges() which has the list as input
+	this.getPrivateMessanges = = function(otherUser, callback){
+		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
+		var list=[];
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					var val = childsnapshot.val();
+					list.push([val.sender, val.recipiant, val.messange, val.time]);
 				});
 
 				callback(list);
@@ -189,6 +212,19 @@ LoquiApp.factory('model', function($resource){
 	this.addMessange = function(course, channel, sender, messange, timestamp){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		ref.push().set({
+			sender:sender,
+			messange:messange,
+			time:timestamp
+		});
+	}
+
+	// adds a private messange to the database
+	// for messanges to be fetched for both parts the messanges
+	// has to be saved for both users
+	this.addPrivateMessang = function(recipiant, sender, messange, timestamp){
+		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+recipiant);
+		ref.push().set({
+			recipiant:recipiant,
 			sender:sender,
 			messange:messange,
 			time:timestamp
