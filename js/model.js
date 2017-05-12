@@ -76,6 +76,40 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
+	// This function fetches all users who are searching for lunchpartners
+	// and adds the user to the database so other users can find them
+	// the function removeFromSearch must be called in order to remove a user
+	this.searchForPartner = function(lunchType, callback){
+		var ref = this.database.ref('lunch/'+lunchType);
+		var list=[];
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					list.push(childsnapshot.user);
+				});
+				//adds the user to users searching for lunchpartners
+				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
+					user:this.username
+				});
+
+				callback(list);
+			}
+			else{
+				//adds the user to users searching for lunchpartners
+				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
+					user:this.username
+				});
+				console.log("No other users are searching for lunchpartners");
+			}
+
+		});
+	}
+
+	// Removes the user from the database for searching for lunch partner
+	this.removeFromSearch = function(lunchType){
+		this.database.ref('lunch/'+lunchType+'/'+this.username).remove();
+	} 
+
 	this.getRecentCourses = function(){
 		return this.recentCourses;
 	}
@@ -189,7 +223,7 @@ LoquiApp.factory('model', function($resource){
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
 	// callback is a function that does what is suposed to be done 
 	// after the call to getPrivateMessanges() which has the list as input
-	this.getPrivateMessanges = = function(otherUser, callback){
+	this.getPrivateMessanges = function(otherUser, callback){
 		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
 		var list=[];
 		ref.once("value").then(function(snapshot){
