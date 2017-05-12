@@ -38,6 +38,23 @@ $scope.sendMessage = function(){
 
 }
 
+
+$scope.isFavoriteCourse = function(){
+    return model.isFavoriteCourse($scope.courseID);
+  }
+
+  $scope.addFavorite = function(){
+    model.addToFavorite($scope.courseID);
+    $scope.isFavoriteCourse = model.isFavoriteCourse($scope.courseID);
+    model.addToRecent($scope.courseID);
+
+  }
+
+  $scope.removeFavorite = function(code){
+    model.removeFromFavorite(code);
+    $scope.isFavoriteCourse = model.isFavoriteCourse(code);
+  }
+
 $scope.newChannel = function(){
   var name=prompt("Please enter the name of the new channel");
   name = app.capitalize(name);
