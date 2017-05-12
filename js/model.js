@@ -18,7 +18,6 @@ LoquiApp.factory('model', function($resource){
   	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
   	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
-
 	// Initialize Firebase
 	if(firebase.apps.length===0){
 		console.log("init database");
@@ -76,6 +75,40 @@ LoquiApp.factory('model', function($resource){
 			courseName: course
 		});
 	}
+
+	// This function fetches all users who are searching for lunchpartners
+	// and adds the user to the database so other users can find them
+	// the function removeFromSearch must be called in order to remove a user
+	this.searchForPartner = function(lunchType, callback){
+		var ref = this.database.ref('lunch/'+lunchType);
+		var list=[];
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					list.push(childsnapshot.user);
+				});
+				//adds the user to users searching for lunchpartners
+				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
+					user:this.username
+				});
+
+				callback(list);
+			}
+			else{
+				//adds the user to users searching for lunchpartners
+				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
+					user:this.username
+				});
+				console.log("No other users are searching for lunchpartners");
+			}
+
+		});
+	}
+
+	// Removes the user from the database for searching for lunch partner
+	this.removeFromSearch = function(lunchType){
+		this.database.ref('lunch/'+lunchType+'/'+this.username).remove();
+	} 
 
 	this.getRecentCourses = function(){
 		return this.recentCourses;
@@ -164,7 +197,7 @@ LoquiApp.factory('model', function($resource){
 
 	}
 
-	// returns a list of messanges in a channel in this form
+	// creates a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
 	// callback is a function that does what is suposed to be done 
 	// after the call to getMessanges() which has the list as input
@@ -174,7 +207,30 @@ LoquiApp.factory('model', function($resource){
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
+					var val = childsnapshot.val();
+					list.push([val.sender, val.messange, val.time]);
+				});
+
+				callback(list);
+			}
+			else{
+				console.log("this course has no messanges");
+			}
+		});
+	}
+
+	// creates a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	// callback is a function that does what is suposed to be done 
+	// after the call to getPrivateMessanges() which has the list as input
+	this.getPrivateMessanges = function(otherUser, callback){
+		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
+		var list=[];
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					var val = childsnapshot.val();
+					list.push([val.sender, val.recipiant, val.messange, val.time]);
 				});
 
 				callback(list);
@@ -189,6 +245,19 @@ LoquiApp.factory('model', function($resource){
 	this.addMessange = function(course, channel, sender, messange, timestamp){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		ref.push().set({
+			sender:sender,
+			messange:messange,
+			time:timestamp
+		});
+	}
+
+	// adds a private messange to the database
+	// for messanges to be fetched for both parts the messanges
+	// has to be saved for both users
+	this.addPrivateMessang = function(recipiant, sender, messange, timestamp){
+		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+recipiant);
+		ref.push().set({
+			recipiant:recipiant,
 			sender:sender,
 			messange:messange,
 			time:timestamp
