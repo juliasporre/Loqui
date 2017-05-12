@@ -37,7 +37,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			            if(snapshot.exists() && snapshot.val().password==passWord){
 			            	model.fetchData(userName, function(){
 			            		$scope.$apply(function(){
-			            			$location.path("/search");
+			            			//$location.path("/search");
         							console.log($location.path());
 			            		});
 			            	});

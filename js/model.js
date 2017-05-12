@@ -18,7 +18,6 @@ LoquiApp.factory('model', function($resource){
   	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
   	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
-
 	// Initialize Firebase
 	if(firebase.apps.length===0){
 		console.log("init database");
