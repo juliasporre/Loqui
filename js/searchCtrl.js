@@ -3,31 +3,25 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('search');
   $scope.url = splitedUrl[0];
+
   $scope.userName = model.getUserName();
 
   $scope.recentCourses = model.getRecentCourses();
 
   $scope.hasSearch = false;
 
-  this.getSchools = function(){
-      model.getSchools.get({},function(data){
-      $scope.schools = data;
-    },function(data){
-      console.log("Cannot get schools");
-    });
-  }
-
   $scope.search = function(query){
-    $scope.status = "Searching for " + query + "...";
     if(query != undefined){
+      $scope.status = "Searching for " + query + "...";
       model.getCourse.get({query : query}, function(data){
         $scope.hasSearch = true;
         $scope.status = "";
         $scope.courses = data;
       },function(data){
-          $scope.status = "Could not find the course...";
-          console.log("Cannot find course");
+        $scope.status = "Could not find the course...";
       });
+    }else{
+      alert("You need to write something to search for")
     }
   }
 
@@ -39,7 +33,6 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
     model.addToFavorite(code);
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
     model.addToRecent(code);
-
   }
 
   $scope.removeFavorite = function(code){
@@ -48,10 +41,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   }
 
   $scope.goToCourse = function(course) {
-
-      $location.path('/chatRoom/'+course+"-General");
+    $location.path('/chatRoom/'+course+"-General");
   }
 
-
-  this.getSchools();
 });

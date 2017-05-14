@@ -12,12 +12,11 @@ LoquiApp.factory('model', function($resource){
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
-  	this.description= "default";
-  	this.fetchDataPromise="";
-  	this.color = "#0099ff";
-  	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
-  	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
-
+	this.description= "default";
+	this.fetchDataPromise="";
+	this.color = "#0099ff";
+	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66",
+	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -34,18 +33,7 @@ LoquiApp.factory('model', function($resource){
 		this.database = firebase.database();
 	}
 
-	
 
-	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
-		get: {
-			method: 'GET',
-			isArray: true,
-			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				return tmp;
-			}
-		}
-	});
 
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
 		get: {
@@ -79,38 +67,39 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
-	this.searchForPartner = function(isThisALunchBagSearch){
-		this.conditionLunchPartner = false;
-		if(isThisALunchBagSearch){
-			var databaseindex = "lunchbag"
-		}
-		else{
-			var databaseindex = "restaurant"
-		}
-		//here im unsure if im doing it right with the database
-		var listOfUsers = this.database.ref(databaseindex); //get a list of all users in the corresponding databaseindex 
-		if(listOfUsers!=null){
-			var chosenOne = listOfUsers[0];
-			var classObject = this.database.ref(databaseindex+"/"+chosenOne); //get the object of the chosen one 
-			this.database.ref(databaseindex+"/"+chosenOne).set(userObject); //take away the chosen one from the database and instead input the object of the user we are currently in
-			return classObject;
-		}
-		else{
-			this.userObject = {userName: this.username, color:this.color};
-			this.database.ref(databaseindex+"/"+userObject.userName).set(userObject); //put in the obejct of the current user in the database at the place of its username 	
-			//listen for if the object changes (every 10 seconds) which i put in the database, if it does we have a match
-			if(this.conditionLunchPartner==false){
-				setTimeout(this.listenForChange, 10000);
+
+	// This function fetches all users who are searching for lunchpartners
+	// and adds the user to the database so other users can find them
+	// the function removeFromSearch must be called in order to remove a user
+	this.searchForPartner = function(lunchType, callback){
+		var ref = this.database.ref('lunch/'+lunchType);
+		var list=[];
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					list.push(childsnapshot.user);
+				});
+				//adds the user to users searching for lunchpartners
+				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
+					user:this.username
+				});
+
+				callback(list);
 			}
-			return this.conditionLunchPartner;
-		}
+			else{
+				//adds the user to users searching for lunchpartners
+				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
+					user:this.username
+				});
+				console.log("No other users are searching for lunchpartners");
+			}
+
+		});
 	}
 
-	this.listenForChange = function(){
-		var classObject = this.database.ref(databaseindex+"/"+this.userObject.userName); //check whats in the database now
-		if(classObject!=this.userObject){
-			this.conditionLunchPartner = classObject;
-		} 
+	// Removes the user from the database for searching for lunch partner
+	this.removeFromSearch = function(lunchType){
+		this.database.ref('lunch/'+lunchType+'/'+this.username).remove();
 	}
 
 
@@ -120,15 +109,16 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to favorites, also updates database
 	this.addToFavorite = function(course){
-		window.hyper.log("addToFavorite "+course);
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
 			if(course==this.favoriteCourses[i]){
+				window.hyper.log("addToFavorite; course already a favorite ");
 				alreadyExists=true;
 				break;
 			}
 		}
 		if(alreadyExists==false){
+			window.hyper.log("addToFavorite "+course);
 			this.favoriteCourses.push(course);
 			this.database.ref('users/'+this.username+'/favorites/'+course).set({
 				courseName:course
@@ -161,62 +151,80 @@ LoquiApp.factory('model', function($resource){
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
-	// The once-call is asynchronus which was the source of the bug. It works
-	// right now as intended due to the bug where you have to press the
-	// sign-in button twice which gives the call time to store the data properly.....
-	this.fetchData = function(userName){
+	// the callback input is a function for changing paths to /search
+	this.fetchData = function(userName, callback){
 		var ref = this.database.ref('users/'+userName);
 		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
-		        if(snapshot.exists()){
-		        	var val = snapshot.val();
-		        	_this.username = val.username;
+	    	if(snapshot.exists()){
+	      	var val = snapshot.val();
+        	_this.username = val.username;
 					_this.password = val.password;
 					_this.name = val.name;
 					_this.age = val.age;
 					_this.studying = val.studying;
-			  		_this.description = val.description;
-			  		_this.color = val.color;
+	  			_this.description = val.description;
+	  			_this.color = val.color;
 
-				  	var list = [];
-				  	snapshot.child("favorites").forEach(function(childsnapshot){
-				  		list.push(childsnapshot.key);
-				  	});
-				  	_this.favoriteCourses=list;
+			  	var list = [];
+			  	snapshot.child("favorites").forEach(function(childsnapshot){
+				  	list.push(childsnapshot.key);
+			  	});
+			  	_this.favoriteCourses=list;
 
-				  	list = [];
-				  	snapshot.child("recent").forEach(function(childsnapshot){
-				  		list.push(childsnapshot.key);
-				  	});
-				  	_this.recentCourses=list;
-
-					console.log("Model is updatad with your data");
-		        	return;
-		        }
-		        else{
-		            console.log("Somehow user does not exist, Error i guess :(");
-		        }
-		    });
+			  	list = [];
+			  	snapshot.child("recent").forEach(function(childsnapshot){
+			  		list.push(childsnapshot.key);
+			  	});
+			  	_this.recentCourses=list;
+					console.log("Model is updated with your data");
+					callback();
+	        return;
+				}else{
+	      	console.log("Somehow user does not exist, Error i guess :(");
+				}
+	    });
 		}
-
 	}
 
-	// returns a list of messanges in a channel in this form
+	// creates a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
-	this.getMessanges = function(course, channel){
+	// callback is a function that does what is suposed to be done
+	// after the call to getMessanges() which has the list as input
+	this.getMessanges = function(course, channel, callback){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		var list=[];
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
+					var val = childsnapshot.val();
+					list.push([val.sender, val.messange, val.time]);
 				});
-			}
-			else{
+
+				callback(list);
+			}else{
 				console.log("this course has no messanges");
 			}
-			//console.log(list);
-			return list;
+		});
+	}
+
+	// creates a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	// callback is a function that does what is suposed to be done
+	// after the call to getPrivateMessanges() which has the list as input
+	this.getPrivateMessanges = function(otherUser, callback){
+		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
+		var list=[];
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					var val = childsnapshot.val();
+					list.push([val.sender, val.recipiant, val.messange, val.time]);
+				});
+				callback(list);
+			}else{
+				console.log("this course has no messanges");
+			}
 		});
 	}
 
@@ -229,7 +237,20 @@ LoquiApp.factory('model', function($resource){
 			time:timestamp
 		});
 	}
-	
+
+	// adds a private messange to the database
+	// for messanges to be fetched for both parts the messanges
+	// has to be saved for both users
+	this.addPrivateMessang = function(recipiant, sender, messange, timestamp){
+		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+recipiant);
+		ref.push().set({
+			recipiant:recipiant,
+			sender:sender,
+			messange:messange,
+			time:timestamp
+		});
+	}
+
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
@@ -251,7 +272,7 @@ LoquiApp.factory('model', function($resource){
 		    studying:"",
 		    color:"#0099ff"
 		});
- 
+
 		// startvalues for testing; SHOULD BE DELETED LATER
 		this.database.ref('users/'+userName+'/favorites/SF1626').set({
 			courseName : 'SF1626'

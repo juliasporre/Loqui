@@ -7,10 +7,10 @@
       "version": "3.1"
     }
   ],
-  "name": "mqtt-vernemq-emqtt-painter",
-  "title": "EMQTT Painter",
-  "description": "Cooperative painting using MQTT:",
-  "long-description": "Cooperative painting using MQTT.",
+  "name": "loqui",
+  "title": "Loqui",
+  "description": "Makes KTH Social SOCIAL",
+  "long-description": "Makes KTH Social SOCIAL",
   "version": "0.0.1",
   "author-name": "Evothings",
   "author-email": "build@evothings.com",

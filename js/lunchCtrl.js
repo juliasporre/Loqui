@@ -4,15 +4,19 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
   $scope.url = splitedUrl[0];
 
   $scope.lunchBagPartner = function(){
-  	$scope.searchForPartner(true)
+
+  	this.searchForPartner(false);
   }
 
   $scope.restaurantPartner = function(){
-  	$scope.searchForPartner(false)
+  	this.searchForPartner(false);
   }
 
-   $scope.searchForPartner = function(isThisALunchBagSearch){
+  }
+
+  this.searchForPartner = function(isThisALunchBagSearch){
   	//search for partner in some way
+
     if (isThisALunchBagSearch){
       $scope.status = "Searching for a partner to eat a lunchbag with..."
     }
@@ -24,6 +28,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     
     partnerClass = model.searchForPartner(isThisALunchBagSearch);
     $scope.foundAPartnerHandler(isThisALunchBagSearch, partnerClass);
+
 
   }
 

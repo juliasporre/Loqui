@@ -10,6 +10,19 @@
 		<div class="col-xs-8">
 			<p>{{courseID}}</p>	<!-- put in the current coursecode -->
 		</div>
+		<div class="col-xs-2">
+			<div ng-show="!isFavoriteCourse()">
+				<button type="button" class="btn btn-default" ng-click="addFavorite()">
+					<span class="glyphicon glyphicon-heart"></span>
+				</button>
+			</div>
+
+			<div ng-show="isFavoriteCourse()">
+				<button type="button" class="btn btn-default" ng-click="removeFavorite()">
+					<span class="glyphicon glyphicon-heart-empty"></span>
+				</button>
+			</div>
+		</div>
 	</div>
 
 		<div class="col-xs-10" id="currentChannel">
@@ -32,7 +45,7 @@
 	</div>
 
 
-	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+	<ng-include src="'partials/mainMenuView.html'"></ng-include>
 
 </div>
 
@@ -45,7 +58,7 @@
 	  		<a ng-href="{{url}}chatRoom/{{courseID}}-{{channel}}">{{channel}}</a>
 		  	<!--<button id="removechannelbutton" ng-hide="channel=='General'" class="btn btn-default" ng-click="changeChannelName(channel)">
 				<span class="glyphicon glyphicon-remove-sign"></span>
-			</button>-->	
+			</button>-->
 	  	</li>
 	  	<li>
 	  		<button id="newchannelbutton" class="btn btn-default btn-sm btn-block" ng-click="newChannel()">
@@ -54,4 +67,3 @@
 	  	</li>
   	</ul>
 </div>
-

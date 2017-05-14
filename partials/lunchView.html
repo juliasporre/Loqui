@@ -5,15 +5,17 @@
 	</div>
 
 	<div id="infoBoxLunch">
-	Choose if you want to eat a lunchbag with your new lunchpartner, or together decide on a restaurant. Press the choiced button and you will be randomized someone you can partner up with. 
+	Choose if you want to eat a lunchbag with your new lunchpartner, or together decide on a restaurant. Press the choiced button and you will be randomized someone you can partner up with.
 	</div>
 
 	<div id="lunchFinder">
+
         <div class="col-xs-2"></div>
         <div class="col-xs-4">
             <button type="button" class="btn btn-default" ng-click="lunchBagPartner()">        
                 <h5>Lunchbag</h5>
             </button>
+
         </div>
         <div class="col-xs-4">
             <button type="button" class="btn btn-default" ng-click="restaurantPartner()">
@@ -23,11 +25,12 @@
         <div class="col-xs-2"></div>              
 	</div>
 
-    
+
     <div ng-show="loading">
         <div id="infoBoxLunch2">
             {{status}}
             <div ng-show="foundPartner">
+
                 <div class="nameBox">
                     <ul class="nav nav-pills">
                         <li style="background-color: {{partnerColor}}">
@@ -36,12 +39,13 @@
                         </li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>
 
 
-	
 
-	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+
+	<ng-include src="'partials/mainMenuView.html'"></ng-include>
 </div>
