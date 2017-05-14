@@ -5,7 +5,7 @@
 	</div>
 
 	<div id="infoBoxLunch">
-	Choose if you want to eat a lunchbag with your new lunchpartner, or together decide on a restaurant. Press the choiced button and you will be randomized someone you can partner up with. 
+	Choose if you want to eat a lunchbag with your new lunchpartner, or together decide on a restaurant. Press the choiced button and you will be randomized someone you can partner up with.
 	</div>
 
 	<div id="lunchFinder">
@@ -13,12 +13,12 @@
             <div class="searchable-container">
                 <div class="items col-xs-6">
                     <div class="info-block block-info clearfix">
-                    
+
                         <div data-toggle="buttons" class="btn-group bizmoduleselect">
                             <label class="btn btn-default">
                                 <div class="bizcontent" ng-click="lunchBagPartner()">
                                     <!--<input type="checkbox" name="var_id[]" autocomplete="off" value="">-->
-                                    
+
                                     <h5>Lunchbag</h5>
                                 </div>
                             </label>
@@ -27,12 +27,12 @@
                 </div>
                 <div class="items col-xs-6">
                     <div class="info-block block-info clearfix">
-                        
+
                         <div data-toggle="buttons" class="btn-group bizmoduleselect">
                             <label class="btn btn-default">
                                 <div class="bizcontent" ng-click="restaurantPartner()">
                                     <!--<input type="checkbox" name="var_id[]" autocomplete="off" value="">-->
-                                    
+
                                     <h5>Restaurant</h5>
                                 </div>
                             </label>
@@ -43,7 +43,7 @@
         </div>
 	</div>
 
-    
+
     <div ng-show="loading">
         <div id="infoBoxLunch2">
             <div ng-show="!foundPartner">
@@ -52,7 +52,7 @@
             <div ng-show="foundPartner">
                 <ul class="nav nav-pills">
                     <li class="active">
-                        <a href=index.html#/profile/{{partner}}> 
+                        <a href=index.html#/profile/{{partner}}>
                         </a>
                     </li>
                 </ul>
@@ -61,7 +61,7 @@
     </div>
 
 
-	
 
-	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+
+	<ng-include src="'partials/mainMenuView.html'"></ng-include>
 </div>

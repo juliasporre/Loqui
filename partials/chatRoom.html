@@ -45,7 +45,7 @@
 	</div>
 
 
-	<ng-include src="'partials/menuView.html'" ng-controller="menuCtrl"></ng-include>
+	<ng-include src="'partials/mainMenuView.html'"></ng-include>
 
 </div>
 
@@ -58,7 +58,7 @@
 	  		<a ng-href="{{url}}chatRoom/{{courseID}}-{{channel}}">{{channel}}</a>
 		  	<!--<button id="removechannelbutton" ng-hide="channel=='General'" class="btn btn-default" ng-click="changeChannelName(channel)">
 				<span class="glyphicon glyphicon-remove-sign"></span>
-			</button>-->	
+			</button>-->
 	  	</li>
 	  	<li>
 	  		<button id="newchannelbutton" class="btn btn-default btn-sm btn-block" ng-click="newChannel()">
@@ -67,4 +67,3 @@
 	  	</li>
   	</ul>
 </div>
-
