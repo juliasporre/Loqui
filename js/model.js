@@ -12,11 +12,11 @@ LoquiApp.factory('model', function($resource){
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
-  	this.description= "default";
-  	this.fetchDataPromise="";
-  	this.color = "#0099ff";
-  	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
-  	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
+	this.description= "default";
+	this.fetchDataPromise="";
+	this.color = "#0099ff";
+	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66",
+	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -33,16 +33,6 @@ LoquiApp.factory('model', function($resource){
 		this.database = firebase.database();
 	}
 
-	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
-		get: {
-			method: 'GET',
-			isArray: true,
-			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				return tmp;
-			}
-		}
-	});
 
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
 		get: {
@@ -108,7 +98,7 @@ LoquiApp.factory('model', function($resource){
 	// Removes the user from the database for searching for lunch partner
 	this.removeFromSearch = function(lunchType){
 		this.database.ref('lunch/'+lunchType+'/'+this.username).remove();
-	} 
+	}
 
 	this.getRecentCourses = function(){
 		return this.recentCourses;
@@ -163,43 +153,40 @@ LoquiApp.factory('model', function($resource){
 		var ref = this.database.ref('users/'+userName);
 		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
-		        if(snapshot.exists()){
-		        	var val = snapshot.val();
-		        	_this.username = val.username;
+	    	if(snapshot.exists()){
+	      	var val = snapshot.val();
+        	_this.username = val.username;
 					_this.password = val.password;
 					_this.name = val.name;
 					_this.age = val.age;
 					_this.studying = val.studying;
-			  		_this.description = val.description;
-			  		_this.color = val.color;
+	  			_this.description = val.description;
+	  			_this.color = val.color;
 
-				  	var list = [];
-				  	snapshot.child("favorites").forEach(function(childsnapshot){
-				  		list.push(childsnapshot.key);
-				  	});
-				  	_this.favoriteCourses=list;
+			  	var list = [];
+			  	snapshot.child("favorites").forEach(function(childsnapshot){
+				  	list.push(childsnapshot.key);
+			  	});
+			  	_this.favoriteCourses=list;
 
-				  	list = [];
-				  	snapshot.child("recent").forEach(function(childsnapshot){
-				  		list.push(childsnapshot.key);
-				  	});
-				  	_this.recentCourses=list;
-
-					console.log("Model is updatad with your data");
+			  	list = [];
+			  	snapshot.child("recent").forEach(function(childsnapshot){
+			  		list.push(childsnapshot.key);
+			  	});
+			  	_this.recentCourses=list;
+					console.log("Model is updated with your data");
 					callback();
-		        	return;
-		        }
-		        else{
-		            console.log("Somehow user does not exist, Error i guess :(");
-		        }
-		    });
+	        return;
+				}else{
+	      	console.log("Somehow user does not exist, Error i guess :(");
+				}
+	    });
 		}
-
 	}
 
 	// creates a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
-	// callback is a function that does what is suposed to be done 
+	// callback is a function that does what is suposed to be done
 	// after the call to getMessanges() which has the list as input
 	this.getMessanges = function(course, channel, callback){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
@@ -212,8 +199,7 @@ LoquiApp.factory('model', function($resource){
 				});
 
 				callback(list);
-			}
-			else{
+			}else{
 				console.log("this course has no messanges");
 			}
 		});
@@ -221,7 +207,7 @@ LoquiApp.factory('model', function($resource){
 
 	// creates a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
-	// callback is a function that does what is suposed to be done 
+	// callback is a function that does what is suposed to be done
 	// after the call to getPrivateMessanges() which has the list as input
 	this.getPrivateMessanges = function(otherUser, callback){
 		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
@@ -232,10 +218,8 @@ LoquiApp.factory('model', function($resource){
 					var val = childsnapshot.val();
 					list.push([val.sender, val.recipiant, val.messange, val.time]);
 				});
-
 				callback(list);
-			}
-			else{
+			}else{
 				console.log("this course has no messanges");
 			}
 		});
@@ -263,7 +247,7 @@ LoquiApp.factory('model', function($resource){
 			time:timestamp
 		});
 	}
-	
+
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
@@ -285,7 +269,7 @@ LoquiApp.factory('model', function($resource){
 		    studying:"",
 		    color:"#0099ff"
 		});
- 
+
 		// startvalues for testing; SHOULD BE DELETED LATER
 		this.database.ref('users/'+userName+'/favorites/SF1626').set({
 			courseName : 'SF1626'
