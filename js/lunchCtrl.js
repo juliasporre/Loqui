@@ -4,19 +4,16 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
   $scope.url = splitedUrl[0];
 
   $scope.lunchBagPartner = function(){
-
-  	this.searchForPartner(false);
+  	$scope.searchForPartner(true);
   }
 
   $scope.restaurantPartner = function(){
-  	this.searchForPartner(false);
+  	$scope.searchForPartner(false);
   }
 
-  }
 
-  this.searchForPartner = function(isThisALunchBagSearch){
-  	//search for partner in some way
-
+  $scope.searchForPartner = function(isThisALunchBagSearch){
+  	//search for partner
     if (isThisALunchBagSearch){
       $scope.status = "Searching for a partner to eat a lunchbag with..."
     }
@@ -27,12 +24,36 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     $scope.loading = true;
     
     partnerClass = model.searchForPartner(isThisALunchBagSearch);
-    $scope.foundAPartnerHandler(isThisALunchBagSearch, partnerClass);
+    if (partnerClass!=undefined){ //tell your partner that is has you as partner!
+      alert("found a partner!")
+      model.choosePartner(isThisALunchBagSearch,partnerClass.first());
+    }
+
+    if (partnerClass==undefined){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
+      $scope.partnerObject = partnerClass;
+      $scope.checkMatchedPartner();
+      partnerClass = $scope.partnerObject;
+    }
 
 
+    //$scope.foundAPartnerHandler(isThisALunchBagSearch, partnerClass);
   }
 
+  $scope.checkMatchedPartner = function(){
+    if ($scope.partnerObject!=undefined){
+      alert("found someone!")
+      return
+    }
+    else{
+      alert("Trying again")
+      $scope.partnerObject = model.checkIfMatched(isThisALunchBagSearch);
+      alert("klar")
+      //window.setTimeout("$scope.checkMatchedPartner();",100);
+    }
+} 
+
   $scope.foundAPartnerHandler = function(isThisALunchBagSearch, partnerClass){
+    model.removeFromSearch(isThisALunchBagSearch);
     if (isThisALunchBagSearch){
       $scope.status = "Found a partner to eat a lunchbag with! Write something!"
     }
@@ -40,7 +61,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
       $scope.status = "Found a partner to eat at a restaurant with! Write something!"
     }
     $scope.foundPartner = true; //how to update the view when a partner is found
-    $scope.partner = partnerClass.userName; //the one found partners username here
+    $scope.partner = partnerClass.user; //the one found partners username here
     $scope.partnerColor = partnerClass.color;
   }
 });
