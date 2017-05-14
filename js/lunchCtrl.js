@@ -5,18 +5,20 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
 
   $scope.lunchBagPartner = function(){
   	$scope.loading = true;
-  	scope.searchForPartner(true)
+  	this.searchForPartner(true);
   }
 
   $scope.restaurantPartner = function(){
   	$scope.loading = true;
-  	scope.searchForPartner(false)
+  	this.searchForPartner(false);
   }
 
-   $scope.searchForPartner = function(isThisALunchBagSearch){
+  this.searchForPartner = function(isThisALunchBagSearch){
   	//search for partner in some way
-  	$scope.foundPartner = true; //how to update the view when a partner is found?
-  	$scope.partner = admin; //the one found partners username here
+    $scope.foundPartner = true; //how to update the view when a partner is found?
+
+    //admin ej deklarerad
+  	//$scope.partner = admin; //the one found partners username here
 
   }
 });

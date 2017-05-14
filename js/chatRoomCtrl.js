@@ -11,35 +11,34 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.courseID = code;
   $scope.room = room;
   $scope.allRooms = ["General", "Labpartners"];
-   //General should be the only one from the start, and the 
-   //array should be saved in the database and go through the model. 
+   //General should be the only one from the start, and the
+   //array should be saved in the database and go through the model.
    //the array should be updated in the model from newChannel()
 
-//Object that holds application data and functions.
-var app = {};
-var totalMess = 0;
+  //Object that holds application data and functions.
+  var app = {};
+  var totalMess = 0;
 
 
-var host = 'vernemq.evothings.com';
-var port = 8084;
+  var host = 'vernemq.evothings.com';
+  var port = 8084;
 
-var name = model.getUserFullName();
-var userName = model.getUserName();
-var userColor = model.getColor();
+  var name = model.getUserFullName();
+  var userName = model.getUserName();
+  var userColor = model.getColor();
 
-app.connected = false;//userName
-app.ready = false;
+  app.connected = false;//userName
+  app.ready = false;
 
-$scope.sendMessage = function(){
-  var msg = document.getElementById("comment").value;
-  document.getElementById("comment").value="";
-	var send = JSON.stringify({color: userColor, nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
-	app.publish(send);
+  $scope.sendMessage = function(){
+    var msg = document.getElementById("comment").value;
+    document.getElementById("comment").value="";
+  	var send = JSON.stringify({color: userColor, nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
+  	app.publish(send);
+  }
 
-}
 
-
-$scope.isFavoriteCourse = function(){
+  $scope.isFavoriteCourse = function(){
     return model.isFavoriteCourse($scope.courseID);
   }
 
@@ -47,7 +46,6 @@ $scope.isFavoriteCourse = function(){
     model.addToFavorite($scope.courseID);
     $scope.isFavoriteCourse = model.isFavoriteCourse($scope.courseID);
     model.addToRecent($scope.courseID);
-
   }
 
   $scope.removeFavorite = function(code){
@@ -55,99 +53,90 @@ $scope.isFavoriteCourse = function(){
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
   }
 
-$scope.newChannel = function(){
-  var name=prompt("Please enter the name of the new channel");
-  name = app.capitalize(name);
-  name = $.trim(name);
-    if (name!=null && name!=""){
-      if ($scope.allRooms.length<5){
+  $scope.newChannel = function(){
+    var name=prompt("Please enter the name of the new channel");
+    name = app.capitalize(name);
+    name = $.trim(name);
+      if (name!=null && name!=""){
+        if ($scope.allRooms.length<5){
+          for(i=0; i<$scope.allRooms.length; i++){
+            if($scope.allRooms[i]==name){
+              alert("That channel already exists!")
+              return
+            }
+          }
+          $scope.allRooms.push(name); //push to model and database here too
+        }
+        else{
+          alert("You already have 5 channels, you can't have any more");
+        }
+     }
+     else if(name==""){
+      alert("Since you didn't write any name, no channel was created");
+     }
+  }
+
+  /*$scope.removeChannel = function(channel){
+    var index = $scope.allRooms.indexOf(channel);
+    if (index > -1) {
+      $scope.allRooms.splice(index, 1);
+    }
+    //should be an equal function in model to call for to change in database
+  }Maybe we dont even want to remove them...
+  */
+
+  //if we want to be able to change name of a channel instead of deleting it? But it does not work when im calling for it..
+  /*$scope.changeChannelName = function(channel){
+    var index = $scope.allRooms.indexOf(channel);
+    alert(index)
+    if (index > -1) {
+      var newName=prompt("Enter the new name of the channel");
+      if (name!=null && name!=""){
         for(i=0; i<$scope.allRooms.length; i++){
           if($scope.allRooms[i]==name){
             alert("That channel already exists!")
             return
           }
         }
-        $scope.allRooms.push(name); //push to model and database here too
+        $scope.allRooms[index] = newName;//push to model and database here too
       }
-      else{
-        alert("You already have 5 channels, you can't have any more");
+      else if(name==""){
+      alert("Since you didn't write any name, nothing happened");
       }
-   }
-   else if(name==""){
-    alert("Since you didn't write any name, no channel was created");
-   }
-}
-
-/*$scope.removeChannel = function(channel){
-  var index = $scope.allRooms.indexOf(channel);
-  if (index > -1) {
-    $scope.allRooms.splice(index, 1);
-  }
-  //should be an equal function in model to call for to change in database     
-}Maybe we dont even want to remove them... 
-*/
-
-//if we want to be able to change name of a channel instead of deleting it? But it does not work when im calling for it..
-/*$scope.changeChannelName = function(channel){
-  var index = $scope.allRooms.indexOf(channel);
-  alert(index)
-  if (index > -1) {
-    var newName=prompt("Enter the new name of the channel");
-    if (name!=null && name!=""){
-      for(i=0; i<$scope.allRooms.length; i++){
-        if($scope.allRooms[i]==name){
-          alert("That channel already exists!")
-          return
-        }
-      }
-      $scope.allRooms[index] = newName;//push to model and database here too
     }
-    else if(name==""){
-    alert("Since you didn't write any name, nothing happened");
-    }
+  }*/
+
+  app.capitalize = function(string) {
+      return string.replace(/^./, string[0].toUpperCase());
   }
-}*/
 
-app.capitalize = function(string) {
-    return string.replace(/^./, string[0].toUpperCase());
-}
+  app.beep = function(){
+    var aSound = document.createElement('audio');
+    aSound.setAttribute('src', 'beep.wav');
+    aSound.play();
+  }
 
-app.beep = function(){
-  var aSound = document.createElement('audio');
-  aSound.setAttribute('src', 'beep.wav');
-  aSound.play();
-}
+  app.onMessageArrived = function(message) {
+  	var o = JSON.parse(message.payloadString);
+  	var text = document.createElement("p");
+  	if(o.nick!=undefined){ //Ska läggas till i privata meddelanden
+  		var split = o.msg.split(" ")[0];
+  		var atUser;
 
-app.onMessageArrived = function(message) {
-	var o = JSON.parse(message.payloadString);
-	var text = document.createElement("p");
-	if(o.nick!=undefined){ //Ska läggas till i privata meddelanden
-		var split = o.msg.split(" ")[0];
-		var atUser;
-		if (split[0]=="@"){
-			atUser=split;
-			if(atUser==('@' + userName) || o.nick == userName){
-				text.innerHTML= o.nick + ": " + o.msg;
-				app.canvas.appendChild(text);
-			}
-		}
-		else{
       //Everything handling the time
       var time = new Date();
       var timeHour = time.getHours();
       var timeMin = time.getMinutes();
       var timeSec = time.getSeconds();
       if (timeMin<10){
-      	timeMin = "0"+timeMin.toString()
-      }
-      else{
-      	timeMin = timeMin.toString()
+      	timeMin = "0"+timeMin.toString();
+      }else{
+      	timeMin = timeMin.toString();
       }
       if(timeSec<10){
-      	timeSec = "0"+timeSec.toString()
-      }
-      else{
-      	timeSec = timeSec.toString()
+      	timeSec = "0"+timeSec.toString();
+      }else{
+      	timeSec = timeSec.toString();
       }
       var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
 
@@ -161,96 +150,95 @@ app.onMessageArrived = function(message) {
       if(messNick!=userName){
         app.beep();
       }
-		}
-	}
-  app.toBottom();
-}
-
-app.toBottom = function(){
-  var elem = document.getElementById('messageSpace');
-  elem.scrollTop = elem.scrollHeight;
-}
-
-app.initialize = function() {
-  console.log("check app ready");
-	if (!app.ready) {
-		app.pubTopic = '/' + path + '/' + userName + '/evt'; // We publish to our own device topic
-		app.subTopic = '/' + path + '/' + '+/evt'; // We subscribe to all devices using "+" wildcard
-		app.setupCanvas();
-		app.setupConnection();
-		app.ready = true;
+  	}
     app.toBottom();
   }
-}
 
-
-app.setupCanvas = function() {
-  console.log("set canvas");
-	app.canvas = document.getElementById("messageSpace");
-  console.log(app.canvas);
-
-	var btn = document.getElementById("sendButton");
-	btn.addEventListener( "click", app.sendMessage);
-	console.log("set up canvas");
-}
-
-
-app.setupConnection = function() {
-console.log("connection");
-  	$scope.status = "Connecting to " + host + ":" + port + " as " + userName;
-	app.client = new Paho.MQTT.Client(host, port, userName);
-	app.client.onConnectionLost = app.onConnectionLost;
-	app.client.onMessageArrived = app.onMessageArrived;
-	var options = {
-    useSSL: true,
-    onSuccess: app.onConnect,
-    onFailure: app.onConnectFailure,
+  app.toBottom = function(){
+    var elem = document.getElementById('messageSpace');
+    elem.scrollTop = elem.scrollHeight;
   }
-	app.client.connect(options);
-}
 
-app.publish = function(json) {
-	message = new Paho.MQTT.Message(json);
-	message.destinationName = app.pubTopic;
-	app.client.send(message);
-};
-
-app.subscribe = function() {
-	app.client.subscribe(app.subTopic);
-	console.log("Subscribed: " + app.subTopic);
-}
-
-app.unsubscribe = function() {
-	app.client.unsubscribe(app.subTopic);
-	console.log("Unsubscribed: " + app.subTopic);
-}
-
-app.onConnect = function(context) {
-	app.subscribe();
-	$scope.status = "You are connected!";
-	app.connected = true;
-}
-
-app.onConnectFailure = function(e){
-  console.log("Failed to connect: " + JSON.stringify(e));
-}
-
-app.onConnectionLost = function(responseObject) {
-	$scope.status ="Connection lost! Please reload the page..";
-	console.log("Connection lost: "+responseObject.errorMessage);
-	app.connected = false;
-}
+  app.initialize = function() {
+    console.log("check app ready");
+  	if (!app.ready) {
+  		app.pubTopic = '/' + path + '/' + userName + '/evt'; // We publish to our own device topic
+  		app.subTopic = '/' + path + '/' + '+/evt'; // We subscribe to all devices using "+" wildcard
+  		app.setupCanvas();
+  		app.setupConnection();
+  		app.ready = true;
+      app.toBottom();
+    }
+  }
 
 
-  		/* Set the width of the side navigation to 250px */
+  app.setupCanvas = function() {
+    console.log("set canvas");
+  	app.canvas = document.getElementById("messageSpace");
+    console.log(app.canvas);
+
+  	var btn = document.getElementById("sendButton");
+  	btn.addEventListener( "click", app.sendMessage);
+  	console.log("set up canvas");
+  }
+
+
+  app.setupConnection = function() {
+  console.log("connection");
+    	$scope.status = "Connecting to " + host + ":" + port + " as " + userName;
+  	app.client = new Paho.MQTT.Client(host, port, userName);
+  	app.client.onConnectionLost = app.onConnectionLost;
+  	app.client.onMessageArrived = app.onMessageArrived;
+  	var options = {
+      useSSL: true,
+      onSuccess: app.onConnect,
+      onFailure: app.onConnectFailure,
+    }
+  	app.client.connect(options);
+  }
+
+  app.publish = function(json) {
+  	message = new Paho.MQTT.Message(json);
+  	message.destinationName = app.pubTopic;
+  	app.client.send(message);
+  }
+
+  app.subscribe = function() {
+  	app.client.subscribe(app.subTopic);
+  	console.log("Subscribed: " + app.subTopic);
+  }
+
+  app.unsubscribe = function() {
+  	app.client.unsubscribe(app.subTopic);
+  	console.log("Unsubscribed: " + app.subTopic);
+  }
+
+  app.onConnect = function(context) {
+  	app.subscribe();
+  	$scope.status = "You are connected!";
+  	app.connected = true;
+  }
+
+  app.onConnectFailure = function(e){
+    console.log("Failed to connect: " + JSON.stringify(e));
+  }
+
+  app.onConnectionLost = function(responseObject) {
+  	$scope.status ="Connection lost! Please reload the page..";
+  	console.log("Connection lost: "+responseObject.errorMessage);
+  	app.connected = false;
+  }
+
+
+  /* Set the width of the side navigation to 250px */
   $scope.openNav = function() {
   	    document.getElementById("mySidenav").style.width = "250px";
-  	}
+  }
 
-  	/* Set the width of the side navigation to 0 */
+  /* Set the width of the side navigation to 0 */
   $scope.closeNav = function() {
   	    document.getElementById("mySidenav").style.width = "0";
-  	}
+  }
 
   app.initialize();
 
