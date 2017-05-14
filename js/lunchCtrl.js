@@ -46,7 +46,8 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     }
     else{
       alert("Trying again")
-      $scope.partnerObject = model.checkIfMatched(isThisALunchBagSearch);
+      $scope.partnerObject = model.checkIfMatched(isThisALunchBagSearch); 
+      //vilken funktion jag än sätter här så anropas den inte och nästa alert kommer inte
       alert("klar")
       //window.setTimeout("$scope.checkMatchedPartner();",100);
     }
