@@ -4,15 +4,15 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
   $scope.url = splitedUrl[0];
 
   $scope.lunchBagPartner = function(){
-  	$scope.searchForPartner(true);
+  	searchForPartner(true);
   }
 
   $scope.restaurantPartner = function(){
-  	$scope.searchForPartner(false);
+  	searchForPartner(false);
   }
 
 
-  $scope.searchForPartner = function(isThisALunchBagSearch){
+  var searchForPartner = function(isThisALunchBagSearch){
   	//search for partner
     if (isThisALunchBagSearch){
       $scope.status = "Searching for a partner to eat a lunchbag with..."
@@ -30,30 +30,30 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     }
 
     if (partnerClass==undefined){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
-      $scope.partnerObject = partnerClass;
-      $scope.checkMatchedPartner();
-      partnerClass = $scope.partnerObject;
+      this.partnerObject = partnerClass;
+      checkMatchedPartner();
+      partnerClass = this.partnerObject;
     }
 
 
-    //$scope.foundAPartnerHandler(isThisALunchBagSearch, partnerClass);
+    //foundAPartnerHandler(isThisALunchBagSearch, partnerClass);
   }
 
-  $scope.checkMatchedPartner = function(){
-    if ($scope.partnerObject!=undefined){
+  var checkMatchedPartner = function(){
+    if (this.partnerObject!=undefined){
       alert("found someone!")
       return
     }
     else{
-      alert("Trying again")
-      $scope.partnerObject = model.checkIfMatched(isThisALunchBagSearch); 
+      alert("Trying again" + this.partnerObject)
+      this.partnerObject = model.checkIfMatched(isThisALunchBagSearch); 
       //vilken funktion jag än sätter här så anropas den inte och nästa alert kommer inte
       alert("klar")
       //window.setTimeout("$scope.checkMatchedPartner();",100);
     }
 } 
 
-  $scope.foundAPartnerHandler = function(isThisALunchBagSearch, partnerClass){
+  var foundAPartnerHandler = function(isThisALunchBagSearch, partnerClass){
     model.removeFromSearch(isThisALunchBagSearch);
     if (isThisALunchBagSearch){
       $scope.status = "Found a partner to eat a lunchbag with! Write something!"
