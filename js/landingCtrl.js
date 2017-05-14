@@ -1,7 +1,7 @@
 LoquiApp.controller('landingCtrl', function($scope, model, $location){
 
 	var database = model.getDatabase();
-
+	ons.notification.alert('Hello, world');
 
 	// checks if username is taken and if it is not than it creates a user in the database
 	// if username is taken it writes so to the console
@@ -40,11 +40,11 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 	          });
 					});
 				}else{
-					alert("Wrong username or password!");
+					ons.notification.alert("Wrong username or password!");
 	      }
 			});
 		}else{
-			alert("You must enter both username and password");
+			ons.notification.alert("You must enter both username and password");
 		}
 	}
 
