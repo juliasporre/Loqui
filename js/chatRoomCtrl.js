@@ -56,10 +56,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
     }
     var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
 
-    console.log("going to model");
-    console.log(code, room, userName, msg, actualTime);
-
-    model.addMessange(code, room, userName, msg, actualTime);
+    model.addMessange(code, room, userName, msg, actualTime, userColor);
   	var send = JSON.stringify({color: userColor, nick: userName, msg: msg, time: actualTime});
   	app.publish(send);
   }
@@ -145,7 +142,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   	if(o.nick!=undefined){ //Ska läggas till i privata meddelanden
       text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'""><a style="color:black" href="index.html#/profile/' + o.nick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + o.time + '</div></div></div><div>' + o.msg + '</div></div>';
 			app.canvas.appendChild(text);
-      if(messNick!=userName){
+      if(o.nick!=userName){
         app.beep();
       }
   	}
@@ -154,8 +151,6 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
 
   app.loadOldMess = function(message) {
-    console.log("loading");
-    console.log(message);
 
     var text = document.createElement("p");
     if(message.nick!=undefined){ //Ska läggas till i privata meddelanden

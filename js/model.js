@@ -209,14 +209,14 @@ LoquiApp.factory('model', function($resource){
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
 	// callback is a function that does what is suposed to be done
 	// after the call to getPrivateMessanges() which has the list as input
-	this.getPrivateMessanges = function(otherUser, callback){
-		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
+	this.getPrivateMessanges = function(path, callback){
+		var ref = this.database.ref('users/privateMessanges/'+path);
 		var list=[];
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
 					var val = childsnapshot.val();
-					list.push([val.sender, val.recipiant, val.messange, val.time]);
+					list.push(val);
 				});
 				callback(list);
 			}else{
@@ -226,26 +226,26 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	// Adds a messange to the database under messanges/course/channel
-	this.addMessange = function(course, channel, sender, messange, timestamp){
-		console.log(course,channel,sender,messange,timestamp);
+	this.addMessange = function(course, channel, sender, messange, timestamp,color){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		ref.push().set({
 			nick:sender,
 			msg:messange,
-			time:timestamp
+			time:timestamp,
+			color: color
 		});
 	}
 
 	// adds a private messange to the database
 	// for messanges to be fetched for both parts the messanges
 	// has to be saved for both users
-	this.addPrivateMessang = function(recipiant, sender, messange, timestamp){
-		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+recipiant);
+	this.addPrivateMessang = function(path, sender, messange, timestamp, color){
+		var ref = this.database.ref('users/privateMessanges/'+path);
 		ref.push().set({
-			recipiant:recipiant,
-			sender:sender,
-			messange:messange,
-			time:timestamp
+			nick: sender,
+			msg:messange,
+			time:timestamp,
+			color: color
 		});
 	}
 
