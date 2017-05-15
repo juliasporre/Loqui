@@ -14,8 +14,8 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.room = room;
   $scope.allRooms = ["General", "Labpartners"];
 
+  model.addToRecent(code);
   $scope.isFav = model.isFavoriteCourse(code);
-  console.log(model.isFavoriteCourse(code));
    //General should be the only one from the start, and the
    //array should be saved in the database and go through the model.
    //the array should be updated in the model from newChannel()
@@ -47,7 +47,6 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.addFavorite = function(){
     model.addToFavorite(code);
     $scope.isFav = model.isFavoriteCourse(code);
-    model.addToRecent(code);
   }
 
   $scope.removeFavorite = function(){

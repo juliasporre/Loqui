@@ -52,14 +52,14 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to recentCourses, also updates database
 	this.addToRecent = function(course){
-		var index = this.favoriteCourses.indexOf(course);
+		var index = this.recentCourses.indexOf(course);
 		if (index > -1) {
-    	this.favoriteCourses.splice(index, 1);
+    	this.recentCourses.splice(index, 1);
 		}
 		if(this.recentCourses.length > 2){
 			this.recentCourses.splice(0, 1);
 		}
-		this.recentCourses.push(course);
+		this.recentCourses.splice(0, 0, course);
 
 		this.database.ref('users/'+this.username+'/recent/'+course).set({
 			courseName: course
