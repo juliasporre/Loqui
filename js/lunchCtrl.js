@@ -5,12 +5,14 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
   $scope.url = splitedUrl[0];
 
   var checkMatchedPartner = function(isThisALunchBagSearch){
-    if (this.partnerObject!=undefined){
+    if (this.partnerObject=="hejhej"){
       alert("found someone!")
       return
     }
     else{
+      console.log("repeatedly check for partner")
       this.partnerObject = model.checkIfMatched(isThisALunchBagSearch); 
+      console.log(this.partnerObject)
       //window.setTimeout("$scope.checkMatchedPartner();",100);
     }
 } 
@@ -41,12 +43,22 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     $scope.loading = true;
     
     partnerClass = model.searchForPartner(isThisALunchBagSearch);
-    if (partnerClass!=undefined){ //tell your partner that is has you as partner!
-      alert("found a partner!")
-      model.choosePartner(isThisALunchBagSearch,partnerClass.first());
+    var hasPartner = false;
+    console.log(partnerClass)
+    if (partnerClass.length!=0){ //tell your partner that is has you as partner!
+      for(i=1; i<partnerClass.length; i++){
+        if(typeof partnerClass[index] !== 'undefined' && partnerClass[index] !== null){
+          alert("found a partner!")
+          hasPartner = true;
+          model.choosePartner(isThisALunchBagSearch,partnerClass[index]);
+          foundAPartnerHandler(isThisALunchBagSearch, partnerClass[index]);
+          return;
+        }
+      }
     }
 
-    if (partnerClass==undefined){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
+    if(hasPartner==false){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
+      alert("did not find a partner")
       this.partnerObject = partnerClass;
       checkMatchedPartner(isThisALunchBagSearch);
       partnerClass = this.partnerObject;

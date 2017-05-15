@@ -312,8 +312,8 @@ LoquiApp.factory('model', function($resource){
 	// This function fetches all users who are searching for lunchpartners
 	// and adds the user to the database so other users can find them
 	// the function removeFromSearch must be called in order to remove a user
-	this.searchForPartner = function(lunchType, callback){
-		var ref = this.database.ref('lunch/'+lunchType);
+	this.searchForPartner = function(lunchType){
+		var ref = _this.database.ref('lunch/'+lunchType.toString());
 		var list=[];
 		ref.once("value", function(snapshot){
 			if(snapshot.exists()){
@@ -321,54 +321,56 @@ LoquiApp.factory('model', function($resource){
 					list.push(childsnapshot.user);
 				});
 				//adds the user to users searching for lunchpartners
-				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
-					user:this.username,
-					color:this.color, 
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
+					user:_this.username,
+					color:_this.color, 
 					matchname: false, //here a matched partner will input his name so you know its a match
 					matchcolor: "white"
 				});
 
-				callback(list);
+				//callback(list);
 			}
 			else{
 				//adds the user to users searching for lunchpartners
-				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
-					user:this.username,
-					color:this.color,
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
+					user:_this.username,
+					color:_this.color,
 					matchname: false,
 					matchcolor: "white"
 				});
-				alert("No other users are searching for lunchpartners");
+
+				console.log("No other users are searching for lunchpartners" + _this.username);
 			}
 
 		});
+		return list;
 	}
 
 	//sends to the chosen partner its new partner
 	this.choosePartner = function(lunchType, partnerObject){
-		this.database.ref('lunch/'+lunchType+'/'+partnerObject.user).set({
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+partnerObject.user).set({
 			user:partnerObject.user,
 			color:partnerObject.color, 
-			matchname: this.username, //here a matched partner will input his name so you know its a match
-			matchcolor: this.color
+			matchname: _this.username, //here a matched partner will input his name so you know its a match
+			matchcolor: _this.color
 		});
 	}
 
 	// Removes the user from the database for searching for lunch partner
 	this.removeFromSearch = function(lunchType){
-		this.database.ref('lunch/'+lunchType+'/'+this.username).remove();
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).remove();
 	}
 
 	//checks if someone else has putted themself in your spot in the database, then they have chosen you
 	this.checkIfMatched = function(lunchType){
-		alert("checking for match");
-		var ref = this.database.ref('lunch/'+lunchType+'/'+this.username);
-		alert(ref.matchname)
+		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username);
 		if (ref.matchname!=false){
+			console.log("ref är inte false utan är någon! " + ref.matchname)
 			return {user:ref.matchname, color:ref.matchcolor};
 
 		}
 		else{
+			console.log("ref är false så vi returnar undefined")
 			return undefined;
 		}
 	}
