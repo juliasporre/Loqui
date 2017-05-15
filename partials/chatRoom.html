@@ -11,13 +11,13 @@
 			<p>{{courseID}}</p>	<!-- put in the current coursecode -->
 		</div>
 		<div class="col-xs-2">
-			<div ng-show="!isFavoriteCourse()">
+			<div ng-show="!isFav">
 				<button type="button" class="btn btn-default" ng-click="addFavorite()">
 					<span class="glyphicon glyphicon-heart"></span>
 				</button>
 			</div>
 
-			<div ng-show="isFavoriteCourse()">
+			<div ng-show="isFav">
 				<button type="button" class="btn btn-default" ng-click="removeFavorite()">
 					<span class="glyphicon glyphicon-heart-empty"></span>
 				</button>
