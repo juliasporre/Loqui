@@ -12,7 +12,8 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
   $scope.courseID = code;
   $scope.room = room;
-  $scope.allRooms = ["General", "Labpartners"];
+
+  $scope.allRooms = model.getRooms(code);
 
   model.addToRecent(code);
   $scope.isFav = model.isFavoriteCourse(code);
@@ -85,7 +86,8 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
               return
             }
           }
-          $scope.allRooms.push(name); //push to model and database here too
+          model.addChannel(code, name);
+          $scope.allRooms = model.getRooms(code); //push to model and database here too
         }
         else{
           alert("You already have 5 channels, you can't have any more");
