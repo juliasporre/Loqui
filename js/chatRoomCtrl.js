@@ -38,7 +38,26 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.sendMessage = function(){
     var msg = document.getElementById("comment").value;
     document.getElementById("comment").value="";
-  	var send = JSON.stringify({color: userColor, nick: name + '(' + userName + ')', msg: msg, qos: 0, retained: true});
+
+    //Everything handling the time
+    var time = new Date();
+    var timeHour = time.getHours();
+    var timeMin = time.getMinutes();
+    var timeSec = time.getSeconds();
+    if (timeMin<10){
+      timeMin = "0"+timeMin.toString();
+    }else{
+      timeMin = timeMin.toString();
+    }
+    if(timeSec<10){
+      timeSec = "0"+timeSec.toString();
+    }else{
+      timeSec = timeSec.toString();
+    }
+    var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
+
+    model.addMessange(code, room, userName, msg, actualTime, userColor);
+  	var send = JSON.stringify({color: userColor, nick: userName, msg: msg, time: actualTime});
   	app.publish(send);
   }
 
@@ -121,43 +140,40 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   	var o = JSON.parse(message.payloadString);
   	var text = document.createElement("p");
   	if(o.nick!=undefined){ //Ska läggas till i privata meddelanden
-  		var split = o.msg.split(" ")[0];
-  		var atUser;
-
-      //Everything handling the time
-      var time = new Date();
-      var timeHour = time.getHours();
-      var timeMin = time.getMinutes();
-      var timeSec = time.getSeconds();
-      if (timeMin<10){
-      	timeMin = "0"+timeMin.toString();
-      }else{
-      	timeMin = timeMin.toString();
-      }
-      if(timeSec<10){
-      	timeSec = "0"+timeSec.toString();
-      }else{
-      	timeSec = timeSec.toString();
-      }
-      var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
-
-      //Write out the arrived message
-      var messNick = o.nick.split('(')[1].split(')')[0];
-      o.nick = o.nick.split('(')[0];
-      console.log(messNick);
-      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'""><a style="color:black" href="index.html#/profile/' + messNick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + actualTime + '</div></div></div><div>' + o.msg + '</div></div>';
-
+      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'""><a style="color:black" href="index.html#/profile/' + o.nick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + o.time + '</div></div></div><div>' + o.msg + '</div></div>';
 			app.canvas.appendChild(text);
-      if(messNick!=userName){
+      if(o.nick!=userName){
         app.beep();
       }
   	}
     app.toBottom();
   }
 
+
+  app.loadOldMess = function(message) {
+
+    var text = document.createElement("p");
+    if(message.nick!=undefined){ //Ska läggas till i privata meddelanden
+      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+message.color+'""><a style="color:black" href="index.html#/profile/' + message.nick + '">' + message.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + message.time + '</div></div></div><div>' + message.msg + '</div></div>';
+      app.canvas.appendChild(text);
+    }
+    app.toBottom();
+  }
+
   app.toBottom = function(){
     var elem = document.getElementById('messageSpace');
     elem.scrollTop = elem.scrollHeight;
+  }
+
+  var oldMess = function(list){
+    for(var i = 0; i < list.length; i++){
+      app.loadOldMess(list[i]);
+    }
+  }
+
+  app.getOldMess = function(){
+    model.getMessanges(code,room,oldMess);
+
   }
 
   app.initialize = function() {
@@ -168,6 +184,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   		app.setupCanvas();
   		app.setupConnection();
   		app.ready = true;
+      app.getOldMess();
       app.toBottom();
     }
   }
