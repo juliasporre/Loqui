@@ -1,18 +1,16 @@
+//https://deploy.evothings.com/connect/YOUR-CONNECT-CODE
 LoquiApp.controller('lunchCtrl', function($scope, model){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('lunch');
   $scope.url = splitedUrl[0];
 
-  var checkMatchedPartner = function(){
+  var checkMatchedPartner = function(isThisALunchBagSearch){
     if (this.partnerObject!=undefined){
       alert("found someone!")
       return
     }
     else{
-      alert("Trying again" + this.partnerObject)
       this.partnerObject = model.checkIfMatched(isThisALunchBagSearch); 
-      //vilken funktion jag än sätter här så anropas den inte och nästa alert kommer inte
-      alert("klar")
       //window.setTimeout("$scope.checkMatchedPartner();",100);
     }
 } 
@@ -50,7 +48,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
 
     if (partnerClass==undefined){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
       this.partnerObject = partnerClass;
-      checkMatchedPartner();
+      checkMatchedPartner(isThisALunchBagSearch);
       partnerClass = this.partnerObject;
     }
 
