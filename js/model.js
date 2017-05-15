@@ -195,7 +195,7 @@ LoquiApp.factory('model', function($resource){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
 					var val = childsnapshot.val();
-					list.push([val.sender, val.messange, val.time]);
+					list.push(val);
 				});
 
 				callback(list);
@@ -227,10 +227,11 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a messange to the database under messanges/course/channel
 	this.addMessange = function(course, channel, sender, messange, timestamp){
+		console.log(course,channel,sender,messange,timestamp);
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		ref.push().set({
-			sender:sender,
-			messange:messange,
+			nick:sender,
+			msg:messange,
 			time:timestamp
 		});
 	}
