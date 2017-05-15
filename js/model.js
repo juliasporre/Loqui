@@ -171,7 +171,7 @@ LoquiApp.factory('model', function($resource){
 			  	_this.favoriteCourses=list;
 					var list = [];
 					snapshot.child("convos").forEach(function(childsnapshot){
-						list.push(childsnapshot.key);
+						list.push(childsnapshot.val());
 					});
 					list.push({username: "kalleanka",
 										name: "Kalle Anka",
@@ -260,13 +260,23 @@ LoquiApp.factory('model', function($resource){
 	}
 
 
-
+//MÅSTE FELSÖKAS
 	this.addPrivateMessangeConv = function(otherUser){
-		this.database.ref('users/'+this.username+'/convos/'+otherUser.name).set({
+		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
 			username: otherUser.username,
 			name: otherUser.name,
 			color: otherUser.color
 		});
+		_this.privateConvos.push(otherUser);
+	}
+
+	this.addOtherPrivateMessangeConv = function(other){
+		this.database.ref('users/'+other.username+'/convos/'+_this.username).set({
+			username: _this.username,
+			name: _this.name,
+			color: _this.color
+		});
+
 	}
 
 	this.getPrivateMessangeConv = function(){
