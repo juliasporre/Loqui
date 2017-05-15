@@ -5,18 +5,31 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
   $scope.url = splitedUrl[0];
   $scope.urlMess = urlOrg;
 
-  $scope.persons = [{username: "kalleanka",
-                    name: "Kalle Anka",
-                    color: "#0099ff"
-                  },
-                  {username: "blabla",
-                      name: "Bla Bla",
-                      color: "#00ffcc"
-                  },
-                  {username: "default",
-                      name: "DEFAULT",
-                      color: "#00ffcc"
-                  }];
+
+  var search = function(friend){
+    var ref = model.database.ref('users/'+friend);
+    ref.once("value").then(function(snapshot){
+      if(snapshot.exists()){
+        var other = {
+          username: snapshot.val().username,
+          name: snapshot.val().name,
+          color: snapshot.val().color
+        };
+        model.database.ref('users/'+model.username+'/convos/'+other.name).once("value").then(function(snapshot){
+          if(snapshot.exists()){
+            console.log("already friend");
+          } else {
+            model.addPrivateMessangeConv(other);
+            model.addOtherPrivateMessangeConv(other);
+          }
+        });
+      }
+    });
+  }
+
+  var goto = function(path){
+  $location.path(path);
+  }
 
 
   $scope.goBack = function() {
@@ -24,8 +37,19 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
   }
 
   $scope.goChat = function(user) {
-    console.log(user);
     $location.path('/privateMessages/'+user);
   }
+
+  console.log(model.getPrivateMessangeConv());
+
+  $scope.persons = model.getPrivateMessangeConv();
+
+  $scope.searchFriend = function(friend){
+    search(friend);
+    goto('/privateMessages/'+friend);
+
+  }
+
+
 
 });

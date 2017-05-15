@@ -11,6 +11,15 @@
     </div>
   </div>
 
+<div class="col-xs-8 center input-group">
+  <input type="text" class="form-control" ng-model="query" placeholder="Search friend"/> <!-- search for a course -->
+  <span class="input-group-btn">
+    <button type="submit" class="btn btn-primary" ng-click="searchFriend(query)">  <!-- button to search for a course -->
+      <span class="glyphicon glyphicon-search"></span>
+  </button>
+</span>
+</div>
+
   <table class="table table-hover">
     <thead>
       <tr>
