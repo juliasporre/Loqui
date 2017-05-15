@@ -54,15 +54,15 @@
 					<div class="text-center">
 						<div class="row">
 							<div class="col-6">
-							<div ng-show="!isFavoriteCourse(course.code)">
-						    	<button type="button" class="btn btn-sm btn-primary" ng-click="addFavorite(course.code)">
+							<div ng-show="!isFavoriteCourse">
+						    	<button type="button" class="btn btn-sm btn-primary" ng-click="addFavorite()">
 						      		<span class="glyphicon glyphicon-heart"></span>
 						      		Add to favorites
 						    	</button>
 						  	</div>
 
-						  	<div ng-show="isFavoriteCourse(course.code)">
-						    	<button type="button" class="btn btn-sm btn-primary" ng-click="removeFavorite(course.code)">
+						  	<div ng-show="isFavoriteCourse">
+						    	<button type="button" class="btn btn-sm btn-primary" ng-click="removeFavorite()">
 						      		<span class="glyphicon glyphicon-heart-empty"></span>
 						      		Remove from Favorites
 						    	</button>

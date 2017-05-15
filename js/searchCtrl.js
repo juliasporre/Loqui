@@ -8,15 +8,21 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
 
   $scope.recentCourses = model.getRecentCourses();
 
+  $scope.isFavoriteCourse = false;
+
   $scope.hasSearch = false;
 
+  var code = "";
   $scope.search = function(query){
+
     if(query != undefined){
       $scope.status = "Searching for " + query + "...";
       model.getCourse.get({query : query}, function(data){
         $scope.hasSearch = true;
         $scope.status = "";
         $scope.courses = data;
+        code = data[1].code;
+        $scope.isFavoriteCourse = model.isFavoriteCourse(code);
       },function(data){
         $scope.status = "Could not find the course...";
       });
@@ -25,17 +31,12 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
     }
   }
 
-  $scope.isFavoriteCourse = function(code){
-    return model.isFavoriteCourse(code);
-  }
-
-  $scope.addFavorite = function(code){
+  $scope.addFavorite = function(){
     model.addToFavorite(code);
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
-    model.addToRecent(code);
   }
 
-  $scope.removeFavorite = function(code){
+  $scope.removeFavorite = function(){
     model.removeFromFavorite(code);
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
   }
