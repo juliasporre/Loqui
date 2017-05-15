@@ -364,15 +364,22 @@ LoquiApp.factory('model', function($resource){
 	//checks if someone else has putted themself in your spot in the database, then they have chosen you
 	this.checkIfMatched = function(lunchType){
 		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username);
-		if (ref.matchname!=false){
-			console.log("ref är inte false utan är någon! " + ref.matchname)
-			return {user:ref.matchname, color:ref.matchcolor};
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				console.log(snapshot.val());
+				snap = snapshot.val()
+				if (snap.matchname!=false){
+					console.log("ref är inte false utan är någon! " + snap.matchname)
+					return {user:snap.matchname, color:snap.matchcolor};
+				}
+				else{
+					console.log("ref är false så vi returnar undefined")
+					return undefined;
+				}
+			}
 
-		}
-		else{
-			console.log("ref är false så vi returnar undefined")
-			return undefined;
-		}
+		});
+
 	}
 
 	return this;

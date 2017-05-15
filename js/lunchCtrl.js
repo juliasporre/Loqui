@@ -3,19 +3,21 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('lunch');
   $scope.url = splitedUrl[0];
+  var LUNCHBAGSEARCH = undefined;
 
-  var checkMatchedPartner = function(isThisALunchBagSearch){
-    if (this.partnerObject=="hejhej"){
-      alert("found someone!")
-      return
+  var checkMatchedPartner = function(){
+    if (this.partnerObject!=undefined){
+      console.log("found someone!")
+      foundAPartnerHandler(LUNCHBAGSEARCH, this.partnerObject);
+      return;
     }
     else{
       console.log("repeatedly check for partner")
-      this.partnerObject = model.checkIfMatched(isThisALunchBagSearch); 
+      this.partnerObject = model.checkIfMatched(LUNCHBAGSEARCH); 
       console.log(this.partnerObject)
-      //window.setTimeout("$scope.checkMatchedPartner();",100);
+      setTimeout(checkMatchedPartner,3000);
     }
-} 
+  } 
 
   var foundAPartnerHandler = function(isThisALunchBagSearch, partnerClass){
     model.removeFromSearch(isThisALunchBagSearch);
@@ -48,7 +50,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     if (partnerClass.length!=0){ //tell your partner that is has you as partner!
       for(i=1; i<partnerClass.length; i++){
         if(typeof partnerClass[index] !== 'undefined' && partnerClass[index] !== null){
-          alert("found a partner!")
+          console.log("found a partner!")
           hasPartner = true;
           model.choosePartner(isThisALunchBagSearch,partnerClass[index]);
           foundAPartnerHandler(isThisALunchBagSearch, partnerClass[index]);
@@ -58,14 +60,11 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     }
 
     if(hasPartner==false){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
-      alert("did not find a partner")
-      this.partnerObject = partnerClass;
+      console.log("did not find a partner")
+      this.partnerObject = undefined;
+      LUNCHBAGSEARCH = isThisALunchBagSearch;
       checkMatchedPartner(isThisALunchBagSearch);
-      partnerClass = this.partnerObject;
     }
-
-
-    //foundAPartnerHandler(isThisALunchBagSearch, partnerClass);
   }
 
   $scope.lunchBagPartner = function(){
