@@ -17,6 +17,7 @@ LoquiApp.factory('model', function($resource){
 	this.color = "#0099ff";
 	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66",
 	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
+	this.privateConvos = [];
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -168,12 +169,21 @@ LoquiApp.factory('model', function($resource){
 				  	list.push(childsnapshot.key);
 			  	});
 			  	_this.favoriteCourses=list;
-
+					var list = [];
+					snapshot.child("convos").forEach(function(childsnapshot){
+						list.push(childsnapshot.key);
+					});
+					list.push({username: "kalleanka",
+										name: "Kalle Anka",
+										color: "pink"
+					});
+					_this.privateConvos = list;
 			  	list = [];
 			  	snapshot.child("recent").forEach(function(childsnapshot){
 			  		list.push(childsnapshot.key);
 			  	});
 			  	_this.recentCourses=list;
+
 					console.log("Model is updated with your data");
 					callback();
 	        return;
@@ -247,6 +257,20 @@ LoquiApp.factory('model', function($resource){
 			time:timestamp,
 			color: color
 		});
+	}
+
+
+
+	this.addPrivateMessangeConv = function(otherUser){
+		this.database.ref('users/'+this.username+'/convos/'+otherUser.name).set({
+			username: otherUser.username,
+			name: otherUser.name,
+			color: otherUser.color
+		});
+	}
+
+	this.getPrivateMessangeConv = function(){
+		return this.privateConvos;
 	}
 
 
