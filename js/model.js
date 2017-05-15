@@ -246,6 +246,33 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
+
+
+	this.getRooms = function(course){
+		var roomList = [];
+		var ref = this.database.ref('messanges/'+course);
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				var val = snapshot.val()
+				for (var room  in val){
+					roomList.push(room);
+				}
+			}
+		});
+		return roomList;
+	}
+
+	this.addChannel = function(course, channelName){
+		var ref = this.database.ref('messanges/'+course+'/'+channelName);
+		ref.push().set({
+			nick:"Admin",
+			msg:"Welcome to this new channel!",
+			time: "admin",
+			color: "white"
+		});
+	}
+
+
 	// adds a private messange to the database
 	// for messanges to be fetched for both parts the messanges
 	// has to be saved for both users
@@ -260,7 +287,6 @@ LoquiApp.factory('model', function($resource){
 	}
 
 
-//MÅSTE FELSÖKAS
 	this.addPrivateMessangeConv = function(otherUser){
 		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
 			username: otherUser.username,
