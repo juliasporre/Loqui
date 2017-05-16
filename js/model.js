@@ -314,11 +314,18 @@ LoquiApp.factory('model', function($resource){
 	// the function removeFromSearch must be called in order to remove a user
 	this.searchForPartner = function(lunchType){
 		var ref = _this.database.ref('lunch/'+lunchType.toString());
-		var list=[];
+		var list= [];
 		ref.once("value", function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push(childsnapshot.user);
+					child = childsnapshot.val();
+
+					if(child.user==_this.username){
+						_this.removeFromSearch(lunchType);
+					}
+					else{
+						list.push([child.user, child.color]);
+					}
 				});
 				//adds the user to users searching for lunchpartners
 				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
@@ -348,9 +355,9 @@ LoquiApp.factory('model', function($resource){
 
 	//sends to the chosen partner its new partner
 	this.choosePartner = function(lunchType, partnerObject){
-		_this.database.ref('lunch/'+lunchType.toString()+'/'+partnerObject.user).set({
-			user:partnerObject.user,
-			color:partnerObject.color, 
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+partnerObject[0]).set({
+			user:partnerObject[0],
+			color:partnerObject[1], 
 			matchname: _this.username, //here a matched partner will input his name so you know its a match
 			matchcolor: _this.color
 		});
@@ -363,23 +370,28 @@ LoquiApp.factory('model', function($resource){
 
 	//checks if someone else has putted themself in your spot in the database, then they have chosen you
 	this.checkIfMatched = function(lunchType){
+		list = []
 		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username);
 		ref.once("value", function(snapshot){
 			if(snapshot.exists()){
-				console.log(snapshot.val());
+				
 				snap = snapshot.val()
 				if (snap.matchname!=false){
 					console.log("ref är inte false utan är någon! " + snap.matchname)
-					return {user:snap.matchname, color:snap.matchcolor};
+					
+					list.push(snap.matchname);
+					list.push(snap.matchcolor)
+					console.log(list)
+					
 				}
 				else{
-					console.log("ref är false så vi returnar undefined")
-					return undefined;
+					console.log("ref är false så vi returnar en tom lista")
+					
 				}
 			}
 
 		});
-
+		return list;
 	}
 
 	return this;
