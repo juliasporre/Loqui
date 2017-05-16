@@ -4,6 +4,13 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
   var splitedUrl = urlOrg.split('lunch');
   $scope.url = splitedUrl[0];
   var LUNCHBAGSEARCH = undefined;
+  $scope.buttonOff = false;
+
+  $scope.cancelSearch = function(){
+    model.removeFromSearch(LUNCHBAGSEARCH);
+    $scope.buttonOff = false;
+
+  }
 
   var checkMatchedPartner = function(){
     if (this.partnerObject!=undefined){
@@ -11,7 +18,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
       foundAPartnerHandler(LUNCHBAGSEARCH, this.partnerObject);
       return;
     }
-    else{
+    else if ($scope.buttonOff==true){
       console.log("repeatedly check for partner")
       this.partnerObject = model.checkIfMatched(LUNCHBAGSEARCH); 
       console.log(this.partnerObject)
@@ -34,6 +41,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
 
 
   var searchForPartner = function(isThisALunchBagSearch){
+    LUNCHBAGSEARCH = isThisALunchBagSearch;
   	//search for partner
     if (isThisALunchBagSearch){
       $scope.status = "Searching for a partner to eat a lunchbag with..."
@@ -43,6 +51,7 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     }
     
     $scope.loading = true;
+    $scope.buttonOff = true;
     
     partnerClass = model.searchForPartner(isThisALunchBagSearch);
     var hasPartner = false;
@@ -62,7 +71,6 @@ LoquiApp.controller('lunchCtrl', function($scope, model){
     if(hasPartner==false){ //repeat until you have a partnerclass, here we dont have to tell the partner since it told us
       console.log("did not find a partner")
       this.partnerObject = undefined;
-      LUNCHBAGSEARCH = isThisALunchBagSearch;
       checkMatchedPartner(isThisALunchBagSearch);
     }
   }

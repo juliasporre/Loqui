@@ -8,7 +8,7 @@
 	Choose if you want to eat a lunchbag with your new lunchpartner, or together decide on a restaurant. Press the choiced button and you will be randomized someone you can partner up with.
 	</div>
 
-	<div id="lunchFinder">
+	<div id="lunchFinder" ng-hide="buttonOff">
 
         <div class="col-xs-2"></div>
         <div class="col-xs-4">
@@ -39,13 +39,29 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
 
+    <div ng-show="buttonOff">
+    <div> <!-- MENU for cancel button-->
+      <div class="glyphiconRowBottom">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" ng-click="cancelSearch()">
+                <span class="glyphicon glyphicon-remove-circle"></span> <!-- Back to start -->
+                Cancel search
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
 
 
 
-	<ng-include src="'partials/mainMenuView.html'"></ng-include>
+    <div ng-hide="buttonOff">
+	   <ng-include src="'partials/mainMenuView.html'"></ng-include>
+    </div>
 </div>
