@@ -23,13 +23,12 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   }else{
     var ref = database.ref('users/'+userName);
     ref.once("value").then(function(snapshot){
-      if(snapshot.exists()){
+      console.log(snapshot.val());
         $scope.name = snapshot.val().name;
         $scope.age = snapshot.val().age;
         $scope.studying = snapshot.val().studying;
         $scope.description = snapshot.val().description;
-        $scope.userColor = model.getColor();
-      }
+        $scope.userColor = snapshot.val().color;
     });
   }
   $scope.thisIsMe = thisIsMe;
