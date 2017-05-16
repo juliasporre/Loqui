@@ -35,6 +35,7 @@ LoquiApp.factory('model', function($resource){
 	}
 
 
+
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
 		get: {
 			method: 'GET',
@@ -67,39 +68,9 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
-	// This function fetches all users who are searching for lunchpartners
-	// and adds the user to the database so other users can find them
-	// the function removeFromSearch must be called in order to remove a user
-	this.searchForPartner = function(lunchType, callback){
-		var ref = this.database.ref('lunch/'+lunchType);
-		var list=[];
-		ref.once("value", function(snapshot){
-			if(snapshot.exists()){
-				snapshot.forEach(function(childsnapshot){
-					list.push(childsnapshot.user);
-				});
-				//adds the user to users searching for lunchpartners
-				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
-					user:this.username
-				});
 
-				callback(list);
-			}
-			else{
-				//adds the user to users searching for lunchpartners
-				this.database.ref('lunch/'+lunchType+'/'+this.username).set({
-					user:this.username
-				});
-				console.log("No other users are searching for lunchpartners");
-			}
 
-		});
-	}
 
-	// Removes the user from the database for searching for lunch partner
-	this.removeFromSearch = function(lunchType){
-		this.database.ref('lunch/'+lunchType+'/'+this.username).remove();
-	}
 
 	this.getRecentCourses = function(){
 		return this.recentCourses;
@@ -397,6 +368,91 @@ LoquiApp.factory('model', function($resource){
 	this.setColor = function(color){
 		this.color = color;
 		this.database.ref('users/'+this.username+'/color').set(color);
+	}
+
+	// This function fetches all users who are searching for lunchpartners
+	// and adds the user to the database so other users can find them
+	// the function removeFromSearch must be called in order to remove a user
+	this.searchForPartner = function(lunchType){
+		var ref = _this.database.ref('lunch/'+lunchType.toString());
+		var list= [];
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					child = childsnapshot.val();
+
+					if(child.user==_this.username){
+						_this.removeFromSearch(lunchType);
+					}
+					else{
+						list.push([child.user, child.color]);
+					}
+				});
+				//adds the user to users searching for lunchpartners
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
+					user:_this.username,
+					color:_this.color, 
+					matchname: false, //here a matched partner will input his name so you know its a match
+					matchcolor: "white"
+				});
+
+				//callback(list);
+			}
+			else{
+				//adds the user to users searching for lunchpartners
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
+					user:_this.username,
+					color:_this.color,
+					matchname: false,
+					matchcolor: "white"
+				});
+
+				console.log("No other users are searching for lunchpartners" + _this.username);
+			}
+
+		});
+		return list;
+	}
+
+	//sends to the chosen partner its new partner
+	this.choosePartner = function(lunchType, partnerObject){
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+partnerObject[0]).set({
+			user:partnerObject[0],
+			color:partnerObject[1], 
+			matchname: _this.username, //here a matched partner will input his name so you know its a match
+			matchcolor: _this.color
+		});
+	}
+
+	// Removes the user from the database for searching for lunch partner
+	this.removeFromSearch = function(lunchType){
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).remove();
+	}
+
+	//checks if someone else has putted themself in your spot in the database, then they have chosen you
+	this.checkIfMatched = function(lunchType){
+		list = []
+		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username);
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				
+				snap = snapshot.val()
+				if (snap.matchname!=false){
+					console.log("ref är inte false utan är någon! " + snap.matchname)
+					
+					list.push(snap.matchname);
+					list.push(snap.matchcolor)
+					console.log(list)
+					
+				}
+				else{
+					console.log("ref är false så vi returnar en tom lista")
+					
+				}
+			}
+
+		});
+		return list;
 	}
 
 	return this;
