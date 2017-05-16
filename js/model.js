@@ -17,6 +17,7 @@ LoquiApp.factory('model', function($resource){
 	this.color = "#0099ff";
 	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66",
 	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
+	this.privateConvos = [];
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -53,14 +54,14 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to recentCourses, also updates database
 	this.addToRecent = function(course){
-		var index = this.favoriteCourses.indexOf(course);
+		var index = this.recentCourses.indexOf(course);
 		if (index > -1) {
-    	this.favoriteCourses.splice(index, 1);
+    	this.recentCourses.splice(index, 1);
 		}
 		if(this.recentCourses.length > 2){
 			this.recentCourses.splice(0, 1);
 		}
-		this.recentCourses.push(course);
+		this.recentCourses.splice(0, 0, course);
 
 		this.database.ref('users/'+this.username+'/recent/'+course).set({
 			courseName: course
@@ -139,12 +140,21 @@ LoquiApp.factory('model', function($resource){
 				  	list.push(childsnapshot.key);
 			  	});
 			  	_this.favoriteCourses=list;
-
+					var list = [];
+					snapshot.child("convos").forEach(function(childsnapshot){
+						list.push(childsnapshot.val());
+					});
+					list.push({username: "kalleanka",
+										name: "Kalle Anka",
+										color: "pink"
+					});
+					_this.privateConvos = list;
 			  	list = [];
 			  	snapshot.child("recent").forEach(function(childsnapshot){
 			  		list.push(childsnapshot.key);
 			  	});
 			  	_this.recentCourses=list;
+
 					console.log("Model is updated with your data");
 					callback();
 	        return;
@@ -166,7 +176,7 @@ LoquiApp.factory('model', function($resource){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
 					var val = childsnapshot.val();
-					list.push([val.sender, val.messange, val.time]);
+					list.push(val);
 				});
 
 				callback(list);
@@ -180,14 +190,14 @@ LoquiApp.factory('model', function($resource){
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
 	// callback is a function that does what is suposed to be done
 	// after the call to getPrivateMessanges() which has the list as input
-	this.getPrivateMessanges = function(otherUser, callback){
-		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+otherUser);
+	this.getPrivateMessanges = function(path, callback){
+		var ref = this.database.ref('users/privateMessanges/'+path);
 		var list=[];
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
 					var val = childsnapshot.val();
-					list.push([val.sender, val.recipiant, val.messange, val.time]);
+					list.push(val);
 				});
 				callback(list);
 			}else{
@@ -197,26 +207,77 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	// Adds a messange to the database under messanges/course/channel
-	this.addMessange = function(course, channel, sender, messange, timestamp){
+	this.addMessange = function(course, channel, sender, messange, timestamp,color){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		ref.push().set({
-			sender:sender,
-			messange:messange,
-			time:timestamp
+			nick:sender,
+			msg:messange,
+			time:timestamp,
+			color: color
 		});
 	}
+
+
+
+	this.getRooms = function(course){
+		var roomList = [];
+		var ref = this.database.ref('messanges/'+course);
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				var val = snapshot.val()
+				for (var room  in val){
+					roomList.push(room);
+				}
+			}
+		});
+		return roomList;
+	}
+
+	this.addChannel = function(course, channelName){
+		var ref = this.database.ref('messanges/'+course+'/'+channelName);
+		ref.push().set({
+			nick:"Admin",
+			msg:"Welcome to this new channel!",
+			time: "admin",
+			color: "white"
+		});
+	}
+
 
 	// adds a private messange to the database
 	// for messanges to be fetched for both parts the messanges
 	// has to be saved for both users
-	this.addPrivateMessang = function(recipiant, sender, messange, timestamp){
-		var ref = this.database.ref('users/'+this.username+'/privateMessanges/'+recipiant);
+	this.addPrivateMessang = function(path, sender, messange, timestamp, color){
+		var ref = this.database.ref('users/privateMessanges/'+path);
 		ref.push().set({
-			recipiant:recipiant,
-			sender:sender,
-			messange:messange,
-			time:timestamp
+			nick: sender,
+			msg:messange,
+			time:timestamp,
+			color: color
 		});
+	}
+
+
+	this.addPrivateMessangeConv = function(otherUser){
+		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
+			username: otherUser.username,
+			name: otherUser.name,
+			color: otherUser.color
+		});
+		_this.privateConvos.push(otherUser);
+	}
+
+	this.addOtherPrivateMessangeConv = function(other){
+		this.database.ref('users/'+other.username+'/convos/'+_this.username).set({
+			username: _this.username,
+			name: _this.name,
+			color: _this.color
+		});
+
+	}
+
+	this.getPrivateMessangeConv = function(){
+		return this.privateConvos;
 	}
 
 
