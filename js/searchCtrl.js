@@ -48,7 +48,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   }
 
   $scope.goToCourse = function(course) {
-
+      //$scope.loading = true
       $location.path('/chatRoom/'+course);
   }
 
