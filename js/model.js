@@ -7,8 +7,8 @@ LoquiApp.factory('model', function($resource){
 	this.database;
 	this.username= "default";
 	this.password = "default";
-	this.recentCourses = ['DD1325','MD1454','DD4455'];
-	this.favoriteCourses=['SF1626'];
+	this.recentCourses = [];
+	this.favoriteCourses=[];
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
@@ -144,7 +144,7 @@ LoquiApp.factory('model', function($resource){
 					snapshot.child("convos").forEach(function(childsnapshot){
 						list.push(childsnapshot.val());
 					});
-					list.push({username: "kalleanka",
+					list.push({username: "kalleanka",				//DEN HÄR SKA BORT VA?
 										name: "Kalle Anka",
 										color: "pink"
 					});
@@ -301,20 +301,6 @@ LoquiApp.factory('model', function($resource){
 		    studying:"",
 		    color:"#0099ff"
 		});
-
-		// startvalues for testing; SHOULD BE DELETED LATER
-		this.database.ref('users/'+userName+'/favorites/SF1626').set({
-			courseName : 'SF1626'
-		});
-		this.database.ref('users/'+userName+'/recent/DD1325').set({
-			courseName : 'DD1325'
-		});
-		this.database.ref('users/'+userName+'/recent/MD1454').set({
-			courseName : 'MD1454'
-		});
-		this.database.ref('users/'+userName+'/recent/DD4455').set({
-			courseName : 'DD4455'
-		});
 		alert('account sucessfully created');
 	}
 
@@ -395,8 +381,6 @@ LoquiApp.factory('model', function($resource){
 					matchname: false, //here a matched partner will input his name so you know its a match
 					matchcolor: "white"
 				});
-
-				//callback(list);
 			}
 			else{
 				//adds the user to users searching for lunchpartners
