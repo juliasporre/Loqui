@@ -23,6 +23,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
         $scope.courses = data;
         code = data[1].code;
         $scope.isFavoriteCourse = model.isFavoriteCourse(code);
+        model.getRooms(code); //to make sure there is a general-room already, or else make one
       },function(data){
         $scope.status = "Could not find the course...";
       });

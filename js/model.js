@@ -217,22 +217,6 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
-
-
-	this.getRooms = function(course){
-		var roomList = [];
-		var ref = this.database.ref('messanges/'+course);
-		ref.once("value").then(function(snapshot){
-			if(snapshot.exists()){
-				var val = snapshot.val()
-				for (var room  in val){
-					roomList.push(room);
-				}
-			}
-		});
-		return roomList;
-	}
-
 	this.addChannel = function(course, channelName){
 		var ref = this.database.ref('messanges/'+course+'/'+channelName);
 		ref.push().set({
@@ -242,6 +226,29 @@ LoquiApp.factory('model', function($resource){
 			color: "white"
 		});
 	}
+
+
+	this.getRooms = function(course){
+		var roomList = [];
+		var ref = this.database.ref('messanges/'+course);
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				console.log("NY snapshot")
+				var val = snapshot.val()
+				console.log(val)
+				for (var room  in val){
+					roomList.push(room);
+				}
+			}
+			else{
+				console.log("adding general since it does not exist")
+				_this.addChannel(course, "General");
+				roomList = _this.getRooms(course);
+			}
+		});
+		return roomList;
+	}
+
 
 
 	// adds a private messange to the database
