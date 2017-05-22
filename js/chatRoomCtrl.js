@@ -7,6 +7,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('chatRoom/'+path);
   $scope.url = splitedUrl[0]
+  console.log($scope.url)
 
 
 
@@ -87,7 +88,17 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
             }
           }
           model.addChannel(code, name);
-          $scope.allRooms = model.getRooms(code); //push to model and database here too
+          var d = $.Deferred();
+          var list = model.getRooms(code); 
+          $.when(d).done(function(listOfRooms) { 
+            $scope.$apply(function(){
+              $scope.allRooms = listOfRooms;
+            });
+            console.log("satt rooms")
+          })
+          setTimeout(function() {
+            d.resolve(list);
+          }, 500);
         }
         else{
           alert("You already have 5 channels, you can't have any more");

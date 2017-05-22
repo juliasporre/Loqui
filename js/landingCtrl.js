@@ -28,24 +28,24 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 	// it should probably change things in model
 	$scope.signIn = function(){
 		$scope.loading = true
-    var userName = document.getElementById("username").value;
-    var passWord = document.getElementById("password").value;
-    if(passWord!="" && userName!=""){
-	    var ref = database.ref('users/'+userName);
-	    ref.once("value").then(function(snapshot){
-	      if(snapshot.exists() && snapshot.val().password==passWord){
-	      	model.fetchData(userName, function(){
-	      		$scope.$apply(function(){
-	      			$location.path("/search");
-	          });
-					});
-				}else{
-					alert("Wrong username or password!");
-	      }
-			});
-		}else{
-			alert("You must enter both username and password");
-		}
+	    var userName = document.getElementById("username").value;
+	    var passWord = document.getElementById("password").value;
+	    if(passWord!="" && userName!=""){
+		    var ref = database.ref('users/'+userName);
+		    ref.once("value").then(function(snapshot){
+		      if(snapshot.exists() && snapshot.val().password==passWord){
+		      	model.fetchData(userName, function(){
+		      		$scope.$apply(function(){
+		      			$location.path("/search");
+		          });
+						});
+					}else{
+						alert("Wrong username or password!");
+		      }
+				});
+			}else{
+				alert("You must enter both username and password");
+			}
 	}
 
 });

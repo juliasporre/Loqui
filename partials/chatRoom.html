@@ -56,9 +56,6 @@
   	<ul class="nav nav-pills nav-stacked">
 	  	<li ng-repeat="channel in allRooms" ng-class="{'active': channel==room}">
 	  		<a ng-href="{{url}}chatRoom/{{courseID}}-{{channel}}">{{channel}}</a>
-		  	<!--<button id="removechannelbutton" ng-hide="channel=='General'" class="btn btn-default" ng-click="changeChannelName(channel)">
-				<span class="glyphicon glyphicon-remove-sign"></span>
-			</button>-->
 	  	</li>
 	  	<li>
 	  		<button id="newchannelbutton" class="btn btn-default btn-sm btn-block" ng-click="newChannel()">
