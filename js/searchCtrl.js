@@ -43,6 +43,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   }
 
   $scope.goToCourse = function(course) {
+    console.log("goToCourse" + course )
     $location.path('/chatRoom/'+course+"-General");
   }
 
