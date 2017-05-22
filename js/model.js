@@ -122,7 +122,8 @@ LoquiApp.factory('model', function($resource){
 	// and stores in model-attributes
 	// the callback input is a function for changing paths to /search
 	this.fetchData = function(userName, callback){
-		var ref = this.database.ref('users/'+userName);
+		var lowerUserName = userName.toLowerCase();
+		var ref = this.database.ref('users/'+lowerUserName);
 		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
 	    	if(snapshot.exists()){
@@ -144,10 +145,7 @@ LoquiApp.factory('model', function($resource){
 					snapshot.child("convos").forEach(function(childsnapshot){
 						list.push(childsnapshot.val());
 					});
-					list.push({username: "kalleanka",				//DEN HÄR SKA BORT VA?
-										name: "Kalle Anka",
-										color: "pink"
-					});
+					
 					_this.privateConvos = list;
 			  	list = [];
 			  	snapshot.child("recent").forEach(function(childsnapshot){
@@ -299,7 +297,8 @@ LoquiApp.factory('model', function($resource){
 	// creates a new user in database with empty attributes
 	// that the uses fill in inside the app
 	this.newAccount = function(userName, passWord){
-		this.database.ref('users/'+userName).set({
+		var lowerUserName = userName.toLowerCase();
+		this.database.ref('users/'+lowerUserName).set({
 		    username: userName,
 		    password: passWord,
 		    name: userName,
@@ -382,7 +381,8 @@ LoquiApp.factory('model', function($resource){
 					}
 				});
 				//adds the user to users searching for lunchpartners
-				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
+				var lowerUserName = _this.username.toLowerCase();
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).set({
 					user:_this.username,
 					color:_this.color, 
 					matchname: false, //here a matched partner will input his name so you know its a match
@@ -391,7 +391,8 @@ LoquiApp.factory('model', function($resource){
 			}
 			else{
 				//adds the user to users searching for lunchpartners
-				_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).set({
+				var lowerUserName = _this.username.toLowerCase();
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).set({
 					user:_this.username,
 					color:_this.color,
 					matchname: false,
@@ -407,7 +408,8 @@ LoquiApp.factory('model', function($resource){
 
 	//sends to the chosen partner its new partner
 	this.choosePartner = function(lunchType, partnerObject){
-		_this.database.ref('lunch/'+lunchType.toString()+'/'+partnerObject[0]).set({
+		var lowerPartner = partnerObject[0].toLowerCase();
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerPartner).set({
 			user:partnerObject[0],
 			color:partnerObject[1], 
 			matchname: _this.username, //here a matched partner will input his name so you know its a match
@@ -417,13 +419,15 @@ LoquiApp.factory('model', function($resource){
 
 	// Removes the user from the database for searching for lunch partner
 	this.removeFromSearch = function(lunchType){
-		_this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username).remove();
+		var lowerUserName = _this.username.toLowerCase();
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).remove();
 	}
 
 	//checks if someone else has putted themself in your spot in the database, then they have chosen you
 	this.checkIfMatched = function(lunchType){
 		list = []
-		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+_this.username);
+		var lowerUserName = _this.username.toLowerCase();
+		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName);
 		ref.once("value", function(snapshot){
 			if(snapshot.exists()){
 				

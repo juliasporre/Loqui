@@ -5,7 +5,7 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
   $scope.url = splitedUrl[0];
   $scope.friend = $routeParams.userID; //The one you are sending private messages with
 
-  var names = [$scope.friend, model.getUserName()];
+  var names = [$scope.friend.toLowerCase(), model.getUserName().toLowerCase()];
   names.sort();
   var path = names[0] + '-' + names[1];
 

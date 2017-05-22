@@ -7,15 +7,19 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
 
   var search = function(friend){
-    var ref = model.database.ref('users/'+friend);
+    var lowerFriend = friend.toLowerCase();
+    var ref = model.database.ref('users/'+lowerFriend);
     ref.once("value").then(function(snapshot){
       if(snapshot.exists()){
+        console.log("FRIEND:")
+        console.log(snapshot.val())
         var other = {
           username: snapshot.val().username,
           name: snapshot.val().name,
           color: snapshot.val().color
         };
-        model.database.ref('users/'+model.username+'/convos/'+other.name).once("value").then(function(snapshot){
+        var lowerUserName = model.getUserName().toLowerCase();
+        model.database.ref('users/'+ lowerUserName +'/convos/'+lowerFriend).once("value").then(function(snapshot){
           if(snapshot.exists()){
             console.log("already friend");
           } else {
@@ -37,7 +41,8 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
   }
 
   $scope.goChat = function(user) {
-    $location.path('/privateMessages/'+user);
+    var lowerUser = user.toLowerCase();
+    $location.path('/privateMessages/'+lowerUser);
   }
 
   console.log(model.getPrivateMessangeConv());
@@ -46,7 +51,8 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
   $scope.searchFriend = function(friend){
     search(friend);
-    goto('/privateMessages/'+friend);
+    var lowerFriend = friend.toLowerCase();
+    goto('/privateMessages/'+lowerFriend);
 
   }
 

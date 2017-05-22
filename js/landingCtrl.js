@@ -10,15 +10,16 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 		console.log("newAccount");
 		var userName = document.getElementById("username").value;
 		var passWord = document.getElementById("password").value;
+		var lowerUserName = userName.toLowerCase();
 
-		var ref = database.ref('users/'+userName);
-    ref.once("value").then(function(snapshot){
-      if(snapshot.exists()){
-      	console.log("Username is taken");
-      }else{
-      	model.newAccount(userName, passWord);
+		var ref = database.ref('users/'+lowerUserName);
+    	ref.once("value").then(function(snapshot){
+      		if(snapshot.exists()){
+      			alert("Username is taken");
+      		}else{
+      			model.newAccount(userName, passWord);
 				model.fetchData(userName);
-				$location.path('/search');
+				//$location.path('/search');
 			}
 		});
 	}
@@ -30,8 +31,10 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 		$scope.loading = true
 	    var userName = document.getElementById("username").value;
 	    var passWord = document.getElementById("password").value;
+	    var lowerUserName = userName.toLowerCase();
+
 	    if(passWord!="" && userName!=""){
-		    var ref = database.ref('users/'+userName);
+		    var ref = database.ref('users/'+lowerUserName);
 		    ref.once("value").then(function(snapshot){
 		      if(snapshot.exists() && snapshot.val().password==passWord){
 		      	model.fetchData(userName, function(){

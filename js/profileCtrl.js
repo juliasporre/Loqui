@@ -18,10 +18,11 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     $scope.name = model.getUserFullName();
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();
-    $scope.description = model.getDescription(); //GET THESE FROM THE DATABASE
+    $scope.description = model.getDescription(); 
     $scope.userColor = model.getColor();
   }else{
-    var ref = database.ref('users/'+userName);
+    var lowerUserName = userName.toLowerCase();
+    var ref = database.ref('users/'+lowerUserName);
     ref.once("value").then(function(snapshot){
       console.log(snapshot.val());
         $scope.$apply(function(){
