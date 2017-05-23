@@ -6,6 +6,7 @@ LoquiApp.factory('model', function($resource){
 
 	this.database;
 	this.username= "default";
+	this.lowerUserName = this.username.toLowerCase();
 	this.password = "default";
 	this.recentCourses = [];
 	this.favoriteCourses=[];
@@ -126,7 +127,7 @@ LoquiApp.factory('model', function($resource){
 			this.recentCourses.splice(0, 1);
 		}
 		this.recentCourses.splice(0, 0, courseObject);
-		this.database.ref('users/'+this.username+'/recent/'+course).set({
+		this.database.ref('users/'+this.lowerUserName+'/recent/'+course).set({
 			courseName: course,
 			color: color
 		});
@@ -154,7 +155,7 @@ LoquiApp.factory('model', function($resource){
 			window.hyper.log("addToFavorite "+courseCode);
 			courseObject = {courseName:courseCode, color:color};
 			this.favoriteCourses.push(courseObject);
-			this.database.ref('users/'+this.username+'/favorites/'+courseCode).set({
+			this.database.ref('users/'+this.lowerUserName+'/favorites/'+courseCode).set({
 				courseName:courseCode,
 				color:color
 			});
@@ -213,6 +214,7 @@ LoquiApp.factory('model', function($resource){
 	    	if(snapshot.exists()){
 	      	var val = snapshot.val();
         	_this.username = val.username;
+        	_this.lowerUserName = _this.username.toLowerCase();
 					_this.password = val.password;
 					_this.name = val.name;
 					_this.age = val.age;
@@ -348,7 +350,7 @@ LoquiApp.factory('model', function($resource){
 
 
 	this.addPrivateMessangeConv = function(otherUser){
-		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
+		this.database.ref('users/'+this.lowerUserName+'/convos/'+otherUser.username).set({
 			username: otherUser.username,
 			name: otherUser.name,
 			color: otherUser.color
@@ -423,27 +425,27 @@ LoquiApp.factory('model', function($resource){
 
 	this.setFullName = function(name){
 		this.name = name;
-		this.database.ref('users/'+this.username+'/name').set(name);
+		this.database.ref('users/'+this.lowerUserName+'/name').set(name);
 	}
 
 	this.setAge = function(age){
 		this.age = age;
-		this.database.ref('users/'+this.username+'/age').set(age);
+		this.database.ref('users/'+this.lowerUserName+'/age').set(age);
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
-		this.database.ref('users/'+this.username+'/studying').set(studying);
+		this.database.ref('users/'+this.lowerUserName+'/studying').set(studying);
 	}
 
 	this.setDescription = function(description){
 		this.description = description;
-		this.database.ref('users/'+this.username+'/description').set(description);
+		this.database.ref('users/'+this.lowerUserName+'/description').set(description);
 	}
 
 	this.setColor = function(color){
 		this.color = color;
-		this.database.ref('users/'+this.username+'/color').set(color);
+		this.database.ref('users/'+this.lowerUserName+'/color').set(color);
 	}
 
 	// This function fetches all users who are searching for lunchpartners
