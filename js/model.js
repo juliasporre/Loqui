@@ -42,8 +42,6 @@ LoquiApp.factory('model', function($resource){
 		var letters2 = code.substring(0, 2);
 		letters2 = letters2.toLowerCase();
 		letters = letters.toLowerCase();
-		console.log(letters)
-		console.log(letters2)
 		if(letters2=="dd"){
 			color = "#ff3399"
 		}
@@ -118,7 +116,6 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to recentCourses, also updates database
 	this.addToRecent = function(course, color){
-		console.log(this.recentCourses)
 		courseObject = {courseName:course, color:color};
 		var index = containsObject(courseObject,this.recentCourses);
 		if (index > -1) {
@@ -170,7 +167,6 @@ LoquiApp.factory('model', function($resource){
 
 	this.removeFromFavorite = function(course, color){
 		courseObject = {courseName:course, color:color};
-		console.log("removeFromFavorite "+course);
 		var index = containsObject(courseObject, this.favoriteCourses);
 		if (index > -1) {
     		this.favoriteCourses.splice(index, 1);
@@ -179,26 +175,8 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.getFavoriteCourses = function(){
-		console.log("this.favoriteCourses: "+this.favoriteCourses);
 		return this.favoriteCourses;
 	}
-
-	/*
-	this.getFriendName = function(lowerUserName){
-		var friend = [];
-		var lowerUserName = lowerUserName.toLowerCase();
-		var ref = this.database.ref('users/'+lowerUserName);
-		ref.once("value", function(snapshot){
-			if(snapshot.exists()){
-				snap = snapshot.val();
-				console.log(snap)
-				friend.push(snap.username);
-
-			}
-		})
-		return friend;
-
-	}*/
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
@@ -298,6 +276,7 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
+	// Adds channel to course
 	this.addChannel = function(course, channelName){
 		var ref = this.database.ref('messanges/'+course+'/'+channelName);
 		ref.push().set({
@@ -308,15 +287,13 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
-
+	//Returns rooms (aka channels) for a certain course
 	this.getRooms = function(course){
 		var roomList = [];
 		var ref = this.database.ref('messanges/'+course);
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
-				console.log("NY snapshot")
 				var val = snapshot.val()
-				console.log(val)
 				for (var room  in val){
 					roomList.push(room);
 				}
@@ -345,7 +322,7 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
-
+	//Adds other user in list for private conversations
 	this.addPrivateMessangeConv = function(otherUser){
 		this.database.ref('users/'+this.lowerUserName+'/convos/'+otherUser.username.toLowerCase()).set({
 			username: otherUser.username
@@ -354,6 +331,7 @@ LoquiApp.factory('model', function($resource){
 		_this.privateConvos.push(otherUser);
 	}
 
+	//Adds you in other persons list for private conversations
 	this.addOtherPrivateMessangeConv = function(other){
 		this.database.ref('users/'+other.username.toLowerCase()+'/convos/'+_this.username).set({
 			username: _this.username
@@ -361,6 +339,8 @@ LoquiApp.factory('model', function($resource){
 
 	}
 
+
+	// Adds a users color and name to a object
 	this.getColorAndNameUser = function(user){
 		var lowerUserName = user.username.toLowerCase();
 		var ref = this.database.ref('users/'+lowerUserName);
@@ -381,7 +361,7 @@ LoquiApp.factory('model', function($resource){
 		});
 	}
 
-
+	// Returns list with objects for private conversations
 	this.getPrivateMessangeConv = function(){
 		var list = [];
 		var lowerUserName = this.username.toLowerCase();
@@ -399,11 +379,12 @@ LoquiApp.factory('model', function($resource){
 
 	}
 
-
+	// Sets database
 	this.setDatabase = function(){
 		this.database = firebase.database();
 	}
 
+	// Gets database
 	this.getDatabase = function(){
 		return this.database;
 	}
@@ -547,15 +528,14 @@ LoquiApp.factory('model', function($resource){
 
 				snap = snapshot.val()
 				if (snap.matchname!=false){
-					console.log("ref är inte false utan är någon! " + snap.matchname)
+					console.log("ref is somone! " + snap.matchname)
 
 					list.push(snap.matchname);
-					list.push(snap.matchcolor)
-					console.log(list)
+					list.push(snap.matchcolor);
 
 				}
 				else{
-					console.log("ref är false så vi returnar en tom lista")
+					console.log("ref is false, returning empty list")
 
 				}
 			}

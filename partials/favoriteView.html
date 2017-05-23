@@ -1,4 +1,5 @@
 <div class="blueBox">
+  <!--Header-->
   <div id="titleProfileView">
     <center>
       <div class="row">
@@ -15,6 +16,7 @@
     </center>
   </div>
 
+<!--Creates table with favorites-->
 <div>
   <table class="table table-hover" ng-show="favExcists">
     <thead>
@@ -35,6 +37,7 @@
     </tbody>
   </table>
 
+<!--If favorites do not exsits-->
   <div ng-show="!favExcists">
       You have no favorites yet
       <span class="glyphicon glyphicon-heart-empty"></span>
