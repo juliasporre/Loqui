@@ -1,5 +1,7 @@
 LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location){
 
+
+
   //Creates right url for redirection
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('privateMessages');
@@ -68,10 +70,12 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
   }
 
   // Gets list with those you have a private conversation with
-    model.getPrivateMessangeConv(function(list){
-      console.log(list);
-      $scope.people = list;
-    });
+  model.getPrivateMessangeConv(function(list){
+    console.log(list);
+    $scope.people = list;
+    angular.element('#findpep').triggerHandler('click');
+  });
+
 
 
 
