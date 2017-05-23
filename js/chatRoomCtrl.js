@@ -16,7 +16,9 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
   $scope.allRooms = model.getRooms(code);
 
-  model.addToRecent(code);
+  color = model.getColorCourse(code);
+
+  model.addToRecent(code, color);
   $scope.isFav = model.isFavoriteCourse(code);
    //General should be the only one from the start, and the
    //array should be saved in the database and go through the model.
@@ -37,12 +39,14 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   app.connected = false;//userName
   app.ready = false;
 
-  $scope.sendMessage = function(){
+  $scope.sendMessage = function(event){
     var msg = document.getElementById("comment").value;
-    document.getElementById("comment").value="";
+    document.getElementById("comment").value= "";
 
     //Everything handling the time
     var time = new Date();
+    var timeDate = time.getDate();
+    var timeMonth = time.getMonth();
     var timeHour = time.getHours();
     var timeMin = time.getMinutes();
     var timeSec = time.getSeconds();
@@ -56,7 +60,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
     }else{
       timeSec = timeSec.toString();
     }
-    var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
+    var actualTime = timeDate+"/"+timeMonth +" "+ timeHour.toString()+":"+timeMin+":"+timeSec;
 
     model.addMessange(code, room, userName, msg, actualTime, userColor);
   	var send = JSON.stringify({color: userColor, nick: userName, msg: msg, time: actualTime});
@@ -66,7 +70,7 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
 
   $scope.addFavorite = function(){
-    model.addToFavorite(code);
+    model.addToFavorite(code, color);
     $scope.isFav = model.isFavoriteCourse(code);
   }
 

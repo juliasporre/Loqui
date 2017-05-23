@@ -12,16 +12,21 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 		var passWord = document.getElementById("password").value;
 		var lowerUserName = userName.toLowerCase();
 
-		var ref = database.ref('users/'+lowerUserName);
-    	ref.once("value").then(function(snapshot){
-      		if(snapshot.exists()){
-      			alert("Username is taken");
-      		}else{
-      			model.newAccount(userName, passWord);
-				model.fetchData(userName);
-				//$location.path('/search');
-			}
-		});
+		if(passWord!="" && userName!=""){
+			var ref = database.ref('users/'+lowerUserName);
+	    	ref.once("value").then(function(snapshot){
+	      		if(snapshot.exists()){
+	      			alert("Username is taken");
+	      		}else{
+	      			model.newAccount(userName, passWord);
+					model.fetchData(userName);
+					//$location.path('/search');
+				}
+			});
+		}
+		else{
+			alert("You must enter both username and password");
+		}
 	}
 
 	// checks if the input matches an existing user in the database
@@ -48,10 +53,10 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 
 		      }
 				});
-			}else{
-				$scope.loading = false;
-				alert("You must enter both username and password");
-			}
+		}else{
+      $scope.loading = false;
+			alert("You must enter both username and password");
+		}
 	}
 
 });

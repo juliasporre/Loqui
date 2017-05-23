@@ -35,36 +35,97 @@ LoquiApp.factory('model', function($resource){
 	}
 
 
+	var colorGenerator = function(code){
+		var color;
+				var letters = code.substring(0);
+				var letters2 = code.substring(0, 1);
+				letters = letters.toLowerCase();
+				if(letters2="dd"){
+					color = "#ff3399"
+				}
+				else if(letters2="sf"){
+					color = "#ff1a1a"
+				}
+				else if(letters="a"){
+					color = "#cc66ff"
+				}
+				else if(letters="b"){
+					color = "#ffcc33"
+				}
+				else if(letters="e"){
+					color = "#9999ff"
+				}
+				else if(letters="m"){
+					color = "#e60000"
+				}
+				else if(letters="i"){
+					color = "#4dffb8"
+				}
+				else if(letters="k"){
+					color = "#ffff80"
+				}
+				else if(letters="h"){
+					color = "#33ff33"
+				}
+				else if(letters="l"){
+					color = "#ff6633"
+				}
+				else if(letters="s"){
+					color = "#0099e6"
+				}
+				else{
+					color="#ff751a"
+				}
+			return color
+	}
 
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
 		get: {
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
+				color = colorGenerator(tmp.code);
 				return {1:{
 					code: tmp.code,
 					name: tmp.title.en,
 					url: tmp.href.en,
 					level: tmp.level.en,
-					info: tmp.info.sv}
+					info: tmp.info.sv,
+					color: color}
 				};
 			}
 		}
 	});
 
+	this.getColorCourse = function(code){
+		return colorGenerator(code);
+	}
+
+	function containsObject(obj, list) {
+	    var i;
+	    for (i = 0; i < list.length; i++) {
+	        if (list[i].course === obj.course) {
+	            return i;
+	        }
+	    }
+
+	    return -1;
+	}
+
 	// Adds a course to recentCourses, also updates database
-	this.addToRecent = function(course){
-		var index = this.recentCourses.indexOf(course);
+	this.addToRecent = function(course, color){
+		courseObject = {courseName:course, color:color};
+		var index = containsObject(courseObject,this.recentCourses);
 		if (index > -1) {
     	this.recentCourses.splice(index, 1);
 		}
 		if(this.recentCourses.length > 2){
 			this.recentCourses.splice(0, 1);
 		}
-		this.recentCourses.splice(0, 0, course);
-
+		this.recentCourses.splice(0, 0, courseObject);
 		this.database.ref('users/'+this.username+'/recent/'+course).set({
-			courseName: course
+			courseName: course,
+			color: color
 		});
 	}
 
@@ -77,7 +138,7 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	// Adds a course to favorites, also updates database
-	this.addToFavorite = function(course){
+	this.addToFavorite = function(course, color){
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
 			if(course==this.favoriteCourses[i]){
@@ -90,14 +151,15 @@ LoquiApp.factory('model', function($resource){
 			window.hyper.log("addToFavorite "+course);
 			this.favoriteCourses.push(course);
 			this.database.ref('users/'+this.username+'/favorites/'+course).set({
-				courseName:course
+				courseName:course,
+				color:color
 			});
 		}
 	}
 
 	this.isFavoriteCourse = function(course){
 		for(var i = 0; i < this.favoriteCourses.length; i++){
-			if(this.favoriteCourses[i] == course){
+			if(this.favoriteCourses[i].courseName == course){
 				return true;
 			}
 		}
@@ -155,7 +217,7 @@ LoquiApp.factory('model', function($resource){
 
 			  	var list = [];
 			  	snapshot.child("favorites").forEach(function(childsnapshot){
-				  	list.push(childsnapshot.key);
+				  	list.push(childsnapshot.val());
 			  	});
 			  	_this.favoriteCourses=list;
 					var list = [];
@@ -166,7 +228,7 @@ LoquiApp.factory('model', function($resource){
 					_this.privateConvos = list;
 			  	list = [];
 			  	snapshot.child("recent").forEach(function(childsnapshot){
-			  		list.push(childsnapshot.key);
+			  		list.push(childsnapshot.val());
 			  	});
 			  	_this.recentCourses=list;
 

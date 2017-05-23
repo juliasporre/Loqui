@@ -20,7 +20,7 @@ html body{
     height:100vh;
     overflow:scroll;
     min-height:100%;
-  	background-color: #9ce5e8;
+  	background-color: white;
 
 }
 
@@ -88,7 +88,6 @@ html body{
     color: black;
     text-shadow: 3px 3px 9px rgba(161, 179, 165, 1);
     text-decoration: none;
-
 }
 
 .messageBox{
@@ -98,7 +97,6 @@ html body{
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-top: 10px;
-
 }
 
 .nameBox{
@@ -258,6 +256,7 @@ tr{
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  color:blue;
 }
 
 #center {
@@ -272,6 +271,7 @@ tr{
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
   text-align: center;
+  color:blue;
   
 }
 
@@ -279,6 +279,7 @@ tr{
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
   text-align: center;
+  color:blue;
 }
 
 
