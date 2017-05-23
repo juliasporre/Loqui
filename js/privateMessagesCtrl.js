@@ -55,7 +55,7 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
     }else{
       timeSec = timeSec.toString();
     }
-    var actualTime = timeHour.toString()+":"+timeMin+":"+timeSec;
+    var actualTime = timeDate+"/"+timeMonth +" "+ timeHour.toString()+":"+timeMin+":"+timeSec;
 
     model.addPrivateMessang(path, userName,msg, actualTime, userColor);
   	var send = JSON.stringify({color: userColor, nick: userName, msg: msg, time: actualTime});
