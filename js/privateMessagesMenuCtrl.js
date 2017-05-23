@@ -14,6 +14,15 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
     $location.path(path);
   }
 
+  // Go to Private chatroom with other user.
+  $scope.goChat = function(user) {
+    var lowerUser = user.toLowerCase();
+    $location.path('/privateMessages/'+lowerUser);
+  }
+
+
+
+
   // Search for friend in database. If the userName exsists, you get redirected to your private chatroom
   var search = function(friend){
     var lowerFriend = friend.toLowerCase();
@@ -29,18 +38,24 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
         model.database.ref('users/'+ lowerUserName +'/convos/'+lowerFriend).once("value").then(function(snapshot){
           if(snapshot.exists()){
             console.log("already friend");
-          } else {
-            model.addPrivateMessangeConv(other);
-            model.addOtherPrivateMessangeConv(other);
+            $scope.loading = false;
             $scope.$apply(function(){
-              $scope.persons = model.getPrivateMessangeConv();
-              $scope.loading = false;
-            })
+               goto('/privateMessages/'+other.username);
+            });
+          } else {
+            model.addPrivateMessangeConv(lowerFriend);
+            model.addOtherPrivateMessangeConv(lowerFriend);
+            $scope.loading = false;
+            $scope.$apply(function(){
+               goto('/privateMessages/'+other.username);
+            });
+
           }
         });
       }
       else{
         alert("That user does not exists")
+        $scope.loading = false;
       }
 
     });
@@ -54,19 +69,17 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
     window.history.back();
   }
 
-  // Go to Private chatroom with other user.
-  $scope.goChat = function(user) {
-    var lowerUser = user.toLowerCase();
-    $location.path('/privateMessages/'+lowerUser);
-  }
 
 
 
 
   //Search for friend to start a private connversation with
   $scope.searchFriend = function(friend){
-    $scope.loading = true;
-    search(friend);
+    if(friend != undefined){
+      $scope.loading = true;
+      search(friend);
+    }
+
   }
 
   // Gets list with those you have a private conversation with

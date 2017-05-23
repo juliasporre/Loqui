@@ -409,13 +409,9 @@ LoquiApp.factory('model', function($resource){
 		var i = 0;
 		ref.once("value", function(snapshot){
 			snapshot.child("convos").forEach(function(childsnapshot){
-				console.log("snapshotcild");
-				console.log(childsnapshot.val());
 				list.push(childsnapshot.val());
 				_this.getColorUser(list[i]);
 				_this.getNameUser(list[i]);
-				console.log("after adding");
-				console.log(list[i]);
 				i++;
 			});
 			callback(list);
