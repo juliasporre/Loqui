@@ -44,6 +44,11 @@
 	<center>
 	<hr>
 	{{status}}
+	<div class="spinner" ng-show="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
 
 		<div class="card-columns" ng-show="hasSearch">
 			<div ng-repeat="course in courses" class="card" data-toggle="popover" data-title="{{course.name}}" data-content="">

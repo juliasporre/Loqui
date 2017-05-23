@@ -11,10 +11,11 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   $scope.isFavoriteCourse = false;
 
   $scope.hasSearch = false;
+  $scope.loading = false;
 
   var code = "";
   $scope.search = function(query){
-
+    $scope.loading = true;
     if(query != undefined){
       $scope.status = "Searching for " + query + "...";
       model.getCourse.get({query : query}, function(data){
@@ -24,10 +25,13 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
         code = data[1].code;
         $scope.isFavoriteCourse = model.isFavoriteCourse(code);
         model.getRooms(code); //to make sure there is a general-room already, or else make one
+        $scope.loading = false;
       },function(data){
+        $scope.loading = false;
         $scope.status = "Could not find the course...";
       });
     }else{
+      $scope.loading = false;
       alert("You need to write something to search for")
     }
   }
