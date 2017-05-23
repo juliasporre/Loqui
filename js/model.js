@@ -108,7 +108,7 @@ LoquiApp.factory('model', function($resource){
 	function containsObject(obj, list) {
 	    var i;
 	    for (i = 0; i < list.length; i++) {
-	        if (list[i].course === obj.course) {
+	        if (list[i].courseName === obj.courseName) {
 	            return i;
 	        }
 	    }
@@ -118,24 +118,21 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to recentCourses, also updates database
 	this.addToRecent = function(course, color){
+		console.log(this.recentCourses)
 		courseObject = {courseName:course, color:color};
 		var index = containsObject(courseObject,this.recentCourses);
 		if (index > -1) {
-    	this.recentCourses.splice(index, 1);
+    		this.recentCourses.splice(index, 1);
 		}
-		if(this.recentCourses.length > 2){
-			this.recentCourses.splice(0, 1);
+		if(this.recentCourses.length > 4){
+			this.recentCourses.splice(4, 1);
 		}
-		this.recentCourses.splice(0, 0, courseObject);
+		this.recentCourses.splice(0,0, courseObject)
 		this.database.ref('users/'+this.lowerUserName+'/recent/'+course).set({
 			courseName: course,
 			color: color
 		});
 	}
-
-
-
-
 
 	this.getRecentCourses = function(){
 		return this.recentCourses;
