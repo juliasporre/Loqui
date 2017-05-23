@@ -14,6 +14,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   $scope.loading = false;
 
   var code = "";
+  var color = "";
   $scope.search = function(query){
     $scope.loading = true;
     if(query != undefined){
@@ -23,7 +24,8 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
         $scope.status = "";
         $scope.courses = data;
         code = data[1].code;
-        $scope.isFavoriteCourse = model.isFavoriteCourse(code);
+        color = data[1].color;
+        $scope.isFavoriteCourse = model.isFavoriteCourse(code, color);
         model.getRooms(code); //to make sure there is a general-room already, or else make one
         $scope.loading = false;
       },function(data){
@@ -37,12 +39,12 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
   }
 
   $scope.addFavorite = function(){
-    model.addToFavorite(code);
+    model.addToFavorite(code, color);
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
   }
 
   $scope.removeFavorite = function(){
-    model.removeFromFavorite(code);
+    model.removeFromFavorite(code, color);
     $scope.isFavoriteCourse = model.isFavoriteCourse(code);
   }
 

@@ -86,26 +86,6 @@
 		</div>
 
 
-
-<!--
-		<center>
-			<h1>Your recent courses</h1>
-			<div class="btn-group-vertical" role="group" aria-label="...">
-				<div class="btn-group btn-group-lg" role="group">
-					<div ng-repeat="course in recentCourses">
-						<a type="button" class="btn btn-default btn-lg" href="{{url}}chatRoom/{{course}}-General">
-	    				{{course}}
-	    			</a>
-					</div>
-				</div>
-
-				 <div class="spinner" ng-show="loading">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div>
-			</div>
-		<center>-->
 		<center>
 		<table class="table table-hover">
 		  <thead>
@@ -114,16 +94,11 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		      <tr ng-repeat="course in recentCourses" ng-click="goToCourse(course)">
-		            <td class="text-center">{{course}}</td>
+		      <tr ng-repeat="course in recentCourses" ng-click="goToCourse(course.courseName)">
+		            <td class="text-center" style="background-color:{{course.color}}">{{course.courseName}}</td>
 		      </tr>
 		  </tbody>
 		</table>
-		<!-- <div class="spinner" ng-show="loading">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
-                </div> -->
 		<center>
 
 
