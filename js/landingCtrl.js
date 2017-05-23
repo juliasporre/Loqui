@@ -25,6 +25,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 			});
 		}
 		else{
+			$scope.loading = false;
 			alert("You must enter both username and password");
 		}
 	}
