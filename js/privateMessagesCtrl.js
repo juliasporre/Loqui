@@ -1,26 +1,20 @@
 LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams){
 
+  //Creates right url for redirection
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('privateMessages');
   $scope.url = splitedUrl[0];
 
+  // Get friends name
   $scope.friend = $routeParams.userID;
-  /*var d = $.Deferred();
-  var newFriend = model.getFriendName($scope.friend); //The one you are sending private messages with
-  $.when(d).done(function(theFriend) { 
-    $scope.$apply(function(){
-      $scope.friend = theFriend[0];
-      console.log($scope.friend)
-    });
-  })
-  setTimeout(function() {
-    d.resolve(newFriend);
-  }, 100);*/
-  
+
+  // Generates the right name for the chat room, the usernames with "-" in alphabetic order
+  // Tehreby it is the same for the users
   var names = [$scope.friend.toLowerCase(), model.getUserName().toLowerCase()];
   names.sort();
   var path = names[0] + '-' + names[1];
 
+// This code if from a lab in this course and is used for creating different chatrooms
 //Object that holds application data and functions.
   var app = {};
   var totalMess = 0;
@@ -33,7 +27,7 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
   var userName = model.getUserName();
   var userColor = model.getColor();
 
-  app.connected = false;//userName
+  app.connected = false;
   app.ready = false;
 
   $scope.sendMessage = function(){
@@ -65,12 +59,14 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
 
   }
 
+  // On message arrive, do a sound
   app.beep = function(){
     var aSound = document.createElement('audio');
     aSound.setAttribute('src', 'beep.wav');
     aSound.play();
   }
 
+  // When a message arrives, this funtion posts it on the messageSpace
   app.onMessageArrived = function(message) {
   	var o = JSON.parse(message.payloadString);
   	var text = document.createElement("p");
@@ -85,16 +81,17 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
     app.toBottom();
   }
 
+  // This function autoscrolls down to the bottom of the conversation
   app.toBottom = function(){
     var elem = document.getElementById('messageSpace');
     elem.scrollTop = elem.scrollHeight;
   }
 
 
-
+  // Writes the old message
   app.loadOldMess = function(message) {
     var text = document.createElement("p");
-    if(message.nick!=undefined){ //Ska läggas till i privata meddelanden
+    if(message.nick!=undefined){
       text.innerHTML= '<div class="messageBox" id="msgBox" style="background-color:'+ message.color+'"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+message.color+';border:none""><a style="color:black" href="index.html#/profile/' + message.nick + '">' + message.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + message.time + '</div></div></div><div>' + message.msg + '</div></div>';
       app.canvas.appendChild(text);
     }
@@ -196,6 +193,7 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
 
   app.initialize();
 
+  // go to previous
   $scope.goBack = function() {
     window.history.back();
   }

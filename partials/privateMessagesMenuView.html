@@ -1,4 +1,5 @@
 <div class="blueBox">
+  <!--Header-->
   <div class="chatHeader">
     <div class="col-xs-4">
       <button type="button" class="btn btn-default" ng-click="goBack()" style="background-color:#D3D3D3; border:0px">
@@ -11,6 +12,7 @@
     </div>
   </div>
 
+  <!--Search for users-->
   <div class="col-xs-8 center input-group">
     <input type="text" class="form-control" ng-model="query" placeholder="Search friend"/>
     <span class="input-group-btn">
@@ -20,12 +22,14 @@
   </span>
   </div>
 
+  <!--on loading-->
 <div class="spinner" ng-show="loading">
   <div class="bounce1"></div>
   <div class="bounce2"></div>
   <div class="bounce3"></div>
 </div>
 
+  <!-- Creates table with private conversation people-->
   <table class="table table-hover">
     <thead>
       <tr>

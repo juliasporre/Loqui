@@ -20,7 +20,6 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 	      		}else{
 	      			model.newAccount(userName, passWord);
 					model.fetchData(userName);
-					//$location.path('/search');
 				}
 			});
 		}

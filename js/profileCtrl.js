@@ -10,7 +10,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   $scope.userName = userName;
   console.log($scope.userName)
 
-  // var form database
+  // var for database
   var database = model.getDatabase();
 
   //Check if it is your own profile
