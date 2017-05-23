@@ -248,17 +248,12 @@ tr{
 
 
 }
-
-.spinner {
-  margin: 100px auto 0;
-  width: 70px;
-  text-align: center;
-}
-
-/*.spinner > div {
+.spinner > div {
   width: 18px;
   height: 18px;
   background-color: white;
+  margin: 20px auto 0;
+  align: center;
 
   border-radius: 100%;
   display: inline-block;
