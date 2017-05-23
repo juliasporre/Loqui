@@ -347,7 +347,6 @@ LoquiApp.factory('model', function($resource){
 
 
 	this.addPrivateMessangeConv = function(otherUser){
-
 		this.database.ref('users/'+this.lowerUserName+'/convos/'+otherUser.username.toLowerCase()).set({
 			username: otherUser.username
 
@@ -362,44 +361,28 @@ LoquiApp.factory('model', function($resource){
 
 	}
 
-	this.getNameUser = function(user){
+	this.getColorAndNameUser = function(user){
 		var lowerUserName = user.username.toLowerCase();
 		var ref = this.database.ref('users/'+lowerUserName);
 		var name = "";
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				name = snapshot.val().name;
+				color = snapshot.val().color;
 			}else{
 				console.log("user does not exsist");
 			}
 			if (name != "" && name != undefined){
 				user.name = name;
+				user.color = color;
 			}else{
 				console.log("user has no name");
 			}
 		});
 	}
 
-	this.getColorUser = function(user){
-		var lowerUserName = user.username.toLowerCase();
-		var ref = this.database.ref('users/'+lowerUserName);
-		var color = "";
-		ref.once("value").then(function(snapshot){
-			if(snapshot.exists()){
-				color = snapshot.val().color;
-			}else{
-				console.log("user does not exsist");
-			}
-			if (color != "" && color != undefined){
-				console.log("returning "+color);
-				user.color = color;
-			}else{
-				console.log("user has no color");
-			}
-		});
-	}
 
-	this.getPrivateMessangeConv = function(callback){
+	this.getPrivateMessangeConv = function(){
 		var list = [];
 		var lowerUserName = this.username.toLowerCase();
 		var ref = this.database.ref('users/'+lowerUserName);
@@ -407,13 +390,12 @@ LoquiApp.factory('model', function($resource){
 		ref.once("value", function(snapshot){
 			snapshot.child("convos").forEach(function(childsnapshot){
 				list.push(childsnapshot.val());
-				_this.getColorUser(list[i]);
-				_this.getNameUser(list[i]);
+				_this.getColorAndNameUser(list[i]);
+
 				i++;
 			});
-			callback(list);
-			//return list;
 		});
+		return list;
 
 	}
 

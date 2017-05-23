@@ -30,9 +30,7 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
     ref.once("value").then(function(snapshot){
       if(snapshot.exists()){
         var other = {
-          username: snapshot.val().username,
-          name: snapshot.val().name,
-          color: snapshot.val().color
+          username: snapshot.val().username
         };
         var lowerUserName = model.getUserName().toLowerCase();
         model.database.ref('users/'+ lowerUserName +'/convos/'+lowerFriend).once("value").then(function(snapshot){
@@ -75,6 +73,7 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
   //Search for friend to start a private connversation with
   $scope.searchFriend = function(friend){
+    console.log("CLICKED");
     if(friend != undefined){
       $scope.loading = true;
       search(friend);
@@ -82,14 +81,18 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
   }
 
-  // Gets list with those you have a private conversation with
-  model.getPrivateMessangeConv(function(list){
-    console.log(list);
-    $scope.people = list;
-    angular.element('#findpep').triggerHandler('click');
-  });
-
-
-
+    var d = $.Deferred();
+    var peopleList = model.getPrivateMessangeConv();
+    console.log(peopleList);
+    $.when(d).done(function(list) {
+      $scope.$apply(function(){
+        $scope.people = list;
+        console.log($scope.people);
+        console.log("2");
+      });
+    });
+    setTimeout(function() {
+      d.resolve(peopleList);
+    }, 500);
 
 });
