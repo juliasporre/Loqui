@@ -79,6 +79,11 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.newChannel = function(){
     var name=prompt("Please enter the name of the new channel");
     name = app.capitalize(name);
+    var splitted = name.split(" ");
+    name = "";
+    for(var i = 0; i < splitted.length; i++ ){
+      name = name + splitted[i];
+    }
     name = $.trim(name);
       if (name!=null && name!=""){
         if ($scope.allRooms.length<5){
@@ -90,8 +95,8 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
           }
           model.addChannel(code, name);
           var d = $.Deferred();
-          var list = model.getRooms(code); 
-          $.when(d).done(function(listOfRooms) { 
+          var list = model.getRooms(code);
+          $.when(d).done(function(listOfRooms) {
             $scope.$apply(function(){
               $scope.allRooms = listOfRooms;
             });
