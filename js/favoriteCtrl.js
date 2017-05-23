@@ -1,7 +1,8 @@
 LoquiApp.controller('favoriteCtrl', function($scope, model, $location){
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split("favorites");
-  var url = splitedUrl[0]
+  var url = splitedUrl[0];
+  $scope.url = url;
 
   $scope.favorites = model.getFavoriteCourses();
   if ($scope.favorites.length == 0){
