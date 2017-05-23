@@ -27,6 +27,12 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
             model.addOtherPrivateMessangeConv(other);
           }
         });
+
+        goto('/privateMessages/'+lowerFriend);
+
+      }
+      else{
+        alert("That user does not exists")
       }
     });
   }
@@ -51,9 +57,6 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
   $scope.searchFriend = function(friend){
     search(friend);
-    var lowerFriend = friend.toLowerCase();
-    goto('/privateMessages/'+lowerFriend);
-
   }
 
 
