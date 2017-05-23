@@ -33,7 +33,7 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 	// if yes then writes to console
 	// it should probably change things in model
 	$scope.signIn = function(){
-		$scope.loading = true
+		$scope.loading = true;
 	    var userName = document.getElementById("username").value;
 	    var passWord = document.getElementById("password").value;
 	    var lowerUserName = userName.toLowerCase();
@@ -48,10 +48,13 @@ LoquiApp.controller('landingCtrl', function($scope, model, $location){
 		          });
 						});
 					}else{
+						$scope.loading = false;
 						alert("Wrong username or password!");
+
 		      }
 				});
 		}else{
+      $scope.loading = false;
 			alert("You must enter both username and password");
 		}
 	}
