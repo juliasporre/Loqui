@@ -76,7 +76,7 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
   	var text = document.createElement("p");
   	if(o.nick!=undefined){ //Ska läggas till i privata meddelanden
 
-  		text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+'"><a style="color:black" href="index.html#/profile/' + o.nick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + o.time + '</div></div></div><div>' + o.msg + '</div></div>';
+  		text.innerHTML= '<div class="messageBox" id="msgBox" style="background-color:' +o.color +'"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+o.color+';border:none"><a style="color:black" href="index.html#/profile/' + o.nick + '">' + o.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + o.time + '</div></div></div><div>' + o.msg + '</div></div>';
   		app.canvas.appendChild(text);
       if(o.nick!=userName){
         app.beep();
@@ -95,7 +95,7 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
   app.loadOldMess = function(message) {
     var text = document.createElement("p");
     if(message.nick!=undefined){ //Ska läggas till i privata meddelanden
-      text.innerHTML= '<div class="messageBox" id="msgBox"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+message.color+'""><a style="color:black" href="index.html#/profile/' + message.nick + '">' + message.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + message.time + '</div></div></div><div>' + message.msg + '</div></div>';
+      text.innerHTML= '<div class="messageBox" id="msgBox" style="background-color:'+ message.color+'"><div class="row" id="messageHeader"><div class="col-xs-8"><div class="nameBox"><ul class="nav nav-pills"><li style="background-color:'+message.color+';border:none""><a style="color:black" href="index.html#/profile/' + message.nick + '">' + message.nick + '</a></li></ul></div></div><div class="col-xs-4"><div class="timeStamp">' + message.time + '</div></div></div><div>' + message.msg + '</div></div>';
       app.canvas.appendChild(text);
     }
     app.toBottom();

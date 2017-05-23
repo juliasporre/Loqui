@@ -355,7 +355,7 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	this.addOtherPrivateMessangeConv = function(other){
-		this.database.ref('users/'+other.username+'/convos/'+_this.username).set({
+		this.database.ref('users/'+other.username.toLowerCase()+'/convos/'+_this.username).set({
 			username: _this.username
 		});
 
