@@ -1,26 +1,32 @@
 LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
-  console.log("setting profile data...");
-
+  //Creates right url for redirection
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('profile');
   $scope.url = splitedUrl[0];
+
+  // Get userName from routeParams
   var userName = $routeParams.userID;
   $scope.userName = userName;
+
+  // var form database
   var database = model.getDatabase();
 
   //Check if it is your own profile
 
+
   var thisIsMe = false;
   if(userName == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
-    thisIsMe = true;
+    thisIsMe = true;   // Checks if it is your profile or not
 
+    //If this is your profile, values are fetched from model
     $scope.name = model.getUserFullName();
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();
-    $scope.description = model.getDescription(); 
+    $scope.description = model.getDescription();
     $scope.userColor = model.getColor();
   }else{
+    // IF it is not your profile, values are fetched from database for that userName
     var lowerUserName = userName.toLowerCase();
     var ref = database.ref('users/'+lowerUserName);
     ref.once("value").then(function(snapshot){
@@ -36,12 +42,16 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   }
   $scope.thisIsMe = thisIsMe;
 
+
+// Writes header depending on if it is your profile or someone elses.
   if(thisIsMe){
     $scope.init = "My Profile";
   } else {
     $scope.init = userName + "s Profile";
   }
 
+
+// When changes are made, values are updated in model and database. After that, the new values are fetched from model
   $scope.saveChanges = function(){
     if($scope.name != document.getElementById("name").value){
       model.setFullName(document.getElementById("name").value);
@@ -62,6 +72,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     alert("Your changes in profile were made!");
   }
 
+// Sets the personal color to background
   $scope.randomColor = function(){
     var list = model.colorsToRandomFrom;
     var done = false;
@@ -75,6 +86,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     }
   }
 
+// Go back to previous view
   $scope.goBack = function() {
     window.history.back();
   }
