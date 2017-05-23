@@ -220,12 +220,12 @@ LoquiApp.factory('model', function($resource){
 				  	list.push(childsnapshot.val());
 			  	});
 			  	_this.favoriteCourses=list;
-					var list = [];
+					/*var list = [];
 					snapshot.child("convos").forEach(function(childsnapshot){
 						list.push(childsnapshot.val());
 					});
-					
-					_this.privateConvos = list;
+
+					_this.privateConvos = list;*/
 			  	list = [];
 			  	snapshot.child("recent").forEach(function(childsnapshot){
 			  		list.push(childsnapshot.val());
@@ -344,24 +344,75 @@ LoquiApp.factory('model', function($resource){
 
 	this.addPrivateMessangeConv = function(otherUser){
 		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
-			username: otherUser.username,
-			name: otherUser.name,
-			color: otherUser.color
+			username: otherUser.username
 		});
 		_this.privateConvos.push(otherUser);
 	}
 
 	this.addOtherPrivateMessangeConv = function(other){
 		this.database.ref('users/'+other.username+'/convos/'+_this.username).set({
-			username: _this.username,
-			name: _this.name,
-			color: _this.color
+			username: _this.username
 		});
 
 	}
 
-	this.getPrivateMessangeConv = function(){
-		return this.privateConvos;
+	this.getNameUser = function(user){
+		var lowerUserName = user.username.toLowerCase();
+		var ref = this.database.ref('users/'+lowerUserName);
+		var name = "";
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				name = snapshot.val().name;
+			}else{
+				console.log("user does not exsist");
+			}
+			if (name != "" && name != undefined){
+				user.name = name;
+			}else{
+				console.log("user has no name");
+			}
+		});
+	}
+
+	this.getColorUser = function(user){
+		var lowerUserName = user.username.toLowerCase();
+		var ref = this.database.ref('users/'+lowerUserName);
+		var color = "";
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				color = snapshot.val().color;
+			}else{
+				console.log("user does not exsist");
+			}
+			if (color != "" && color != undefined){
+				console.log("returning "+color);
+				user.color = color;
+			}else{
+				console.log("user has no color");
+			}
+		});
+	}
+
+	this.getPrivateMessangeConv = function(callback){
+		var list = [];
+		var lowerUserName = this.username.toLowerCase();
+		var ref = this.database.ref('users/'+lowerUserName);
+		var i = 0;
+		ref.once("value", function(snapshot){
+			snapshot.child("convos").forEach(function(childsnapshot){
+				console.log("snapshotcild");
+				console.log(childsnapshot.val());
+				list.push(childsnapshot.val());
+				_this.getColorUser(list[i]);
+				_this.getNameUser(list[i]);
+				console.log("after adding");
+				console.log(list[i]);
+				i++;
+			});
+			callback(list);
+			//return list;
+		});
+
 	}
 
 
@@ -463,7 +514,7 @@ LoquiApp.factory('model', function($resource){
 				var lowerUserName = _this.username.toLowerCase();
 				_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).set({
 					user:_this.username,
-					color:_this.color, 
+					color:_this.color,
 					matchname: false, //here a matched partner will input his name so you know its a match
 					matchcolor: "white"
 				});
@@ -490,7 +541,7 @@ LoquiApp.factory('model', function($resource){
 		var lowerPartner = partnerObject[0].toLowerCase();
 		_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerPartner).set({
 			user:partnerObject[0],
-			color:partnerObject[1], 
+			color:partnerObject[1],
 			matchname: _this.username, //here a matched partner will input his name so you know its a match
 			matchcolor: _this.color
 		});
@@ -509,19 +560,19 @@ LoquiApp.factory('model', function($resource){
 		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName);
 		ref.once("value", function(snapshot){
 			if(snapshot.exists()){
-				
+
 				snap = snapshot.val()
 				if (snap.matchname!=false){
 					console.log("ref är inte false utan är någon! " + snap.matchname)
-					
+
 					list.push(snap.matchname);
 					list.push(snap.matchcolor)
 					console.log(list)
-					
+
 				}
 				else{
 					console.log("ref är false så vi returnar en tom lista")
-					
+
 				}
 			}
 

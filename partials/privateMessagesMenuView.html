@@ -14,7 +14,7 @@
 <div class="col-xs-8 center input-group">
   <input type="text" class="form-control" ng-model="query" placeholder="Search friend"/>
   <span class="input-group-btn">
-    <button type="submit" class="btn btn-primary" ng-click="searchFriend(query)"> 
+    <button type="submit" class="btn btn-primary" ng-click="searchFriend(query)">
       <span class="glyphicon glyphicon-search"></span>
   </button>
 </span>
@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="person in persons" ng-click="goChat(person.username)" style="background-color: {{person.color}}">
+        <tr ng-repeat="person in people" ng-click="goChat(person.username)" style="background-color: {{person.color}}">
               <td>{{person.name}}</td>
               <td>{{person.username}}</td>
               <td></td>
