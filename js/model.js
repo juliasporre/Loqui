@@ -118,6 +118,23 @@ LoquiApp.factory('model', function($resource){
 		return this.favoriteCourses;
 	}
 
+	/*
+	this.getFriendName = function(lowerUserName){
+		var friend = [];
+		var lowerUserName = lowerUserName.toLowerCase();
+		var ref = this.database.ref('users/'+lowerUserName);
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				snap = snapshot.val();
+				console.log(snap)
+				friend.push(snap.username);
+
+			}
+		})
+		return friend;
+
+	}*/
+
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
 	// the callback input is a function for changing paths to /search

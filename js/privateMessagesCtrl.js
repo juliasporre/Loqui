@@ -3,8 +3,20 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
   var urlOrg = window.location.href;
   var splitedUrl = urlOrg.split('privateMessages');
   $scope.url = splitedUrl[0];
-  $scope.friend = $routeParams.userID; //The one you are sending private messages with
 
+  $scope.friend = $routeParams.userID;
+  /*var d = $.Deferred();
+  var newFriend = model.getFriendName($scope.friend); //The one you are sending private messages with
+  $.when(d).done(function(theFriend) { 
+    $scope.$apply(function(){
+      $scope.friend = theFriend[0];
+      console.log($scope.friend)
+    });
+  })
+  setTimeout(function() {
+    d.resolve(newFriend);
+  }, 100);*/
+  
   var names = [$scope.friend.toLowerCase(), model.getUserName().toLowerCase()];
   names.sort();
   var path = names[0] + '-' + names[1];
