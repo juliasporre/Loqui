@@ -42,6 +42,8 @@ LoquiApp.controller('privateMessagesCtrl', function($scope, model, $routeParams)
 
     //Everything handling the time
     var time = new Date();
+    var timeDate = time.getDate();
+    var timeMonth = time.getMonth();
     var timeHour = time.getHours();
     var timeMin = time.getMinutes();
     var timeSec = time.getSeconds();
