@@ -15,14 +15,10 @@ LoquiApp.config( [ '$routeProvider',
             templateUrl: 'partials/profileView.html',
             controller: 'profileCtrl'
         } ).
-        when( '/menu', {
-            templateUrl: 'partials/menuView.html',
-            controller: 'menuCtrl'
-        } ).
-        when( '/members', {
-            templateUrl: 'partials/membersView.html',
-            controller: 'membersCtrl'
-        } ).
+        //when( '/menu', {
+          //  templateUrl: 'partials/mainMenuView.html',
+            //controller: 'mainMenuCtrl'
+        //} ).
         when( '/privateMessages/:userID', {
             templateUrl: 'partials/privateMessagesView.html',
             controller: 'privateMessagesCtrl'

@@ -7,17 +7,17 @@ LoquiApp.factory('model', function($resource){
 	this.database;
 	this.username= "default";
 	this.password = "default";
-	this.recentCourses = ['DD1325','MD1454','DD4455'];
-	this.favoriteCourses=['SF1626'];
+	this.recentCourses = [];
+	this.favoriteCourses=[];
 	this.name= "default";
 	this.age= "default";
 	this.studying= "default";
-  	this.description= "default";
-  	this.fetchDataPromise="";
-  	this.color = "#0099ff";
-  	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66", 
-  	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
-
+	this.description= "default";
+	this.fetchDataPromise="";
+	this.color = "#0099ff";
+	this.colorsToRandomFrom = ["#0099ff", "#00ffcc", "#cc99ff", "#ff66cc", "#ffff66", "#66ff66",
+	"#99ccff", "#ffcccc", "#ffb3cc", "#ffb84d", "#33ffcc", "#b3ff1a", "#8cd9b3"];
+	this.privateConvos = [];
 
 	// Initialize Firebase
 	if(firebase.apps.length===0){
@@ -34,16 +34,7 @@ LoquiApp.factory('model', function($resource){
 		this.database = firebase.database();
 	}
 
-	this.getSchools = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/departments.sv.json',{},{
-		get: {
-			method: 'GET',
-			isArray: true,
-			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				return tmp;
-			}
-		}
-	});
+
 
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
 		get: {
@@ -63,19 +54,23 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to recentCourses, also updates database
 	this.addToRecent = function(course){
-		var index = this.favoriteCourses.indexOf(course);
+		var index = this.recentCourses.indexOf(course);
 		if (index > -1) {
-    	this.favoriteCourses.splice(index, 1);
+    	this.recentCourses.splice(index, 1);
 		}
 		if(this.recentCourses.length > 2){
 			this.recentCourses.splice(0, 1);
 		}
-		this.recentCourses.push(course);
+		this.recentCourses.splice(0, 0, course);
 
 		this.database.ref('users/'+this.username+'/recent/'+course).set({
 			courseName: course
 		});
 	}
+
+
+
+
 
 	this.getRecentCourses = function(){
 		return this.recentCourses;
@@ -83,15 +78,16 @@ LoquiApp.factory('model', function($resource){
 
 	// Adds a course to favorites, also updates database
 	this.addToFavorite = function(course){
-		window.hyper.log("addToFavorite "+course);
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
 			if(course==this.favoriteCourses[i]){
+				window.hyper.log("addToFavorite; course already a favorite ");
 				alreadyExists=true;
 				break;
 			}
 		}
 		if(alreadyExists==false){
+			window.hyper.log("addToFavorite "+course);
 			this.favoriteCourses.push(course);
 			this.database.ref('users/'+this.username+'/favorites/'+course).set({
 				courseName:course
@@ -124,75 +120,171 @@ LoquiApp.factory('model', function($resource){
 
 	// When logging in it fetches all available data from database
 	// and stores in model-attributes
-	// The once-call is asynchronus which was the source of the bug. It works
-	// right now as intended due to the bug where you have to press the
-	// sign-in button twice which gives the call time to store the data properly.....
-	this.fetchData = function(userName){
-		var ref = this.database.ref('users/'+userName);
+	// the callback input is a function for changing paths to /search
+	this.fetchData = function(userName, callback){
+		var lowerUserName = userName.toLowerCase();
+		var ref = this.database.ref('users/'+lowerUserName);
 		if(this.fetchDataPromise==""){
 			promise = ref.once("value", function(snapshot){
-		        if(snapshot.exists()){
-		        	var val = snapshot.val();
-		        	_this.username = val.username;
+	    	if(snapshot.exists()){
+	      	var val = snapshot.val();
+        	_this.username = val.username;
 					_this.password = val.password;
 					_this.name = val.name;
 					_this.age = val.age;
 					_this.studying = val.studying;
-			  		_this.description = val.description;
-			  		_this.color = val.color;
+	  			_this.description = val.description;
+	  			_this.color = val.color;
 
-				  	var list = [];
-				  	snapshot.child("favorites").forEach(function(childsnapshot){
-				  		list.push(childsnapshot.key);
-				  	});
-				  	_this.favoriteCourses=list;
+			  	var list = [];
+			  	snapshot.child("favorites").forEach(function(childsnapshot){
+				  	list.push(childsnapshot.key);
+			  	});
+			  	_this.favoriteCourses=list;
+					var list = [];
+					snapshot.child("convos").forEach(function(childsnapshot){
+						list.push(childsnapshot.val());
+					});
+					
+					_this.privateConvos = list;
+			  	list = [];
+			  	snapshot.child("recent").forEach(function(childsnapshot){
+			  		list.push(childsnapshot.key);
+			  	});
+			  	_this.recentCourses=list;
 
-				  	list = [];
-				  	snapshot.child("recent").forEach(function(childsnapshot){
-				  		list.push(childsnapshot.key);
-				  	});
-				  	_this.recentCourses=list;
-
-					console.log("Model is updatad with your data");
-		        	return;
-		        }
-		        else{
-		            console.log("Somehow user does not exist, Error i guess :(");
-		        }
-		    });
+					console.log("Model is updated with your data");
+					callback();
+	        return;
+				}else{
+	      	console.log("Somehow user does not exist, Error i guess :(");
+				}
+	    });
 		}
-
 	}
 
-	// returns a list of messanges in a channel in this form
+	// creates a list of messanges in a channel in this form
 	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
-	this.getMessanges = function(course, channel){
+	// callback is a function that does what is suposed to be done
+	// after the call to getMessanges() which has the list as input
+	this.getMessanges = function(course, channel, callback){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		var list=[];
 		ref.once("value").then(function(snapshot){
 			if(snapshot.exists()){
 				snapshot.forEach(function(childsnapshot){
-					list.push([childsnapshot.val().sender, childsnapshot.val().messange, childsnapshot.val().time]);
+					var val = childsnapshot.val();
+					list.push(val);
 				});
-			}
-			else{
+
+				callback(list);
+			}else{
 				console.log("this course has no messanges");
 			}
-			//console.log(list);
-			return list;
+		});
+	}
+
+	// creates a list of messanges in a channel in this form
+	// [sender, messange, timestamp], [sender, messange, timestamp], ..., ...]
+	// callback is a function that does what is suposed to be done
+	// after the call to getPrivateMessanges() which has the list as input
+	this.getPrivateMessanges = function(path, callback){
+		var ref = this.database.ref('users/privateMessanges/'+path);
+		var list=[];
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					var val = childsnapshot.val();
+					list.push(val);
+				});
+				callback(list);
+			}else{
+				console.log("this course has no messanges");
+			}
 		});
 	}
 
 	// Adds a messange to the database under messanges/course/channel
-	this.addMessange = function(course, channel, sender, messange, timestamp){
+	this.addMessange = function(course, channel, sender, messange, timestamp,color){
 		var ref = this.database.ref('messanges/'+course+'/'+channel);
 		ref.push().set({
-			sender:sender,
-			messange:messange,
-			time:timestamp
+			nick:sender,
+			msg:messange,
+			time:timestamp,
+			color: color
 		});
 	}
-	
+
+	this.addChannel = function(course, channelName){
+		var ref = this.database.ref('messanges/'+course+'/'+channelName);
+		ref.push().set({
+			nick:"Admin",
+			msg:"Welcome to this new channel!",
+			time: "admin",
+			color: "white"
+		});
+	}
+
+
+	this.getRooms = function(course){
+		var roomList = [];
+		var ref = this.database.ref('messanges/'+course);
+		ref.once("value").then(function(snapshot){
+			if(snapshot.exists()){
+				console.log("NY snapshot")
+				var val = snapshot.val()
+				console.log(val)
+				for (var room  in val){
+					roomList.push(room);
+				}
+			}
+			else{
+				console.log("adding general since it does not exist")
+				_this.addChannel(course, "General");
+				roomList = _this.getRooms(course);
+			}
+		});
+		return roomList;
+	}
+
+
+
+	// adds a private messange to the database
+	// for messanges to be fetched for both parts the messanges
+	// has to be saved for both users
+	this.addPrivateMessang = function(path, sender, messange, timestamp, color){
+		var ref = this.database.ref('users/privateMessanges/'+path);
+		ref.push().set({
+			nick: sender,
+			msg:messange,
+			time:timestamp,
+			color: color
+		});
+	}
+
+
+	this.addPrivateMessangeConv = function(otherUser){
+		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
+			username: otherUser.username,
+			name: otherUser.name,
+			color: otherUser.color
+		});
+		_this.privateConvos.push(otherUser);
+	}
+
+	this.addOtherPrivateMessangeConv = function(other){
+		this.database.ref('users/'+other.username+'/convos/'+_this.username).set({
+			username: _this.username,
+			name: _this.name,
+			color: _this.color
+		});
+
+	}
+
+	this.getPrivateMessangeConv = function(){
+		return this.privateConvos;
+	}
+
 
 	this.setDatabase = function(){
 		this.database = firebase.database();
@@ -205,7 +297,8 @@ LoquiApp.factory('model', function($resource){
 	// creates a new user in database with empty attributes
 	// that the uses fill in inside the app
 	this.newAccount = function(userName, passWord){
-		this.database.ref('users/'+userName).set({
+		var lowerUserName = userName.toLowerCase();
+		this.database.ref('users/'+lowerUserName).set({
 		    username: userName,
 		    password: passWord,
 		    name: userName,
@@ -213,20 +306,6 @@ LoquiApp.factory('model', function($resource){
 		    description:"",
 		    studying:"",
 		    color:"#0099ff"
-		});
- 
-		// startvalues for testing; SHOULD BE DELETED LATER
-		this.database.ref('users/'+userName+'/favorites/SF1626').set({
-			courseName : 'SF1626'
-		});
-		this.database.ref('users/'+userName+'/recent/DD1325').set({
-			courseName : 'DD1325'
-		});
-		this.database.ref('users/'+userName+'/recent/MD1454').set({
-			courseName : 'MD1454'
-		});
-		this.database.ref('users/'+userName+'/recent/DD4455').set({
-			courseName : 'DD4455'
 		});
 		alert('account sucessfully created');
 	}
@@ -281,6 +360,94 @@ LoquiApp.factory('model', function($resource){
 	this.setColor = function(color){
 		this.color = color;
 		this.database.ref('users/'+this.username+'/color').set(color);
+	}
+
+	// This function fetches all users who are searching for lunchpartners
+	// and adds the user to the database so other users can find them
+	// the function removeFromSearch must be called in order to remove a user
+	this.searchForPartner = function(lunchType){
+		var ref = _this.database.ref('lunch/'+lunchType.toString());
+		var list= [];
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				snapshot.forEach(function(childsnapshot){
+					child = childsnapshot.val();
+
+					if(child.user==_this.username){
+						_this.removeFromSearch(lunchType);
+					}
+					else{
+						list.push([child.user, child.color]);
+					}
+				});
+				//adds the user to users searching for lunchpartners
+				var lowerUserName = _this.username.toLowerCase();
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).set({
+					user:_this.username,
+					color:_this.color, 
+					matchname: false, //here a matched partner will input his name so you know its a match
+					matchcolor: "white"
+				});
+			}
+			else{
+				//adds the user to users searching for lunchpartners
+				var lowerUserName = _this.username.toLowerCase();
+				_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).set({
+					user:_this.username,
+					color:_this.color,
+					matchname: false,
+					matchcolor: "white"
+				});
+
+				console.log("No other users are searching for lunchpartners" + _this.username);
+			}
+
+		});
+		return list;
+	}
+
+	//sends to the chosen partner its new partner
+	this.choosePartner = function(lunchType, partnerObject){
+		var lowerPartner = partnerObject[0].toLowerCase();
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerPartner).set({
+			user:partnerObject[0],
+			color:partnerObject[1], 
+			matchname: _this.username, //here a matched partner will input his name so you know its a match
+			matchcolor: _this.color
+		});
+	}
+
+	// Removes the user from the database for searching for lunch partner
+	this.removeFromSearch = function(lunchType){
+		var lowerUserName = _this.username.toLowerCase();
+		_this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName).remove();
+	}
+
+	//checks if someone else has putted themself in your spot in the database, then they have chosen you
+	this.checkIfMatched = function(lunchType){
+		list = []
+		var lowerUserName = _this.username.toLowerCase();
+		var ref = _this.database.ref('lunch/'+lunchType.toString()+'/'+lowerUserName);
+		ref.once("value", function(snapshot){
+			if(snapshot.exists()){
+				
+				snap = snapshot.val()
+				if (snap.matchname!=false){
+					console.log("ref är inte false utan är någon! " + snap.matchname)
+					
+					list.push(snap.matchname);
+					list.push(snap.matchcolor)
+					console.log(list)
+					
+				}
+				else{
+					console.log("ref är false så vi returnar en tom lista")
+					
+				}
+			}
+
+		});
+		return list;
 	}
 
 	return this;

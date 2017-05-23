@@ -18,28 +18,29 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     $scope.name = model.getUserFullName();
     $scope.age = model.getAge();
     $scope.studying = model.getStudying();
-    $scope.description = model.getDescription(); //GET THESE FROM THE DATABASE
+    $scope.description = model.getDescription(); 
     $scope.userColor = model.getColor();
-  } else {
-      var ref = database.ref('users/'+userName);
-      ref.once("value").then(function(snapshot){
-        if(snapshot.exists()){
+  }else{
+    var lowerUserName = userName.toLowerCase();
+    var ref = database.ref('users/'+lowerUserName);
+    ref.once("value").then(function(snapshot){
+      console.log(snapshot.val());
+        $scope.$apply(function(){
           $scope.name = snapshot.val().name;
           $scope.age = snapshot.val().age;
           $scope.studying = snapshot.val().studying;
           $scope.description = snapshot.val().description;
-          $scope.userColor = model.getColor();
-        }
+          $scope.userColor = snapshot.val().color;
       });
-    }
-    $scope.thisIsMe = thisIsMe;
+    });
+  }
+  $scope.thisIsMe = thisIsMe;
 
-    if(thisIsMe){
-      $scope.init = "My Profile";
-    } else {
-      $scope.init = userName + "s Profile";
-    }
-
+  if(thisIsMe){
+    $scope.init = "My Profile";
+  } else {
+    $scope.init = userName + "s Profile";
+  }
 
   $scope.saveChanges = function(){
     if($scope.name != document.getElementById("name").value){
@@ -58,15 +59,13 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
       model.setDescription(document.getElementById("comment").value);
       $scope.description = model.getDescription();
     }
-    
     alert("Your changes in profile were made!");
-
   }
 
   $scope.randomColor = function(){
     var list = model.colorsToRandomFrom;
-    var done= false;
-    while (done!=true){
+    var done = false;
+    while (done != true){
       var rand = list[Math.floor(Math.random() * list.length)];
       if($scope.userColor != rand){
         model.setColor(rand);
@@ -76,20 +75,15 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     }
   }
 
-
   $scope.goBack = function() {
     window.history.back();
   }
-
 
   $scope.setFocus=function(id){
     $("#"+id).focus();
     $('.blueBox').animate({
       scrollTop: ($("#"+id).offset().top-50)
     });
-
   }
-
-
 
 });
