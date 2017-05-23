@@ -46,9 +46,9 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
 // Writes header depending on if it is your profile or someone elses.
   if(thisIsMe){
-    $scope.init = "My Profile";
+    $scope.init = "my profile";
   } else {
-    $scope.init = userName + "s Profile";
+    $scope.init = userName + "'s profile";
   }
 
 
