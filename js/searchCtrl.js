@@ -25,7 +25,7 @@ LoquiApp.controller('searchCtrl', function($scope, model, $location){
         $scope.courses = data;
         code = data[1].code;
         color = data[1].color;
-        $scope.isFavoriteCourse = model.isFavoriteCourse(code, color);
+        $scope.isFavoriteCourse = model.isFavoriteCourse(code);
         model.getRooms(code); //to make sure there is a general-room already, or else make one
         $scope.loading = false;
       },function(data){

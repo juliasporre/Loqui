@@ -6,6 +6,7 @@ LoquiApp.factory('model', function($resource){
 
 	this.database;
 	this.username= "default";
+	this.lowerUserName = this.username.toLowerCase();
 	this.password = "default";
 	this.recentCourses = [];
 	this.favoriteCourses=[];
@@ -37,46 +38,49 @@ LoquiApp.factory('model', function($resource){
 
 	var colorGenerator = function(code){
 		var color;
-				var letters = code.substring(0);
-				var letters2 = code.substring(0, 1);
-				letters = letters.toLowerCase();
-				if(letters2="dd"){
-					color = "#ff3399"
-				}
-				else if(letters2="sf"){
-					color = "#ff1a1a"
-				}
-				else if(letters="a"){
-					color = "#cc66ff"
-				}
-				else if(letters="b"){
-					color = "#ffcc33"
-				}
-				else if(letters="e"){
-					color = "#9999ff"
-				}
-				else if(letters="m"){
-					color = "#e60000"
-				}
-				else if(letters="i"){
-					color = "#4dffb8"
-				}
-				else if(letters="k"){
-					color = "#ffff80"
-				}
-				else if(letters="h"){
-					color = "#33ff33"
-				}
-				else if(letters="l"){
-					color = "#ff6633"
-				}
-				else if(letters="s"){
-					color = "#0099e6"
-				}
-				else{
-					color="#ff751a"
-				}
-			return color
+		var letters = code.substring(0, 1);
+		var letters2 = code.substring(0, 2);
+		letters2 = letters2.toLowerCase();
+		letters = letters.toLowerCase();
+		console.log(letters)
+		console.log(letters2)
+		if(letters2=="dd"){
+			color = "#ff3399"
+		}
+		else if(letters2=="sf"){
+			color = "#ff1a1a"
+		}
+		else if(letters=="a"){
+			color = "#cc66ff"
+		}
+		else if(letters=="b"){
+			color = "#ffcc33"
+		}
+		else if(letters=="e"){
+			color = "#9999ff"
+		}
+		else if(letters=="m"){
+			color = "#e60000"
+		}
+		else if(letters=="i"){
+			color = "#4dffb8"
+		}
+		else if(letters=="k"){
+			color = "#ffff80"
+		}
+		else if(letters=="h"){
+			color = "#33ff33"
+		}
+		else if(letters=="l"){
+			color = "#ff6633"
+		}
+		else if(letters=="s"){
+			color = "#0099e6"
+		}
+		else{
+			color="#ff751a"
+		}
+		return color
 	}
 
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
@@ -123,7 +127,7 @@ LoquiApp.factory('model', function($resource){
 			this.recentCourses.splice(0, 1);
 		}
 		this.recentCourses.splice(0, 0, courseObject);
-		this.database.ref('users/'+this.username+'/recent/'+course).set({
+		this.database.ref('users/'+this.lowerUserName+'/recent/'+course).set({
 			courseName: course,
 			color: color
 		});
@@ -138,20 +142,21 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	// Adds a course to favorites, also updates database
-	this.addToFavorite = function(course, color){
+	this.addToFavorite = function(courseCode, color){
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
-			if(course==this.favoriteCourses[i]){
+			if(courseCode==this.favoriteCourses[i]){
 				window.hyper.log("addToFavorite; course already a favorite ");
 				alreadyExists=true;
 				break;
 			}
 		}
 		if(alreadyExists==false){
-			window.hyper.log("addToFavorite "+course);
-			this.favoriteCourses.push(course);
-			this.database.ref('users/'+this.username+'/favorites/'+course).set({
-				courseName:course,
+			window.hyper.log("addToFavorite "+courseCode);
+			courseObject = {courseName:courseCode, color:color};
+			this.favoriteCourses.push(courseObject);
+			this.database.ref('users/'+this.lowerUserName+'/favorites/'+courseCode).set({
+				courseName:courseCode,
 				color:color
 			});
 		}
@@ -166,9 +171,10 @@ LoquiApp.factory('model', function($resource){
 		return false;
 	}
 
-	this.removeFromFavorite = function(course){
+	this.removeFromFavorite = function(course, color){
+		courseObject = {courseName:course, color:color};
 		console.log("removeFromFavorite "+course);
-		var index = this.favoriteCourses.indexOf(course);
+		var index = containsObject(courseObject, this.favoriteCourses);
 		if (index > -1) {
     		this.favoriteCourses.splice(index, 1);
 		}
@@ -208,6 +214,7 @@ LoquiApp.factory('model', function($resource){
 	    	if(snapshot.exists()){
 	      	var val = snapshot.val();
         	_this.username = val.username;
+        	_this.lowerUserName = _this.username.toLowerCase();
 					_this.password = val.password;
 					_this.name = val.name;
 					_this.age = val.age;
@@ -343,8 +350,10 @@ LoquiApp.factory('model', function($resource){
 
 
 	this.addPrivateMessangeConv = function(otherUser){
-		this.database.ref('users/'+this.username+'/convos/'+otherUser.username).set({
+
+		this.database.ref('users/'+this.lowerUserName+'/convos/'+otherUser.username.toLowerCase()).set({
 			username: otherUser.username
+
 		});
 		_this.privateConvos.push(otherUser);
 	}
@@ -469,27 +478,27 @@ LoquiApp.factory('model', function($resource){
 
 	this.setFullName = function(name){
 		this.name = name;
-		this.database.ref('users/'+this.username+'/name').set(name);
+		this.database.ref('users/'+this.lowerUserName+'/name').set(name);
 	}
 
 	this.setAge = function(age){
 		this.age = age;
-		this.database.ref('users/'+this.username+'/age').set(age);
+		this.database.ref('users/'+this.lowerUserName+'/age').set(age);
 	}
 
 	this.setStudying = function(studying){
 		this.studying = studying;
-		this.database.ref('users/'+this.username+'/studying').set(studying);
+		this.database.ref('users/'+this.lowerUserName+'/studying').set(studying);
 	}
 
 	this.setDescription = function(description){
 		this.description = description;
-		this.database.ref('users/'+this.username+'/description').set(description);
+		this.database.ref('users/'+this.lowerUserName+'/description').set(description);
 	}
 
 	this.setColor = function(color){
 		this.color = color;
-		this.database.ref('users/'+this.username+'/color').set(color);
+		this.database.ref('users/'+this.lowerUserName+'/color').set(color);
 	}
 
 	// This function fetches all users who are searching for lunchpartners

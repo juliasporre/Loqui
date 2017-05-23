@@ -5,7 +5,12 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
   var splitedUrl = urlOrg.split('privateMessages');
   $scope.url = splitedUrl[0];
   $scope.urlMess = urlOrg;
+  $scope.loading = false;
 
+  //redirection function
+  var goto = function(path){
+    $location.path(path);
+  }
 
   // Search for friend in database. If the userName exsists, you get redirected to your private chatroom
   var search = function(friend){
@@ -25,22 +30,22 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
           } else {
             model.addPrivateMessangeConv(other);
             model.addOtherPrivateMessangeConv(other);
+            $scope.$apply(function(){
+              $scope.persons = model.getPrivateMessangeConv();
+              $scope.loading = false;
+            })
           }
         });
-
-        goto('/privateMessages/'+lowerFriend);
-
       }
       else{
         alert("That user does not exists")
       }
+
     });
+
   }
 
-  //redirection function
-  var goto = function(path){
-  $location.path(path);
-  }
+
 
   // Go back to previous view
   $scope.goBack = function() {
@@ -58,6 +63,7 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
 
   //Search for friend to start a private connversation with
   $scope.searchFriend = function(friend){
+    $scope.loading = true;
     search(friend);
   }
 

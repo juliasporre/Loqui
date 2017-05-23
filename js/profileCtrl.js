@@ -8,6 +8,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
   // Get userName from routeParams
   var userName = $routeParams.userID;
   $scope.userName = userName;
+  console.log($scope.userName)
 
   // var form database
   var database = model.getDatabase();
@@ -16,7 +17,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
 
   var thisIsMe = false;
-  if(userName == model.getUserName()){ //Needs to be checked so we know if the user should be able to change content
+  if(userName.toLowerCase() == model.getUserName().toLowerCase()){ //Needs to be checked so we know if the user should be able to change content
     thisIsMe = true;   // Checks if it is your profile or not
 
     //If this is your profile, values are fetched from model
@@ -26,7 +27,7 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
     $scope.description = model.getDescription();
     $scope.userColor = model.getColor();
   }else{
-    // IF it is not your profile, values are fetched from database for that userName
+    // If it is not your profile, values are fetched from database for that userName
     var lowerUserName = userName.toLowerCase();
     var ref = database.ref('users/'+lowerUserName);
     ref.once("value").then(function(snapshot){
@@ -45,9 +46,9 @@ LoquiApp.controller('profileCtrl', function($scope, model, $routeParams){
 
 // Writes header depending on if it is your profile or someone elses.
   if(thisIsMe){
-    $scope.init = "My Profile";
+    $scope.init = "my profile";
   } else {
-    $scope.init = userName + "s Profile";
+    $scope.init = userName + "'s profile";
   }
 
 
