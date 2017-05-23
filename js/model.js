@@ -138,20 +138,21 @@ LoquiApp.factory('model', function($resource){
 	}
 
 	// Adds a course to favorites, also updates database
-	this.addToFavorite = function(course, color){
+	this.addToFavorite = function(courseCode, color){
 		var alreadyExists = false;
 		for(var i=0;i<this.favoriteCourses.length;i++){
-			if(course==this.favoriteCourses[i]){
+			if(courseCode==this.favoriteCourses[i]){
 				window.hyper.log("addToFavorite; course already a favorite ");
 				alreadyExists=true;
 				break;
 			}
 		}
 		if(alreadyExists==false){
-			window.hyper.log("addToFavorite "+course);
-			this.favoriteCourses.push(course);
-			this.database.ref('users/'+this.username+'/favorites/'+course).set({
-				courseName:course,
+			window.hyper.log("addToFavorite "+courseCode);
+			courseObject = {courseName:courseCode, color:color};
+			this.favoriteCourses.push(courseObject);
+			this.database.ref('users/'+this.username+'/favorites/'+courseCode).set({
+				courseName:courseCode,
 				color:color
 			});
 		}
@@ -166,9 +167,10 @@ LoquiApp.factory('model', function($resource){
 		return false;
 	}
 
-	this.removeFromFavorite = function(course){
+	this.removeFromFavorite = function(course, color){
+		courseObject = {courseName:course, color:color};
 		console.log("removeFromFavorite "+course);
-		var index = this.favoriteCourses.indexOf(course);
+		var index = containsObject(courseObject, this.favoriteCourses);
 		if (index > -1) {
     		this.favoriteCourses.splice(index, 1);
 		}

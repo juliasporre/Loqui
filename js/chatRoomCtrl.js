@@ -9,16 +9,14 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   $scope.url = splitedUrl[0]
   console.log($scope.url)
 
-
-
   $scope.courseID = code;
   $scope.room = room;
 
   $scope.allRooms = model.getRooms(code);
 
-  color = model.getColorCourse(code);
+  var courseColor = model.getColorCourse(code);
 
-  model.addToRecent(code, color);
+  model.addToRecent(code, courseColor);
   $scope.isFav = model.isFavoriteCourse(code);
    //General should be the only one from the start, and the
    //array should be saved in the database and go through the model.
@@ -27,7 +25,6 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
   //Object that holds application data and functions.
   var app = {};
   var totalMess = 0;
-
 
   var host = 'vernemq.evothings.com';
   var port = 8084;
@@ -70,12 +67,12 @@ LoquiApp.controller('chatRoomCtrl', function($scope, model, $routeParams){
 
 
   $scope.addFavorite = function(){
-    model.addToFavorite(code, color);
+    model.addToFavorite(code, courseColor);
     $scope.isFav = model.isFavoriteCourse(code);
   }
 
   $scope.removeFavorite = function(){
-    model.removeFromFavorite(code);
+    model.removeFromFavorite(code, courseColor);
     $scope.isFav = model.isFavoriteCourse(code);
   }
 
