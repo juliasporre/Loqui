@@ -43,8 +43,8 @@ LoquiApp.controller('privateMessagesMenuCtrl', function($scope, model, $location
                goto('/privateMessages/'+other.username);
             });
           } else {
-            model.addPrivateMessangeConv(lowerFriend);
-            model.addOtherPrivateMessangeConv(lowerFriend);
+            model.addPrivateMessangeConv(other);
+            model.addOtherPrivateMessangeConv(other);
             $scope.loading = false;
             $scope.$apply(function(){
                goto('/privateMessages/'+other.username);
