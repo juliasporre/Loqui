@@ -37,46 +37,49 @@ LoquiApp.factory('model', function($resource){
 
 	var colorGenerator = function(code){
 		var color;
-				var letters = code.substring(0);
-				var letters2 = code.substring(0, 1);
-				letters = letters.toLowerCase();
-				if(letters2="dd"){
-					color = "#ff3399"
-				}
-				else if(letters2="sf"){
-					color = "#ff1a1a"
-				}
-				else if(letters="a"){
-					color = "#cc66ff"
-				}
-				else if(letters="b"){
-					color = "#ffcc33"
-				}
-				else if(letters="e"){
-					color = "#9999ff"
-				}
-				else if(letters="m"){
-					color = "#e60000"
-				}
-				else if(letters="i"){
-					color = "#4dffb8"
-				}
-				else if(letters="k"){
-					color = "#ffff80"
-				}
-				else if(letters="h"){
-					color = "#33ff33"
-				}
-				else if(letters="l"){
-					color = "#ff6633"
-				}
-				else if(letters="s"){
-					color = "#0099e6"
-				}
-				else{
-					color="#ff751a"
-				}
-			return color
+		var letters = code.substring(0, 1);
+		var letters2 = code.substring(0, 2);
+		letters2 = letters2.toLowerCase();
+		letters = letters.toLowerCase();
+		console.log(letters)
+		console.log(letters2)
+		if(letters2=="dd"){
+			color = "#ff3399"
+		}
+		else if(letters2=="sf"){
+			color = "#ff1a1a"
+		}
+		else if(letters=="a"){
+			color = "#cc66ff"
+		}
+		else if(letters=="b"){
+			color = "#ffcc33"
+		}
+		else if(letters=="e"){
+			color = "#9999ff"
+		}
+		else if(letters=="m"){
+			color = "#e60000"
+		}
+		else if(letters=="i"){
+			color = "#4dffb8"
+		}
+		else if(letters=="k"){
+			color = "#ffff80"
+		}
+		else if(letters=="h"){
+			color = "#33ff33"
+		}
+		else if(letters=="l"){
+			color = "#ff6633"
+		}
+		else if(letters=="s"){
+			color = "#0099e6"
+		}
+		else{
+			color="#ff751a"
+		}
+		return color
 	}
 
 	this.getCourse = $resource('https://crossorigin.me/https://www.kth.se/api/kopps/v2/course/:query',{},{
